@@ -40,6 +40,15 @@ public class ItemServlet extends HttpServlet {
 		Connection conn = ServletUtility.getDatabaseConnection();
 		System.out.println("success pass of connection");
 		try {
+			Statement stmt = conn.createStatement();
+			String query = "SELECT table_name FROM information_schema.tables where table_schema = 'public'";
+			ResultSet rs = stmt.executeQuery(query);
+			System.out.println("tables:");
+			
+			while(rs.next()) {
+				System.out.print(rs.getString(1));
+				System.out.println();
+			}
 			response.getWriter().write("successful connection");
 			conn.close();
 		} catch (SQLException e) {

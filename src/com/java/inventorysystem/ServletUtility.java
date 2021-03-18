@@ -7,14 +7,17 @@ public class ServletUtility {
 	public static Connection getDatabaseConnection() {
 		Connection conn = null;
 		
-		String url = "jdbc:postgresql://localhost/postgres";
-		String user = "postgres";
-		String password = "Letmein#1232";
+		String url = "";
+		String user = "";
+		String password = "";
 				
 		try {
+			Class.forName("org.postgresql.Driver");
 			conn = DriverManager.getConnection(url, user, password);
 			System.out.println("Successful connection to DB");
-		}catch (SQLException e) {
+		}catch (SQLException se) {
+			se.printStackTrace();
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
