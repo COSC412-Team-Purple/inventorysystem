@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="en-us" http-equiv="Content-Language" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Inventory system by Team Purple</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      p {
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-lg navbar-dark"
+      style="background-color: darkmagenta"
+    >
+      <a class="navbar-brand" href="#">Church of Phillippi Inventory System</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="./TeamPurpleLandingPage.html"
+              id="dashboardNav"
+              >Dashboard</a
+            >
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Register Item</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Audit</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="rolesNav">Roles</a>
+          </li>
+          <!--<li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>-->
+        </ul>
+      </div>
+    </nav>
+    <div id="container" class="text-center container" style="margin-top: 20px">
+      <h1>Search Item Page</h1>
+      <form class="mt-5">
+        <div class="container">
+          <div class="row">
+            <div id="searchItemContainer" class="col">
+              <label for="searchItem">Search Item:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="searchItem"
+                name="search-item"
+                placeholder="Camera"
+              />
+            </div>
+            <div id="itemCategoryContainer" class="col">
+              <label for="itemCategory">Item Category:</label>
+              <select
+                class="form-control"
+                id="itemCategory"
+                name="item-category"
+              >
+                <option value="computer">Computer</option>
+                <option value="audio">Audio</option>
+                <option value="electric">Electric</option>
+                <option value="accessory">Accessory</option>
+                <option value="video" selected>Video</option>
+                <option value="network">Network</option>
+                <option value="misc">Misc</option>
+                <option value="tool">Tool</option>
+                <option value="lighting">Lighting</option>
+                <option value="instrument">Instrument</option>
+                <option value="microphone">Microphone</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div id="managingDepartmentContainer" class="col mt-3">
+              <label for="managingDepartment">Managing Department:</label>
+              <select
+                name="managing-department"
+                id="managingDepartment"
+                class="form-control"
+              >
+                <option value="human-resources">Human Resources</option>
+              </select>
+            </div>
+            <div id="priceRangeContainer" class="col mt-3">
+              <label for="min">Price Range</label>
+              <div id="numbersContainer" class="container">
+                <div class="row" style="align-items: center">
+                  <label for="min" style="margin: 0">Min: $</label>
+                  <input
+                    type="number"
+                    id="min"
+                    class="form-control"
+                    placeholder="0"
+                    style="width: auto"
+                  />
+                  <label for="max" class="ml-3" style="margin: 0">Max: $</label>
+                  <input
+                    type="number"
+                    id="max"
+                    class="form-control"
+                    placeholder="2000"
+                    style="width: auto"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary mt-4">Search</button>
+        </div>
+      </form>
+      <div
+        id="displayItems"
+        class="container d-flex flex-column pt-3 mt-4"
+        style="border-top: 3px solid black"
+      >
+        <h2>Items</h2>
+        <!-- An example of a search item -->
+        <div
+          class="row p-2 align-items-center justify-content-around"
+          style="border: 1px solid black"
+          id="searchItem"
+        >
+          <div id="itemDetails" class="col justify-content-around">
+            <div class="row justify-content-around">
+              <p>Item Name: <span id="itemName">Camera</span></p>
+              <p>Price: $<span id="itemPrice">1,695.00</span></p>
+            </div>
+            <div class="row justify-content-around">
+              <p>Quantity: <span id="itemQuantity">2</span></p>
+              <p>Location: <span id="itemLocation">Back Room</span></p>
+            </div>
+          </div>
+          <div id="btnContainer" class="col">
+            <button class="btn bg-success text-light" id="increaseBtn">
+              Increase
+            </button>
+            <button class="btn btn-secondary" id="reduceBtn">Reduce</button>
+            <button class="btn bg-warning" id="disposeBtn">Dispose</button>
+            <button class="btn bg-danger text-light" id="reportMissingBtn">
+              Report Missing
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>
