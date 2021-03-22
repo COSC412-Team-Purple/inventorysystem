@@ -66,7 +66,7 @@
     </nav>
     <div id="container" class="text-center container" style="margin-top: 20px">
       <h1>Search Item Page</h1>
-      <div class="col mt-4">
+      <!--<div class="col mt-4">
         <div class="form-check form-check-inline">
           <input
             type="checkbox"
@@ -96,17 +96,8 @@
             >Managing Department</label
           >
         </div>
-        <div class="form-check form-check-inline">
-          <input
-            type="checkbox"
-            class="form-check-input"
-            id="searchByPriceRange"
-          />
-          <label for="searchByPriceRange" class="form-check-label"
-            >Price Range</label
-          >
-        </div>
-      </div>
+
+      </div> -->
       <form class="mt-4">
         <div class="container">
           <div class="row">
@@ -126,13 +117,13 @@
                 class="form-control"
                 id="itemCategory"
                 name="item-category"
-                disabled
               >
+                <option value="any">Any</option>
                 <option value="computer">Computer</option>
                 <option value="audio">Audio</option>
                 <option value="electric">Electric</option>
                 <option value="accessory">Accessory</option>
-                <option value="video" selected>Video</option>
+                <option value="video" >Video</option>
                 <option value="network">Network</option>
                 <option value="misc">Misc</option>
                 <option value="tool">Tool</option>
@@ -149,13 +140,23 @@
                 name="managing-department"
                 id="itemManagingDepartment"
                 class="form-control"
-                disabled
               >
+                <option value="any">Any</option>
+                <option value="meida">Media</option>
                 <option value="human-resources">Human Resources</option>
               </select>
             </div>
             <div id="priceRangeContainer" class="col mt-3">
-              <label for="priceMin">Price Range</label>
+              <div class="form-check form-check-inline">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="searchByPriceRange"
+                />
+                <label for="searchByPriceRange" class="form-check-label"
+                  >Price Range:</label
+                >
+              </div>
               <div id="numbersContainer" class="container">
                 <div class="row" style="align-items: center">
                   <label for="priceMin" style="margin: 0">Min: $</label>
@@ -186,6 +187,7 @@
         </div>
       </form>
 
+      <p>Search results for Item name = 'Camera' <p>
       <table class="table mt-5">
         <thead class="thead-light">
           <tr>
@@ -202,13 +204,14 @@
             <td>Camera</td>
             <td>2</td>
             <td>1,695.00</td>
+            <!-- for the id of the buttons it will be <id>-<btn name> -->
             <td>
-              <button class="btn bg-success text-light" id="increaseBtn">
+              <button class="btn bg-success text-light" id="1-increaseBtn">
                 Increase
               </button>
-              <button class="btn btn-secondary" id="reduceBtn">Reduce</button>
-              <button class="btn bg-warning" id="disposeBtn">Dispose</button>
-              <button class="btn bg-danger text-light" id="reportMissingBtn">
+              <button class="btn btn-secondary" id="1-reduceBtn">Reduce</button>
+              <button class="btn bg-warning" id="1-disposeBtn">Dispose</button>
+              <button class="btn bg-danger text-light" id="1-reportMissingBtn">
                 Report Missing
               </button>
             </td>
@@ -219,12 +222,12 @@
             <td>2</td>
             <td>1,695.00</td>
             <td>
-              <button class="btn bg-success text-light" id="increaseBtn">
+              <button class="btn bg-success text-light" id="2-increaseBtn">
                 Increase
               </button>
-              <button class="btn btn-secondary" id="reduceBtn">Reduce</button>
-              <button class="btn bg-warning" id="disposeBtn">Dispose</button>
-              <button class="btn bg-danger text-light" id="reportMissingBtn">
+              <button class="btn btn-secondary" id="2-reduceBtn">Reduce</button>
+              <button class="btn bg-warning" id="2-disposeBtn">Dispose</button>
+              <button class="btn bg-danger text-light" id="2-reportMissingBtn">
                 Report Missing
               </button>
             </td>
