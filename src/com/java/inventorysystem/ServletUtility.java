@@ -7,10 +7,13 @@ public class ServletUtility {
 	public static Connection getDatabaseConnection() {
 		Connection conn = null;
 		
-		String url = "";
-		String user = "";
-		String password = "";
+		String host = System.getenv("DB_HOST");
+		String port = System.getenv("DB_PORT");
+		String user = System.getenv("DB_USER");
+		String password = System.getenv("DB_PASS");
 				
+		String url = "jdbc:postgresql://" + host + ":" + port + "/postgres";
+		
 		try {
 			Class.forName("org.postgresql.Driver");
 			conn = DriverManager.getConnection(url, user, password);
