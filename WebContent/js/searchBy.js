@@ -1,8 +1,8 @@
-const searchByNameCheckbox = document.getElementById('searchByName');
-const searchByCategoryCheckbox = document.getElementById('searchByCategory');
-const searchByMngDeptCheckbox = document.getElementById(
-  'searchByManagingDepartment'
-);
+//const searchByNameCheckbox = document.getElementById('searchByName');
+//const searchByCategoryCheckbox = document.getElementById('searchByCategory');
+//const searchByMngDeptCheckbox = document.getElementById(
+  //'searchByManagingDepartment'
+//);
 const searchByPriceRangeCheckbox = document.getElementById(
   'searchByPriceRange'
 );
@@ -13,7 +13,7 @@ const searchByMngDeptInput = document.getElementById('itemManagingDepartment');
 const searchByPriceRangeMinInput = document.getElementById('priceMin');
 const searchByPriceRangeMaxInput = document.getElementById('priceMax');
 
-searchByNameCheckbox.addEventListener('change', (e) => {
+/*searchByNameCheckbox.addEventListener('change', (e) => {
   if (e.target.checked) {
     searchByNameInput.disabled = false;
     return;
@@ -36,7 +36,7 @@ searchByMngDeptCheckbox.addEventListener('change', (e) => {
   }
   searchByMngDeptInput.disabled = true;
 });
-
+*/
 searchByPriceRangeCheckbox.addEventListener('change', (e) => {
   if (e.target.checked) {
     searchByPriceRangeMinInput.disabled = false;
