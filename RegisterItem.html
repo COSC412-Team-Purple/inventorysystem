@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>&nbsp;</p>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: darkmagenta;"><a class="navbar-brand" href="#">Church of Phillippi Inventory System</a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> </button>
+    <div id="navbarNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a id="dashboardNav" class="nav-link" href="./TeamPurpleLandingPage.html">Dashboard </a></li>
+            <li class="nav-item active"><a class="nav-link" href="#">Search</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Register Item</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Audit</a></li>
+            <li class="nav-item"><a id="rolesNav" class="nav-link" href="#">Roles</a></li>
+            <!--<li class="nav-item">
+                                  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                                </li>--></ul>
+    </div>
+</nav>
+<div id="container" class="text-center container" style="margin-top: 20px;">
+    <h1>Register Item Page</h1>
+    <form class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div id="ItemNameContainer" class="col"><label for="ItemName">Item Name:</label> <input id="ItemName" class="form-control" name="item-name" type="text" placeholder="Camera" /></div>
+                <div id="ItemSpecContainer" class="col"><label for="ItemSpec">Item Spec:</label> <input id="ItemSpec" class="form-control" name="item-spec" type="text" placeholder="test" /></div>
+                <div id="itemCategoryContainer" class="col"><label for="itemCategory">Item Category:</label><select id="itemCategory" class="form-control" name="item-category">
+                    <option value="computer">Computer</option>
+                    <option value="audio">Audio</option>
+                    <option value="electric">Electric</option>
+                    <option value="accessory">Accessory</option>
+                    <option selected="selected" value="video">Video</option>
+                    <option value="network">Network</option>
+                    <option value="misc">Misc</option>
+                    <option value="tool">Tool</option>
+                    <option value="lighting">Lighting</option>
+                    <option value="instrument">Instrument</option>
+                    <option value="microphone">Microphone</option>
+                </select></div>
+            </div>
+            <div class="row">
+                <div id="managingDepartmentContainer" class="col mt-3"><label for="managingDepartment">Managing Department:</label><select id="managingDepartment" class="form-control" name="managing-department">
+                    <option value="human-resources">Human Resources</option>
+                </select></div>
+                <div id="quantityContainer" class="col"><label for="quantity">Item Quantity:</label> <input id="quantity" class="form-control" name="search-item" type="number" placeholder="0" /></div>
+                <div id="numbersContainer" class="container">
+                    <div class="row" style="align-items: center;"><label style="margin: 0;" for="min">Price: $</label> <input id="min" class="form-control" style="width: auto;" type="number" placeholder="0" /></div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Register Memo</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary mt-4" type="submit">Submit</button></form></div>
+<!-- Optional JavaScript -->
+<p>&nbsp;</p>
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+</body>
+</html>
