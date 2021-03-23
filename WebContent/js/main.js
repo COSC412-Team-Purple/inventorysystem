@@ -1,22 +1,22 @@
 $( document ).ready(function() {
-    $("#RolesContainer").hide();
-    $("#searchContainer").hide();
-
+    hideAllContainers();
+    $("#dashboardContainer").show();
+    
     $("#rolesNav").click(function(e) {
-      $(".tabContainer").hide();
+      hideAllContainers();
       $("#RolesContainer").show();
       setActiveTab(this);
     });
 
     $("#dashboardNav").click(function() {
-      $(".tabContainer").hide();
+      hideAllContainers();
       $("#dashboardContainer").show();
 
       setActiveTab(this)
     });
 
     $("#searchNav").click(function() {
-      $(".tabContainer").hide();
+      hideAllContainers();
       $("#searchContainer").show();
 
       setActiveTab(this)
@@ -27,6 +27,10 @@ $( document ).ready(function() {
     });
 });
 
+function hideAllContainers(){
+  $(".tabContainer").hide();
+  $(".innerContainer").hide();
+}
 
 function setActiveTab(tabElement){
   $(".active").removeClass("active")
