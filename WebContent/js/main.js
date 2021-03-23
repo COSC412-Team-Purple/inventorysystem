@@ -1,14 +1,24 @@
 $( document ).ready(function() {
     $("#RolesContainer").hide();
+	$("#searchContainer").hide();
+
+	$("#searchNav").click(function(e) {
+      $("#dashboardContainer").hide();
+	  $("#RolesContainer").hide();
+      $("#searchContainer").show();
+      setActiveTab(this);
+    });
 
     $("#rolesNav").click(function(e) {
       $("#dashboardContainer").hide();
+	  $("#searchContainer").hide();
       $("#RolesContainer").show();
       setActiveTab(this);
     });
 
     $("#dashboardNav").click(function() {
       $("#RolesContainer").hide();
+	  $("#searchContainer").hide();
       $("#dashboardContainer").show();
 
       setActiveTab(this)
