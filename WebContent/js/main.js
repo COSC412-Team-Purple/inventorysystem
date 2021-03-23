@@ -1,7 +1,7 @@
 $( document ).ready(function() {
     hideAllContainers();
     $("#dashboardContainer").show();
-    
+
     $("#rolesNav").click(function(e) {
       hideAllContainers();
       $("#RolesContainer").show();
@@ -21,6 +21,8 @@ $( document ).ready(function() {
 
       setActiveTab(this)
     });
+
+    setupBarChart();
 
     $("#dbTest").click(function(){
     	ajaxTest();
