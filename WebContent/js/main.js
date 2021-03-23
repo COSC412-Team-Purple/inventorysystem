@@ -1,24 +1,31 @@
 $( document ).ready(function() {
     $("#RolesContainer").hide();
+    $("#searchContainer").hide();
 
     $("#rolesNav").click(function(e) {
-      $("#dashboardContainer").hide();
+      $(".tabContainer").hide();
       $("#RolesContainer").show();
       setActiveTab(this);
     });
 
     $("#dashboardNav").click(function() {
-      $("#RolesContainer").hide();
+      $(".tabContainer").hide();
       $("#dashboardContainer").show();
 
       setActiveTab(this)
     });
-    
+
+    $("#searchNav").click(function() {
+      $(".tabContainer").hide();
+      $("#searchContainer").show();
+
+      setActiveTab(this)
+    });
+
     $("#dbTest").click(function(){
     	ajaxTest();
     });
 });
-
 
 
 function setActiveTab(tabElement){
@@ -28,7 +35,7 @@ function setActiveTab(tabElement){
 
 function ajaxTest(){
 	console.log("TEST")
-	
+
     $.ajax({
         url: 'ItemServlet',
         dataType: 'text',
