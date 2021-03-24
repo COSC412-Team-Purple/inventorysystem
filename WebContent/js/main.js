@@ -22,6 +22,12 @@ $( document ).ready(function() {
       setActiveTab(this)
     });
 
+    $("#registerNav").click(function(e) {
+      hideAllContainers();
+      $("#registerItemContainer").show();
+      setActiveTab(this);
+    });
+
     setupBarChart();
 
     $("#dbTest").click(function(){

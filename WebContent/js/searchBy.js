@@ -13,6 +13,12 @@ const searchByMngDeptInput = document.getElementById('itemManagingDepartment');
 const searchByPriceRangeMinInput = document.getElementById('priceMin');
 const searchByPriceRangeMaxInput = document.getElementById('priceMax');
 
+const backToSearchScreenButton = $("#backToSearchScreenButton");
+
+backToSearchScreenButton.click(function() {
+  hideAllContainers();
+  $("#searchContainer").show();
+});
 /*searchByNameCheckbox.addEventListener('change', (e) => {
   if (e.target.checked) {
     searchByNameInput.disabled = false;

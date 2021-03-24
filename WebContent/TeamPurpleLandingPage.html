@@ -45,7 +45,7 @@
             <a class="nav-link" href="#" id="searchNav">Search</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Register Item</a>
+            <a class="nav-link" href="#" id="registerNav">Register Item</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" id="rolesNav">Roles</a>
@@ -262,12 +262,186 @@
       </div>
 
 
-      <div id="registerItemContainer" class="tabContainer"></div>
+
+
+      <div id="advancedItemDetailContainer" class="tabContainer">
+        <div >
+          <h1 id="advancedItemName" style="display: inline-block">ITEM NAME</h1>
+          <button class="btn bg-primary text-light" id="backToSearchScreenButton"  style="float: right; margin-right:5%">Back to Search Screen</button>
+        </div>
+
+        <div style="display: inline-block">
+          <button class="btn bg-success text-light" id="advancedIncreaseBtn">Increase</button>
+          <button class="btn btn-secondary" id="advancedReduceBtn">Reduce</button>
+          <button class="btn bg-warning" id="advancedDisposeBtn">Dispose</button>
+          <button class="btn bg-danger text-light" id="advancedReportMissingBtn">Report Missing</button>
+        </div>
+
+        <form style="width:100%; margin-top: 20px">
+          <div class="mb-3 row">
+            <label for="advancedItemSpecInput" class="col-sm-2 col-form-label">Spec:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control-plaintext" id="advancedItemSpecInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemBrandInput" class="col-sm-2 col-form-label">Brand:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control-plaintext" id="advancedItemBrandInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemDeptInput" class="col-sm-2 col-form-label">Department:</label>
+            <div class="col-auto">
+              <input type="text" class="form-control-plaintext" id="advancedItemDeptInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemCategoryInput" class="col-sm-2 col-form-label">Category:</label>
+            <div class="col-auto">
+              <input type="text" class="form-control-plaintext" id="advancedItemCategoryInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemLocationInput" class="col-sm-2 col-form-label">Location:</label>
+            <div class="col-auto">
+              <input type="text" class="form-control-plaintext" id="advancedItemLocatonInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemQuantityInput" class="col-sm-2 col-form-label">Quantity:</label>
+            <div class="col-auto">
+              <input type="number" min="0" step="1"  class="form-control-plaintext" id="advancedItemQuantityInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemPriceInput" class="col-sm-2 col-form-label">Price:</label>
+            <div class="col-auto">
+              <input type="number" min="0" step="any"  class="form-control-plaintext" id="advancedItemPriceInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemPurchaseDateInput" class="col-sm-2 col-form-label">Purchase Date:</label>
+            <div class="col-auto">
+              <input type="date"  class="form-control-plaintext" id="advancedItemPurchaseDateInput" readonly>
+            </div>
+          </div>
+          <div class="form-floating">
+            <textarea class="form-control-plaintext" placeholder="Comment of the item" id="advancedItemMemoInput" style="height: 100px" readonly></textarea>
+          </div>
+        </form>
+      </div>
 
 
 
-      <div id="RolesContainer" class="tabContainer">
-        <div style="margin-top: 20px">
+
+
+
+
+
+
+      <div id="registerItemContainer" class="tabContainer">
+        <h1>Register Item</h1>
+
+        <form style="width:100%">
+          <div class="mb-3 row">
+            <label for="registerItemNameInput" class="col-sm-2 col-form-label">Name:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control" id="registerItemNameInput">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemSpecInput" class="col-sm-2 col-form-label">Spec:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control" id="registerItemSpecInput">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemBrandInput" class="col-sm-2 col-form-label">Brand:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control" id="registerItemBrandInput">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemDeptInput" class="col-sm-2 col-form-label">Department:</label>
+            <div class="col-auto">
+              <input class="form-control" list="registerItemDeptOptions" id="registerItemDeptInput" type="text" placeholder="Type to search...">
+              <datalist id="registerItemDeptOptions">
+                <option value="Meida" />
+                <option value="Human-Resources" />
+              </datalist>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemCategoryInput" class="col-sm-2 col-form-label">Category:</label>
+            <div class="col-auto">
+              <input class="form-control" list="registerItemCategoryOptions" id="registerItemCategoryInput" placeholder="Type to search...">
+              <datalist id="registerItemCategoryOptions">
+                <option value="Computer" />
+                <option value="Audio" />
+                <option value="Electric" />
+                <option value="Accessory" />
+                <option value="Video" />
+                <option value="Software" />
+                <option value="Network" />
+                <option value="Misc" />
+                <option value="Instrument" />
+              </datalist>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemLocationInput" class="col-sm-2 col-form-label">Location:</label>
+            <div class="col-auto">
+              <input class="form-control" list="registerItemLocationOptions" id="registerItemLocationInput" placeholder="Type to search...">
+              <datalist id="registerItemLocationOptions">
+                <option value="Broadcasting Room" />
+                <option value="Main Sanctuary Media Booth" />
+                <option value="Stage" />
+                <option value="Back Stage" />
+                <option value="Pre School" />
+                <option value="Storage" />
+                <option value="GYM" />
+                <option value="Hallway" />
+              </datalist>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemQuantityInput" class="col-sm-2 col-form-label">Quantity:</label>
+            <div class="col-auto">
+              <input type="number" min="0" step="1"  class="form-control" id="registerItemQuantityInput">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemPriceInput" class="col-sm-2 col-form-label">Price:</label>
+            <div class="col-auto">
+              <input type="number" min="0" step="any"  class="form-control" id="registerItemPriceInput">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemPurchaseDateInput" class="col-sm-2 col-form-label">Purchase Date:</label>
+            <div class="col-auto">
+              <input type="date"  class="form-control" id="registerItemPurchaseDateInput">
+            </div>
+          </div>
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment about the item here" id="registerItemMemoInput" style="height: 100px"></textarea>
+          </div>
+          <div style="margin-top: 20px; text-align: center;">
+              <button id="registerItemButton" class="btn btn-primary" >Register Item</button>
+          </div>
+        </form>
+      </div>
+
+
+
+
+
+
+
+
+
+      <div id="RolesContainer" class="tabContainer" >
+        <div style="margin-top: 20px;margin-left:5%;margin-right:5%;">
           <h1 style="display: inline-block;">Search a Member</h1>
           <button id="toCreateRoleButton" class="btn btn-success" style="float: right; margin-right:20px">Create a Role</button>
         </div>
@@ -301,14 +475,82 @@
         Add in an area to display the results of the searched Member
         Add in a simple table of all the roles and permissions
       -->
-        <div id="searchMemberResultsContainer">
-
+        <div id="searchMemberResultsContainer" style="margin-left:5%;margin-right:5%; border-style: solid; border-width: 1px;">
+          <form style="margin: 10px">
+            <div class="mb-3 row">
+              <label for="memberResultName" class="col-sm-2 col-form-label">Name:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultName" readonly>
+              </div>
+              <label for="memberResultStartDate" class="col-sm-2 col-form-label">Start Date:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultStartDate" readonly>
+              </div>
+              <label for="memberResultEndDate" class="col-sm-2 col-form-label">End Date:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultEndDate" readonly>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="memberResultId" class="col-sm-2 col-form-label">Id:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultId" readonly>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="memberResultDepartment" class="col-sm-2 col-form-label">Department:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultDepartment" readonly>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="memberResultCurrentRole" class="col-sm-2 col-form-label">Current Role:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultCurrentRole" readonly>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-auto">
+                <select class="form-control" id="roleSelect" name="roleSelect">
+                  <option value="Admin">Admin</option>
+                  <option value="Inventory Clerk">Inventory Clerk</option>
+                  <option value="Auditor">Auditor</option>
+                  <option value="Department Manager">Department Manager</option>
+                </select>
+              </div>
+              <div class="col-auto">
+                <button id="assignRoleButton" class="btn btn-primary" >Assign Role</button>
+              </div>
+            </div>
+          </form>
         </div>
 
-    		<table id="rolesTable" style="margin-left:5%;" >
-
+    		<table id="rolesTable" style="margin-left:5%;" class="table mt-5">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Role Id</th>
+              <th scope="col">Role Name</th>
+              <th scope="col">Role Permissions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Admin</td>
+              <td>search_member, assign_roles, create_roles</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Inventory Clerk</td>
+              <td>register_item, increase_quantity, reduce_quantity, dispose_item, report_missing_item</td>
+            </tr>
     		</table>
       </div>
+
+
+
+
+
 
 
 
