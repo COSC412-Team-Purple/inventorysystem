@@ -1,7 +1,7 @@
 //const searchByNameCheckbox = document.getElementById('searchByName');
 //const searchByCategoryCheckbox = document.getElementById('searchByCategory');
 //const searchByMngDeptCheckbox = document.getElementById(
-  //'searchByManagingDepartment'
+//'searchByManagingDepartment'
 //);
 const searchByPriceRangeCheckbox = document.getElementById(
   'searchByPriceRange'
@@ -13,11 +13,11 @@ const searchByMngDeptInput = document.getElementById('itemManagingDepartment');
 const searchByPriceRangeMinInput = document.getElementById('priceMin');
 const searchByPriceRangeMaxInput = document.getElementById('priceMax');
 
-const backToSearchScreenButton = $("#backToSearchScreenButton");
+const backToSearchScreenButton = $('#backToSearchScreenButton');
 
-backToSearchScreenButton.click(function() {
+backToSearchScreenButton.click(function () {
   hideAllContainers();
-  $("#searchContainer").show();
+  $('#searchContainer').show();
 });
 /*searchByNameCheckbox.addEventListener('change', (e) => {
   if (e.target.checked) {
