@@ -85,6 +85,8 @@
 
 
 
+
+
       <div
       id="searchContainer"
       class="text-center tabContainer"
@@ -204,7 +206,7 @@
         <tbody>
           <tr>
             <th scope="row">1</th>
-            <td>Camera</td>
+            <td><a href="" class="itemLinkToAdvancedView">Camera</a></td>
             <td>Studio Camera 4k</td>
             <td>2</td>
             <td>1,695.00</td>
@@ -246,7 +248,7 @@
           </tr>
           <tr>
             <th scope="row">2</th>
-            <td>Camera</td>
+            <td><a href="" class="itemLinkToAdvancedView">Camera</a></td>
             <td>Studio Camera 4k</td>
             <td>2</td>
             <td>1,695.00</td>
@@ -287,360 +289,352 @@
           </tr>
         </tbody>
       </table>
+    </div>
 
-      <!-- Increase Modal -->
-      <div
-        class="modal fade"
-        id="increaseModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header p-4">
-              <h5 class="modal-title" id="modalTitle">Increase Item</h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form class="modal-body p-4 d-flex flex-column align-items-start">
-              <p>Item id: <span id="itemIdIncreaseModal">1</span></p>
-              <p class="mt-3">
-                Item Name: <span id="itemNameIncreaseModal">Camera</span>
-              </p>
-              <p class="mt-3">
-                Item Model:
-                <span id="itemModelIncreaseModal">Studio Camera 4k</span>
-              </p>
-              <p class="mt-3">
-                Currenty Quantity:
-                <span id="itemQuantityIncreaseModal">2</span>
-              </p>
-              <div
-                class="d-flex justify-content-start align-items-center mt-3 w-100"
-              >
-                <label
-                  for="inputModal"
-                  class="mr-2 text-nowrap"
-                  style="margin: 0"
-                  >How many are you increasing by?</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  name="increase-number"
-                  id="inputIncreaseModal"
-                />
-              </div>
-              <div
-                class="d-flex justify-content-start align-items-center mt-3 w-100"
-              >
-                <label for="commentModal" class="mr-1 text-left text-nowrap"
-                  >Reason for increase:
-                </label>
-                <textarea
-                  type="number"
-                  class="form-control"
-                  name="reason"
-                  id="reasonIncreaseModal"
-                  rows="4"
-                ></textarea>
-              </div>
-              <button type="submit" class="form-control btn btn-primary mt-3">
-                Submit Increase
-              </button>
-            </form>
+    <!-- Increase Modal -->
+    <div
+      class="modal fade"
+      id="increaseModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header p-4">
+            <h5 class="modal-title" id="modalTitle">Increase Item</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-        </div>
-      </div>
-
-      <!-- Reduce Modal -->
-      <div
-        class="modal fade"
-        id="reduceModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="reduceModal"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header p-4">
-              <h5 class="modal-title" id="modalTitle">Reduce Item</h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
+          <form class="modal-body p-4 d-flex flex-column align-items-start">
+            <p>Item id: <span id="itemIdIncreaseModal">1</span></p>
+            <p class="mt-3">
+              Item Name: <span id="itemNameIncreaseModal">Camera</span>
+            </p>
+            <p class="mt-3">
+              Item Model:
+              <span id="itemModelIncreaseModal">Studio Camera 4k</span>
+            </p>
+            <p class="mt-3">
+              Currenty Quantity:
+              <span id="itemQuantityIncreaseModal">2</span>
+            </p>
+            <div
+              class="d-flex justify-content-start align-items-center mt-3 w-100"
+            >
+              <label
+                for="inputModal"
+                class="mr-2 text-nowrap"
+                style="margin: 0"
+                >How many are you increasing by?</label
               >
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <input
+                type="number"
+                class="form-control"
+                name="increase-number"
+                id="inputIncreaseModal"
+              />
             </div>
-            <form class="modal-body p-4 d-flex flex-column align-items-start">
-              <p>Item id: <span id="itemIdReduceModal">1</span></p>
-              <p class="mt-3">
-                Item Name: <span id="itemNameReduceModal">Camera</span>
-              </p>
-              <p class="mt-3">
-                Item Model:
-                <span id="itemModelReduceModal">Studio Camera 4k</span>
-              </p>
-              <p class="mt-3">
-                Currenty Quantity: <span id="itemQuantityModal">2</span>
-              </p>
-              <div
-                class="d-flex justify-content-start align-items-center mt-3 w-100"
-              >
-                <label
-                  for="inputModal"
-                  class="mr-2 text-nowrap"
-                  style="margin: 0"
-                  >How many are you reducing by?</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  name="increase-number"
-                  id="inputReduceModal"
-                />
-              </div>
-              <div
-                class="d-flex justify-content-start align-items-center mt-3 w-100"
-              >
-                <label
-                  for="reasonReduceModal"
-                  class="mr-1 text-left text-nowrap"
-                  >Reason for reduce:
-                </label>
-                <textarea
-                  type="number"
-                  class="form-control"
-                  name="reason"
-                  id="reasonReduceModal"
-                  rows="4"
-                ></textarea>
-              </div>
-              <button type="submit" class="form-control btn btn-primary mt-3">
-                Submit Reduce
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <!-- Dispose Modal -->
-      <div
-        class="modal fade"
-        id="disposeModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="reduceModal"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header p-4">
-              <h5 class="modal-title" id="modalTitle">Dispose Item</h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div
+              class="d-flex justify-content-start align-items-center mt-3 w-100"
+            >
+              <label for="commentModal" class="mr-1 text-left text-nowrap"
+                >Reason for increase:
+              </label>
+              <textarea
+                type="number"
+                class="form-control"
+                name="reason"
+                id="reasonIncreaseModal"
+                rows="4"
+              ></textarea>
             </div>
-            <form class="modal-body p-4 d-flex flex-column text-left">
-              <p>Item id: <span id="itemIdDisposeModal">1</span></p>
-              <p class="mt-3">
-                Item Name: <span id="itemNameDisposeModal">Camera</span>
-              </p>
-              <p class="mt-3">
-                Price: $<span id="itemQuantityDisposeModal">1,695.00</span>
-              </p>
-              <p class="mt-3">
-                Department: <span id="itemDepartmentDisposeModal">Media</span>
-              </p>
-              <p class="mt-3">
-                Category:
-                <span id="itemCategoryDisposeModal">Electronics</span>
-              </p>
-              <p class="mt-3">
-                Model:
-                <span id="itemModelDisposeModal">Studio Camera 4k</span>
-              </p>
-              <p class="mt-3">
-                Location: <span id="itemLocationDisposeModal">Media</span>
-              </p>
-              <p class="mt-5 text-danger text-center">
-                Are you sure you want to dispose of this item?
-              </p>
-              <button type="submit" class="form-control btn btn-primary mt-3">
-                Submit Reduce
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <!-- Report Missing Modal -->
-      <div
-        class="modal fade"
-        id="reportMissingModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header p-4">
-              <h5 class="modal-title" id="modalTitle">Report Missing Item</h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form class="modal-body p-4 d-flex flex-column align-items-start">
-              <p>Item id: <span id="itemIdModal">1</span></p>
-              <p class="mt-3">
-                Item Name: <span id="itemNameModal">Camera</span>
-              </p>
-              <p class="mt-3">
-                Item Model:
-                <span id="itemModelMissingModal">Studio Camera 4k</span>
-              </p>
-              <p class="mt-3">
-                Currenty Quantity: <span id="itemQuantityModal">2</span>
-              </p>
-              <div
-                class="d-flex justify-content-start align-items-center mt-3 w-100"
-              >
-                <label
-                  for="inputModal"
-                  class="mr-2 text-nowrap"
-                  style="margin: 0"
-                  >How many are missing?</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  name="increase-number"
-                  id="inputMissingModal"
-                />
-              </div>
-              <div
-                class="d-flex justify-content-start align-items-center mt-3 w-100"
-              >
-                <label
-                  for="commentModal"
-                  class="mr-1 text-left text-nowrap"
-                  id="labelModal"
-                  >Comments:
-                </label>
-                <textarea
-                  type="number"
-                  class="form-control"
-                  name="reason"
-                  id="commentsModal"
-                  rows="4"
-                ></textarea>
-              </div>
-              <button type="submit" class="form-control btn btn-primary mt-3">
-                Submit Missing Report
-              </button>
-            </form>
-          </div>
+            <button type="submit" class="form-control btn btn-primary mt-3">
+              Submit Increase
+            </button>
+          </form>
         </div>
       </div>
     </div>
 
-
-
-
-      <div id="advancedItemDetailContainer" class="tabContainer">
-        <div >
-          <h1 id="advancedItemName" style="display: inline-block">ITEM NAME</h1>
-          <button class="btn bg-primary text-light" id="backToSearchScreenButton"  style="float: right; margin-right:5%">Back to Search Screen</button>
+    <!-- Reduce Modal -->
+    <div
+      class="modal fade"
+      id="reduceModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="reduceModal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header p-4">
+            <h5 class="modal-title" id="modalTitle">Reduce Item</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form class="modal-body p-4 d-flex flex-column align-items-start">
+            <p>Item id: <span id="itemIdReduceModal">1</span></p>
+            <p class="mt-3">
+              Item Name: <span id="itemNameReduceModal">Camera</span>
+            </p>
+            <p class="mt-3">
+              Item Model:
+              <span id="itemModelReduceModal">Studio Camera 4k</span>
+            </p>
+            <p class="mt-3">
+              Currenty Quantity: <span id="itemQuantityModal">2</span>
+            </p>
+            <div
+              class="d-flex justify-content-start align-items-center mt-3 w-100"
+            >
+              <label
+                for="inputModal"
+                class="mr-2 text-nowrap"
+                style="margin: 0"
+                >How many are you reducing by?</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                name="increase-number"
+                id="inputReduceModal"
+              />
+            </div>
+            <div
+              class="d-flex justify-content-start align-items-center mt-3 w-100"
+            >
+              <label
+                for="reasonReduceModal"
+                class="mr-1 text-left text-nowrap"
+                >Reason for reduce:
+              </label>
+              <textarea
+                type="number"
+                class="form-control"
+                name="reason"
+                id="reasonReduceModal"
+                rows="4"
+              ></textarea>
+            </div>
+            <button type="submit" class="form-control btn btn-primary mt-3">
+              Submit Reduce
+            </button>
+          </form>
         </div>
+      </div>
+    </div>
 
-        <div style="display: inline-block">
-          <button class="btn bg-success text-light" id="advancedIncreaseBtn">Increase</button>
-          <button class="btn btn-secondary" id="advancedReduceBtn">Reduce</button>
-          <button class="btn bg-warning" id="advancedDisposeBtn">Dispose</button>
-          <button class="btn bg-danger text-light" id="advancedReportMissingBtn">Report Missing</button>
+    <!-- Dispose Modal -->
+    <div
+      class="modal fade"
+      id="disposeModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="reduceModal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header p-4">
+            <h5 class="modal-title" id="modalTitle">Dispose Item</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form class="modal-body p-4 d-flex flex-column text-left">
+            <p>Item id: <span id="itemIdDisposeModal">1</span></p>
+            <p class="mt-3">
+              Item Name: <span id="itemNameDisposeModal">Camera</span>
+            </p>
+            <p class="mt-3">
+              Price: $<span id="itemQuantityDisposeModal">1,695.00</span>
+            </p>
+            <p class="mt-3">
+              Department: <span id="itemDepartmentDisposeModal">Media</span>
+            </p>
+            <p class="mt-3">
+              Category:
+              <span id="itemCategoryDisposeModal">Electronics</span>
+            </p>
+            <p class="mt-3">
+              Model:
+              <span id="itemModelDisposeModal">Studio Camera 4k</span>
+            </p>
+            <p class="mt-3">
+              Location: <span id="itemLocationDisposeModal">Media</span>
+            </p>
+            <p class="mt-5 text-danger text-center">
+              Are you sure you want to dispose of this item?
+            </p>
+            <button type="submit" class="form-control btn btn-primary mt-3">
+              Submit Reduce
+            </button>
+          </form>
         </div>
+      </div>
+    </div>
 
-        <form style="width:100%; margin-top: 20px">
-          <div class="mb-3 row">
-            <label for="advancedItemSpecInput" class="col-sm-2 col-form-label">Spec:</label>
-            <div class="col-auto">
-              <input type="text"  class="form-control-plaintext" id="advancedItemSpecInput" readonly>
+    <!-- Report Missing Modal -->
+    <div
+      class="modal fade"
+      id="reportMissingModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header p-4">
+            <h5 class="modal-title" id="modalTitle">Report Missing Item</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form class="modal-body p-4 d-flex flex-column align-items-start">
+            <p>Item id: <span id="itemIdModal">1</span></p>
+            <p class="mt-3">
+              Item Name: <span id="itemNameModal">Camera</span>
+            </p>
+            <p class="mt-3">
+              Item Model:
+              <span id="itemModelMissingModal">Studio Camera 4k</span>
+            </p>
+            <p class="mt-3">
+              Currenty Quantity: <span id="itemQuantityModal">2</span>
+            </p>
+            <div
+              class="d-flex justify-content-start align-items-center mt-3 w-100"
+            >
+              <label
+                for="inputModal"
+                class="mr-2 text-nowrap"
+                style="margin: 0"
+                >How many are missing?</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                name="increase-number"
+                id="inputMissingModal"
+              />
             </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="advancedItemBrandInput" class="col-sm-2 col-form-label">Brand:</label>
-            <div class="col-auto">
-              <input type="text"  class="form-control-plaintext" id="advancedItemBrandInput" readonly>
+            <div
+              class="d-flex justify-content-start align-items-center mt-3 w-100"
+            >
+              <label
+                for="commentModal"
+                class="mr-1 text-left text-nowrap"
+                id="labelModal"
+                >Comments:
+              </label>
+              <textarea
+                type="number"
+                class="form-control"
+                name="reason"
+                id="commentsModal"
+                rows="4"
+              ></textarea>
             </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="advancedItemDeptInput" class="col-sm-2 col-form-label">Department:</label>
-            <div class="col-auto">
-              <input type="text" class="form-control-plaintext" id="advancedItemDeptInput" readonly>
-            </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="advancedItemCategoryInput" class="col-sm-2 col-form-label">Category:</label>
-            <div class="col-auto">
-              <input type="text" class="form-control-plaintext" id="advancedItemCategoryInput" readonly>
-            </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="advancedItemLocationInput" class="col-sm-2 col-form-label">Location:</label>
-            <div class="col-auto">
-              <input type="text" class="form-control-plaintext" id="advancedItemLocatonInput" readonly>
-            </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="advancedItemQuantityInput" class="col-sm-2 col-form-label">Quantity:</label>
-            <div class="col-auto">
-              <input type="number" min="0" step="1"  class="form-control-plaintext" id="advancedItemQuantityInput" readonly>
-            </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="advancedItemPriceInput" class="col-sm-2 col-form-label">Price:</label>
-            <div class="col-auto">
-              <input type="number" min="0" step="any"  class="form-control-plaintext" id="advancedItemPriceInput" readonly>
-            </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="advancedItemPurchaseDateInput" class="col-sm-2 col-form-label">Purchase Date:</label>
-            <div class="col-auto">
-              <input type="date"  class="form-control-plaintext" id="advancedItemPurchaseDateInput" readonly>
-            </div>
-          </div>
-          <div class="form-floating">
-            <textarea class="form-control-plaintext" placeholder="Comment of the item" id="advancedItemMemoInput" style="height: 100px" readonly></textarea>
-          </div>
-        </form>
+            <button type="submit" class="form-control btn btn-primary mt-3">
+              Submit Missing Report
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="advancedItemDetailContainer" class="tabContainer">
+      <div >
+        <h1 id="advancedItemName" style="display: inline-block">ITEM NAME</h1>
+        <button class="btn bg-primary text-light" id="backToSearchScreenButton"  style="float: right; margin-right:5%">Back to Search Screen</button>
       </div>
 
+      <div style="display: inline-block">
+        <button class="btn bg-success text-light" id="advancedIncreaseBtn" data-toggle="modal" data-target="#increaseModal">Increase</button>
+        <button class="btn btn-secondary" id="advancedReduceBtn" data-toggle="modal" data-target="#reduceModal">Reduce</button>
+        <button class="btn bg-warning" id="advancedDisposeBtn" data-toggle="modal" data-target="#disposeModal">Dispose</button>
+        <button class="btn bg-danger text-light" id="advancedReportMissingBtn" data-toggle="modal" data-target="#reportMissingModal">Report Missing</button>
+      </div>
 
-
-
-
+      <form style="width:100%; margin-top: 20px">
+        <div class="mb-3 row">
+          <label for="advancedItemSpecInput" class="col-sm-2 col-form-label">Spec:</label>
+          <div class="col-auto">
+            <input type="text"  class="form-control-plaintext" id="advancedItemSpecInput" readonly>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="advancedItemBrandInput" class="col-sm-2 col-form-label">Brand:</label>
+          <div class="col-auto">
+            <input type="text"  class="form-control-plaintext" id="advancedItemBrandInput" readonly>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="advancedItemDeptInput" class="col-sm-2 col-form-label">Department:</label>
+          <div class="col-auto">
+            <input type="text" class="form-control-plaintext" id="advancedItemDeptInput" readonly>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="advancedItemCategoryInput" class="col-sm-2 col-form-label">Category:</label>
+          <div class="col-auto">
+            <input type="text" class="form-control-plaintext" id="advancedItemCategoryInput" readonly>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="advancedItemLocationInput" class="col-sm-2 col-form-label">Location:</label>
+          <div class="col-auto">
+            <input type="text" class="form-control-plaintext" id="advancedItemLocatonInput" readonly>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="advancedItemQuantityInput" class="col-sm-2 col-form-label">Quantity:</label>
+          <div class="col-auto">
+            <input type="number" min="0" step="1"  class="form-control-plaintext" id="advancedItemQuantityInput" readonly>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="advancedItemPriceInput" class="col-sm-2 col-form-label">Price:</label>
+          <div class="col-auto">
+            <input type="number" min="0" step="any"  class="form-control-plaintext" id="advancedItemPriceInput" readonly>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="advancedItemPurchaseDateInput" class="col-sm-2 col-form-label">Purchase Date:</label>
+          <div class="col-auto">
+            <input type="date"  class="form-control-plaintext" id="advancedItemPurchaseDateInput" readonly>
+          </div>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control-plaintext" placeholder="Comment of the item" id="advancedItemMemoInput" style="height: 100px" readonly></textarea>
+        </div>
+      </form>
+    </div>
 
 
 

@@ -19,6 +19,13 @@ backToSearchScreenButton.click(function() {
   hideAllContainers();
   $("#searchContainer").show();
 });
+
+let itemLinkToAdvancedViewComponents = $(".itemLinkToAdvancedView");
+itemLinkToAdvancedViewComponents.click(function(e){
+  e.preventDefault();
+  hideAllContainers();
+  $("#advancedItemDetailContainer").show();
+})
 /*searchByNameCheckbox.addEventListener('change', (e) => {
   if (e.target.checked) {
     searchByNameInput.disabled = false;
