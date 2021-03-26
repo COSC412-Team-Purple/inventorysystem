@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="en-us" http-equiv="Content-Language" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title></title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="css/Main.css">
+  </head>
+
+  <body>
+
+    <div id="modalsContainer">
+      <!-- Increase Modal -->
+      <div
+        class="modal fade"
+        id="dummyincreaseModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header p-4">
+              <h5 class="modal-title" id="modalTitle">Increase Item</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="modal-body p-4 d-flex flex-column align-items-start">
+              <p>Item id: <span id="itemIdIncreaseModal">1</span></p>
+              <p class="mt-3">
+                Item Name: <span id="itemNameIncreaseModal">Camera</span>
+              </p>
+              <p class="mt-3">
+                Item Model:
+                <span id="itemModelIncreaseModal">Studio Camera 4k</span>
+              </p>
+              <p class="mt-3">
+                Currenty Quantity:
+                <span id="itemQuantityIncreaseModal">2</span>
+              </p>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label
+                  for="inputModal"
+                  class="mr-2 text-nowrap"
+                  style="margin: 0"
+                  >How many are you increasing by?</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="increase-number"
+                  id="inputIncreaseModal"
+                />
+              </div>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label for="commentModal" class="mr-1 text-left text-nowrap"
+                  >Reason for increase:
+                </label>
+                <textarea
+                  type="number"
+                  class="form-control"
+                  name="reason"
+                  id="reasonIncreaseModal"
+                  rows="4"
+                ></textarea>
+              </div>
+              <button type="submit" class="form-control btn btn-primary mt-3">
+                Submit Increase
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reduce Modal -->
+      <div
+        class="modal fade"
+        id="dummyreduceModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="reduceModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header p-4">
+              <h5 class="modal-title" id="modalTitle">Reduce Item</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="modal-body p-4 d-flex flex-column align-items-start">
+              <p>Item id: <span id="itemIdReduceModal">1</span></p>
+              <p class="mt-3">
+                Item Name: <span id="itemNameReduceModal">Camera</span>
+              </p>
+              <p class="mt-3">
+                Item Model:
+                <span id="itemModelReduceModal">Studio Camera 4k</span>
+              </p>
+              <p class="mt-3">
+                Currenty Quantity: <span id="itemQuantityModal">2</span>
+              </p>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label
+                  for="inputModal"
+                  class="mr-2 text-nowrap"
+                  style="margin: 0"
+                  >How many are you reducing by?</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="increase-number"
+                  id="inputReduceModal"
+                />
+              </div>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label
+                  for="reasonReduceModal"
+                  class="mr-1 text-left text-nowrap"
+                  >Reason for reduce:
+                </label>
+                <textarea
+                  type="number"
+                  class="form-control"
+                  name="reason"
+                  id="reasonReduceModal"
+                  rows="4"
+                ></textarea>
+              </div>
+              <button type="submit" class="form-control btn btn-primary mt-3">
+                Submit Reduce
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dispose Modal -->
+      <div
+        class="modal fade"
+        id="dummydisposeModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="reduceModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header p-4">
+              <h5 class="modal-title" id="modalTitle">Dispose Item</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="modal-body p-4 d-flex flex-column text-left">
+              <p>Item id: <span id="itemIdDisposeModal">1</span></p>
+              <p class="mt-3">
+                Item Name: <span id="itemNameDisposeModal">Camera</span>
+              </p>
+              <p class="mt-3">
+                Price: $<span id="itemQuantityDisposeModal">1,695.00</span>
+              </p>
+              <p class="mt-3">
+                Department: <span id="itemDepartmentDisposeModal">Media</span>
+              </p>
+              <p class="mt-3">
+                Category:
+                <span id="itemCategoryDisposeModal">Electronics</span>
+              </p>
+              <p class="mt-3">
+                Model:
+                <span id="itemModelDisposeModal">Studio Camera 4k</span>
+              </p>
+              <p class="mt-3">
+                Location: <span id="itemLocationDisposeModal">Media</span>
+              </p>
+              <p class="mt-5 text-danger text-center">
+                Are you sure you want to dispose of this item?
+              </p>
+              <button type="submit" class="form-control btn btn-primary mt-3">
+                Submit Reduce
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Report Missing Modal -->
+      <div
+        class="modal fade"
+        id="dummyreportMissingModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header p-4">
+              <h5 class="modal-title" id="modalTitle">Report Missing Item</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="modal-body p-4 d-flex flex-column align-items-start">
+              <p>Item id: <span id="itemIdModal">1</span></p>
+              <p class="mt-3">
+                Item Name: <span id="itemNameModal">Camera</span>
+              </p>
+              <p class="mt-3">
+                Item Model:
+                <span id="itemModelMissingModal">Studio Camera 4k</span>
+              </p>
+              <p class="mt-3">
+                Currenty Quantity: <span id="itemQuantityModal">2</span>
+              </p>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label
+                  for="inputModal"
+                  class="mr-2 text-nowrap"
+                  style="margin: 0"
+                  >How many are missing?</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="increase-number"
+                  id="inputMissingModal"
+                />
+              </div>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label
+                  for="commentModal"
+                  class="mr-1 text-left text-nowrap"
+                  id="labelModal"
+                  >Comments:
+                </label>
+                <textarea
+                  type="number"
+                  class="form-control"
+                  name="reason"
+                  id="commentsModal"
+                  rows="4"
+                ></textarea>
+              </div>
+              <button type="submit" class="form-control btn btn-primary mt-3">
+                Submit Missing Report
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assign Role Modal -->
+      <div
+        class="modal fade"
+        id="dummyassignRoleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="assignRoleModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header p-4">
+              <h5 class="modal-title" id="modalTitle">Assign Role</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="modal-body p-4 d-flex flex-column text-left">
+              <p class="mt-5 text-center">
+                Are you sure you want to assign
+                <span id="assignModalFirstName" class="text-danger">Jane</span>
+                <span id="assignModalLastName" class="text-danger">Doe</span> to the
+                <span id="assignModalRole" class="text-danger">Inventory Clerk</span> role?
+              </p>
+              <button type="submit" class="form-control btn btn-primary mt-3" id="assignModalConfirmationButton">
+                Confirm Assignment
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  </body>
+</html>

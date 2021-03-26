@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="en-us" http-equiv="Content-Language" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title></title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="css/Main.css">
+  </head>
+
+  <body>
+
+    <div
+    id="dummysearchContainer"
+    class="text-center tabContainer"
+    style="margin-top: 20px"
+    >
+    <h1>Search Item Page</h1>
+
+    <form class="mt-4">
+      <div class="container p-0">
+        <div class="row">
+          <div id="searchItemContainer" class="col">
+            <label for="itemName">Item Name:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="itemName"
+              name="item-name"
+              placeholder="Camera"
+            />
+          </div>
+          <div id="itemCategoryContainer" class="col">
+            <label for="itemCategory">Item Category:</label>
+            <select
+              class="form-control"
+              id="itemCategory"
+              name="item-category"
+            >
+              <option value="any">Any</option>
+              <option value="computer">Computer</option>
+              <option value="audio">Audio</option>
+              <option value="electric">Electric</option>
+              <option value="accessory">Accessory</option>
+              <option value="video">Video</option>
+              <option value="network">Network</option>
+              <option value="misc">Misc</option>
+              <option value="tool">Tool</option>
+              <option value="lighting">Lighting</option>
+              <option value="instrument">Instrument</option>
+              <option value="microphone">Microphone</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div id="managingDepartmentContainer" class="col mt-3">
+            <label for="itemManagingDepartment">Managing Department:</label>
+            <select
+              name="managing-department"
+              id="itemManagingDepartment"
+              class="form-control"
+            >
+              <option value="any">Any</option>
+              <option value="meida">Media</option>
+              <option value="human-resources">Human Resources</option>
+            </select>
+          </div>
+          <div id="priceRangeContainer" class="col mt-3">
+            <div class="form-check form-check-inline">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="searchByPriceRange"
+              />
+              <label for="searchByPriceRange" class="form-check-label"
+                >Price Range:</label
+              >
+            </div>
+            <div id="numbersContainer" class="container">
+              <div class="row" style="align-items: center">
+                <label for="priceMin" style="margin: 0">Min: $</label>
+
+                <input
+                  type="number"
+                  id="priceMin"
+                  class="form-control"
+                  name="min-price"
+                  placeholder="0"
+                  style="width: auto"
+                  disabled
+                />
+                <label for="priceMax" class="ml-2" style="margin: 0"
+                  >Max: $</label
+                >
+                <input
+                  type="number"
+                  id="priceMax"
+                  step="any"
+                  class="form-control"
+                  name="max-price"
+                  placeholder="2000"
+                  style="width: auto"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4">Search</button>
+      </div>
+    </form>
+
+    <p>
+      Search results for <b>Item name = 'Camera'</b>,
+      <b>department = 'Any'</b>, <b>category = 'Any'</b>
+    </p>
+
+    <table class="table mt-5">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Model</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td><a href="" class="itemLinkToAdvancedView">Camera</a></td>
+          <td>Studio Camera 4k</td>
+          <td>2</td>
+          <td>1,695.00</td>
+          <!-- for the id of the buttons it will be <id>-<btn name> -->
+          <td>
+            <button
+              class="btn bg-success text-light"
+              id="1-increaseBtn"
+              data-toggle="modal"
+              data-target="#increaseModal"
+            >
+              Increase
+            </button>
+            <button
+              class="btn btn-secondary"
+              id="1-reduceBtn"
+              data-toggle="modal"
+              data-target="#reduceModal"
+            >
+              Reduce
+            </button>
+            <button
+              class="btn bg-warning"
+              id="1-disposeBtn"
+              data-toggle="modal"
+              data-target="#disposeModal"
+            >
+              Dispose
+            </button>
+            <button
+              class="btn bg-danger text-light"
+              id="1-reportMissingBtn"
+              data-toggle="modal"
+              data-target="#reportMissingModal"
+            >
+              Report Missing
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td><a href="" class="itemLinkToAdvancedView">Camera</a></td>
+          <td>Studio Camera 4k</td>
+          <td>2</td>
+          <td>1,695.00</td>
+          <td>
+            <button
+              class="btn bg-success text-light"
+              id="2-increaseBtn"
+              data-toggle="modal"
+              data-target="#increaseModal"
+            >
+              Increase
+            </button>
+            <button
+              class="btn btn-secondary"
+              id="2-reduceBtn"
+              data-toggle="modal"
+              data-target="#reduceModal"
+            >
+              Reduce
+            </button>
+            <button
+              class="btn bg-warning"
+              id="2-disposeBtn"
+              data-toggle="modal"
+              data-target="#disposeModal"
+            >
+              Dispose
+            </button>
+            <button
+              class="btn bg-danger text-light"
+              id="2-reportMissingBtn"
+              data-toggle="modal"
+              data-target="#reportMissingModal"
+            >
+              Report Missing
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  </body>
+</html>

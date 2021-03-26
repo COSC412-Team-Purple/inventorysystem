@@ -1,4 +1,6 @@
 $( document ).ready(function() {
+    loadAllContainers();
+
     hideAllContainers();
     $("#dashboardContainer").show();
 
@@ -28,7 +30,7 @@ $( document ).ready(function() {
       setActiveTab(this);
     });
 
-    setupBarChart();
+
 
     $("#dbTest").click(function(){
     	ajaxTest();
@@ -62,20 +64,3 @@ function ajaxTest(){
         }
     });
 }
-
-/*
-function loadLogonHtml () {
-    $("#mainLogonContainter").load("LoginPage.html #logonBigContainter", function(responseTxt, statusTxt, jqXHR){
-        jqXHR.done(function(){
-          console.log("DONE");
-          console.log(responseTxt);
-
-          let loginhtml = $("#logonBigContainter").html();
-          console.log(loginhtml);
-          $("#mainLogonContainter").html(loginhtml);
-          //$("#mainLogonContainter").append($("#logonContainter").html());
-
-        })
-    });
-}
-*/

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="en-us" http-equiv="Content-Language" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title></title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="css/Main.css">
+  </head>
+
+  <body>
+
+    <div id="dummyRolesContainer" class="tabContainer" >
+      <div style="margin-top: 20px;margin-left:5%;margin-right:5%;">
+        <h1 style="display: inline-block;">Search a Member</h1>
+        <button id="toCreateRoleButton" class="btn btn-success" style="float: right; margin-right:20px">Create a Role</button>
+      </div>
+
+      <div style="margin-left:5%;margin-right:5%;padding-top:50px;padding-bottom:50px;">
+        <form class="mt-4">
+          <div class="row" style="margin-bottom:10px">
+            <label for="searchMemberIdInput" class="col-form-label">Member Id</label>
+            <div class="col">
+              <input id="searchMemberIdInput" type="text" class="form-control w-25" placeholder="Id (ex: 1234)">
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="searchMemberFnameInput" class="col-form-label">Member Firstname</label>
+            <div class="col">
+              <input id="searchMemberFnameInput" type="text" class="form-control" placeholder="First name">
+            </div>
+            <label for="searchMemberLnameInput" class="col-form-label">Member Lastname</label>
+            <div class="col">
+              <input id="searchMemberLnameInput" type="text" class="form-control" placeholder="Last name">
+            </div>
+            <div class="col">
+              <button id="searchMemberButton" class="btn btn-primary" >Search Member</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- TODO
+      Add in an area to display the results of the searched Member
+      Add in a simple table of all the roles and permissions
+    -->
+      <div id="searchMemberResultsContainer" style="margin-left:5%;margin-right:5%; border-style: solid; border-width: 1px;">
+        <form style="margin: 10px">
+          <div class="mb-3 row">
+            <label for="memberResultName" class="col-sm-2 col-form-label">Name:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control-plaintext" id="memberResultName" readonly>
+            </div>
+            <label for="memberResultStartDate" class="col-sm-2 col-form-label">Start Date:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control-plaintext" id="memberResultStartDate" readonly>
+            </div>
+            <label for="memberResultEndDate" class="col-sm-2 col-form-label">End Date:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control-plaintext" id="memberResultEndDate" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="memberResultId" class="col-sm-2 col-form-label">Id:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control-plaintext" id="memberResultId" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="memberResultDepartment" class="col-sm-2 col-form-label">Department:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control-plaintext" id="memberResultDepartment" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="memberResultCurrentRole" class="col-sm-2 col-form-label">Current Role:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control-plaintext" id="memberResultCurrentRole" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <div class="col-auto">
+              <select class="form-control" id="roleSelect" name="roleSelect">
+                <option value="Admin">Admin</option>
+                <option value="Inventory Clerk">Inventory Clerk</option>
+                <option value="Auditor">Auditor</option>
+                <option value="Department Manager">Department Manager</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <button id="assignRoleButton" class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#assignRoleModal">
+                  Assign Role
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <table id="rolesTable" style="margin-left:5%;" class="table mt-5">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Role Id</th>
+            <th scope="col">Role Name</th>
+            <th scope="col">Role Permissions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Admin</td>
+            <td>search_member, assign_roles, create_roles</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Inventory Clerk</td>
+            <td>register_item, increase_quantity, reduce_quantity, dispose_item, report_missing_item</td>
+          </tr>
+      </table>
+    </div>
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  </body>
+</html>

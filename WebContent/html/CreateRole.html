@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta content="en-us" http-equiv="Content-Language" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title></title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="css/Main.css">
+  </head>
+
+  <body>
+
+    <div id="dummycreateRoleContainer" class="tabContainer" style="margin-left:5%">
+      <div style="margin-top: 20px">
+        <h1 style="display: inline-block;">Create a Role</h1>
+        <button id="backToRolesScreenButton" class="btn btn-primary" style="float: right; margin-right:5%">Back To Roles Screen</button>
+      </div>
+      <form >
+        <div class="form-group">
+          <label for="roleNameInput">Role Name</label>
+          <input
+            type="text"
+            class="form-control w-25"
+            id="roleNameInput"
+            placeholder="role"
+          />
+        </div>
+        <div class="form-check" style="padding-bottom: 5px">
+          <input
+            class="form-check-input roleCheckbox"
+            type="checkbox"
+            value=""
+            id="registerItemRoleCheckbox"
+          />
+          <label class="form-check-label" for="registerItemRoleCheckbox">
+            Register Item
+          </label>
+        </div>
+        <div class="form-check" style="padding-bottom: 5px">
+          <input
+            class="form-check-input roleCheckbox"
+            type="checkbox"
+            value=""
+            id="increaseAndReduceRoleCheckbox"
+          />
+          <label
+            class="form-check-label"
+            for="increaseAndReduceRoleCheckbox"
+          >
+            Increase/Reduce Item Quantity
+          </label>
+        </div>
+        <div class="form-check" style="padding-bottom: 5px">
+          <input
+            class="form-check-input roleCheckbox"
+            type="checkbox"
+            value=""
+            id="disposeItemRoleCheckbox"
+          />
+          <label class="form-check-label" for="disposeItemRoleCheckbox">
+            Dispose Item
+          </label>
+        </div>
+        <div class="form-check" style="padding-bottom: 5px">
+          <input
+            class="form-check-input roleCheckbox"
+            type="checkbox"
+            value=""
+            id="reportMissingItemRoleCheckbox"
+          />
+          <label
+            class="form-check-label"
+            for="reportMissingItemRoleCheckbox"
+          >
+            Report Missing Item
+          </label>
+        </div>
+        <div class="form-check" style="padding-bottom: 5px">
+          <input
+            class="form-check-input roleCheckbox"
+            type="checkbox"
+            value=""
+            id="searchMemberRoleCheckbox"
+          />
+          <label class="form-check-label" for="searchMemberRoleCheckbox">
+            Search a Member
+          </label>
+        </div>
+        <div class="form-check" style="padding-bottom: 5px">
+          <input
+            class="form-check-input roleCheckbox"
+            type="checkbox"
+            value=""
+            id="createRole-RoleCheckbox"
+          />
+          <label class="form-check-label" for="createRole-RoleCheckbox">
+            Create a Role
+          </label>
+        </div>
+        <div class="form-check" style="padding-bottom: 5px">
+          <input
+            class="form-check-input roleCheckbox"
+            type="checkbox"
+            value=""
+            id="assignRole-RoleCheckbox"
+          />
+          <label class="form-check-label" for="assignRole-RoleCheckbox">
+            Assign a Role to a Member
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Role</button>
+      </form>
+    </div>
+  </div>
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  </body>
+</html>
