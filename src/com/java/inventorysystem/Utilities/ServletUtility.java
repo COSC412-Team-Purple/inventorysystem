@@ -1,4 +1,4 @@
-package com.java.inventorysystem;
+package com.java.inventorysystem.Utilities;
 
 import java.sql.*;
 

@@ -1,4 +1,4 @@
-package com.java.inventorysystem;
+package com.java.inventorysystem.AuthenticateMember;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,18 +11,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.java.inventorysystem.Utilities.*;
 /**
- * Servlet implementation class Dashboard
+ * Servlet implementation class AuthenticateMember
  */
-@WebServlet("/Dashboard")
-public class Dashboard extends HttpServlet {
+@WebServlet("/AuthenticateMember")
+public class AuthenticateMember extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Dashboard() {
+    public AuthenticateMember() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,15 +32,15 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = ServletUtility.getDatabaseConnection();
-		System.out.println("Dashboard servlet connecting to DB");
+		System.out.println("AuthenticateMember servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
 			String query = "SELECT * FROM ";//TODO: need table name
 			ResultSet rs = stmt.executeQuery(query);
-			
-			while(rs.next()) {
-				response.getWriter().write(rs.getString(1) + "\n");
-			}
+
+			//TODO: Get credentials from resultset and compare with what the user submitted
+			String username = request.getParameter("?"); //The username field needs a name attribute
+			String password = request.getParameter("?"); //The password field needs a name attribute
 
 			conn.close();
 		} catch (SQLException e) {

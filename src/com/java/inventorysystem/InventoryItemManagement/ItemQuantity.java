@@ -1,4 +1,4 @@
-package com.java.inventorysystem;
+package com.java.inventorysystem.InventoryItemManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,18 +11,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.java.inventorysystem.Utilities.*;
 /**
- * Servlet implementation class ResetPassword
+ * Servlet implementation class ItemQuantity
  */
-@WebServlet("/ResetPassword")
-public class ResetPassword extends HttpServlet {
+@WebServlet("/ItemQuantity")
+public class ItemQuantity extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ResetPassword() {
+    public ItemQuantity() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,12 +39,12 @@ public class ResetPassword extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = ServletUtility.getDatabaseConnection();
-		System.out.println("ResetPassword servlet connecting to DB");
+		System.out.println("ItemQuantity servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
-			String username = request.getParameter("?"); //need a name for the reset username field
-			String password = request.getParameter("?"); //need a name for the reset password field
-			String query = "UPDATE "; //TODO: SQL for replacing the password for a particular user 
+			String item = request.getParameter("?"); //Does this still come from search-item bar? 
+			int amount = Integer.parseInt(request.getParameter("?")); //need a name tag associated with the increase/reduce button forms to get the amount by which to increase/decrease
+			String query = "UPDATE "; //TODO: SQL for setting the new amount
 			ResultSet rs = stmt.executeQuery(query);
 			
 			conn.close();

@@ -1,4 +1,4 @@
-package com.java.inventorysystem;
+package com.java.inventorysystem.ItemSearch;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,18 +11,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.java.inventorysystem.Utilities.*;
 /**
- * Servlet implementation class SearchMember
+ * Servlet implementation class ItemSearch
  */
-@WebServlet("/SearchMember")
-public class SearchMember extends HttpServlet {
+@WebServlet("/ItemSearch")
+public class ItemSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchMember() {
+    public ItemSearch() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,12 +32,14 @@ public class SearchMember extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Connection conn = ServletUtility.getDatabaseConnection();
-		System.out.println("SearchMember servlet connecting to DB");
+		System.out.println("ItemSearch servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
-			String member = request.getParameter("?"); //Need name attribute from member field
-			//Separate fname and lname fields? or one field and split fname and lname?
-			String query = "SELECT * FROM member where fname = " + member;
+			String item = request.getParameter("search-item");
+			String category = request.getParameter("item-category");
+			String department = request.getParameter("managing-department");
+			//Need a name attribute for the min and max price range fields
+			String query = "SELECT * FROM items where name = " + item; //when user searches by item name; need category, department, price, etc.
 			ResultSet rs = stmt.executeQuery(query);
 			
 			while(rs.next()) {
@@ -54,7 +56,7 @@ public class SearchMember extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		doGet(request, response);
 	}
 
 }

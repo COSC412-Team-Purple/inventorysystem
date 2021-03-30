@@ -1,27 +1,28 @@
-package com.java.inventorysystem;
+package com.java.inventorysystem.AuthenticateMember;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.java.inventorysystem.Utilities.ServletUtility;
-
-import java.sql.*;
-
-/*
- * Servlet implementation class ItemServlet
+import com.java.inventorysystem.Utilities.*;
+/**
+ * Servlet implementation class ResetPassword
  */
-@WebServlet("/ItemServlet")
-public class ItemServlet extends HttpServlet {
+@WebServlet("/ResetPassword")
+public class ResetPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ItemServlet() {
+    public ResetPassword() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,7 +31,6 @@ public class ItemServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -38,23 +38,17 @@ public class ItemServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		Connection conn = ServletUtility.getDatabaseConnection();
-		System.out.println("success pass of connection");
+		System.out.println("ResetPassword servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
-			String query = "SELECT table_name FROM information_schema.tables where table_schema = 'public'";
+			String username = request.getParameter("?"); //need a name for the reset username field
+			String password = request.getParameter("?"); //need a name for the reset password field
+			String query = "UPDATE "; //TODO: SQL for replacing the password for a particular user 
 			ResultSet rs = stmt.executeQuery(query);
-			System.out.println("tables:");
 			
-			while(rs.next()) {
-				System.out.print(rs.getString(1));
-				System.out.println();
-			}
-			response.getWriter().write("successful connection");
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

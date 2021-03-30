@@ -1,4 +1,4 @@
-package com.java.inventorysystem;
+package com.java.inventorysystem.InventoryItemManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,18 +11,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.java.inventorysystem.Utilities.*;
 /**
- * Servlet implementation class AuthenticateMember
+ * Servlet implementation class ReportItemMissing
  */
-@WebServlet("/AuthenticateMember")
-public class AuthenticateMember extends HttpServlet {
+@WebServlet("/ReportItemMissing")
+public class ReportItemMissing extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AuthenticateMember() {
+    public ReportItemMissing() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,28 +31,26 @@ public class AuthenticateMember extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = ServletUtility.getDatabaseConnection();
-		System.out.println("AuthenticateMember servlet connecting to DB");
-		try {
-			Statement stmt = conn.createStatement();
-			String query = "SELECT * FROM ";//TODO: need table name
-			ResultSet rs = stmt.executeQuery(query);
 
-			//TODO: Get credentials from resultset and compare with what the user submitted
-			String username = request.getParameter("?"); //The username field needs a name attribute
-			String password = request.getParameter("?"); //The password field needs a name attribute
-
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		Connection conn = ServletUtility.getDatabaseConnection();
+		System.out.println("ReportItemMissing servlet connecting to DB");
+		try {
+			Statement stmt = conn.createStatement();
+			String item = request.getParameter("?"); //Is this the item from the search item bar?
+			//I think we need a missing attribute in the item table?
+			String query = "";
+			ResultSet rs = stmt.executeQuery(query);
+			
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

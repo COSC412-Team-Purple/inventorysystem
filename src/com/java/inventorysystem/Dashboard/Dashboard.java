@@ -1,4 +1,4 @@
-package com.java.inventorysystem;
+package com.java.inventorysystem.Dashboard;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,18 +11,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.java.inventorysystem.Utilities.*;
 /**
- * Servlet implementation class ItemQuantity
+ * Servlet implementation class Dashboard
  */
-@WebServlet("/ItemQuantity")
-public class ItemQuantity extends HttpServlet {
+@WebServlet("/Dashboard")
+public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ItemQuantity() {
+    public Dashboard() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,26 +31,28 @@ public class ItemQuantity extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Connection conn = ServletUtility.getDatabaseConnection();
+		System.out.println("Dashboard servlet connecting to DB");
+		try {
+			Statement stmt = conn.createStatement();
+			String query = "SELECT * FROM ";//TODO: need table name
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				response.getWriter().write(rs.getString(1) + "\n");
+			}
 
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = ServletUtility.getDatabaseConnection();
-		System.out.println("ItemQuantity servlet connecting to DB");
-		try {
-			Statement stmt = conn.createStatement();
-			String item = request.getParameter("?"); //Does this still come from search-item bar? 
-			int amount = Integer.parseInt(request.getParameter("?")); //need a name tag associated with the increase/reduce button forms to get the amount by which to increase/decrease
-			String query = "UPDATE "; //TODO: SQL for setting the new amount
-			ResultSet rs = stmt.executeQuery(query);
-			
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
 	}
 
 }
