@@ -28,6 +28,7 @@ import com.java.inventorysystem.Utilities.*;
 public class AuthenticateMember extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private Connection conn;
+    private String defaultPassword = "Ch@ngeme!1234";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -104,11 +105,18 @@ public class AuthenticateMember extends HttpServlet {
 				response.sendError(400, "Member not in db");
 			}else {
 				int memberId = memberInfoRs.getInt("member_id");
-				returnJson.put("memberId", memberInfoRs.getInt("member_id"));
+				returnJson.put("memberId", memberId);
 				
-				ResultSet permissionRs = getMemberPermissions((int) returnJson.get("memberId"));
+				ResultSet permissionRs = getMemberPermissions(memberId);
 				String[] permissions = permissionRs.getString("permissions").split(",");
 				returnJson.put("permissions", permissions);
+				
+				
+				if(password.equals(defaultPassword)) {
+					returnJson.put("needsPasswordReset", true);
+				}else {
+					returnJson.put("needsPasswordReset", false);
+				}
 				
 				ClientResponseUtility.writeToClient(response, returnJson);
 				response.setStatus(200);
