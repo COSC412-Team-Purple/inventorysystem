@@ -34,6 +34,9 @@ $( document ).ready(function() {
     	ajaxTest();
     });
 
+    $("#logOutButton").click(function(){
+        window.location.href = "http://localhost:8080/inventorysystem";
+    });
 });
 
 function hideAllContainers(){

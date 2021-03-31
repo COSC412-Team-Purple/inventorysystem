@@ -38,7 +38,7 @@ public class ReportItemMissing extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = ServletUtility.getDatabaseConnection();
+		Connection conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("ReportItemMissing servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();

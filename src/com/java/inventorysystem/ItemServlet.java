@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.java.inventorysystem.Utilities.ServletUtility;
+import com.java.inventorysystem.Utilities.DBConnectionUtility;
 
 import java.sql.*;
 
@@ -39,7 +39,7 @@ public class ItemServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Connection conn = ServletUtility.getDatabaseConnection();
+		Connection conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("success pass of connection");
 		try {
 			Statement stmt = conn.createStatement();

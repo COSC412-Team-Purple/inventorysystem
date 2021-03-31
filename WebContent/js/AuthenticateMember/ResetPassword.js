@@ -12,7 +12,7 @@ _resetPasswordAndLoginButton.click(function(){
   }
 });
 
-handleResetPasswordResponse(statusCode){
+function handleResetPasswordResponse(statusCode){
   if(statusCode === 200){
     //switch to main application, interface with Logon.js
     setWindowToMainApplication();
@@ -68,7 +68,7 @@ function validPasswordInputs(newPass, confirmPass){
 
 //does the password have a number
   let hasNum = false;
-  for(int i= 0; i < 10 && !hasNum; i++){
+  for(i= 0; i < 10 && !hasNum; i++){
     if(newPass.includes("'" + i + "'")){
       hasNum = true;
     }
@@ -107,7 +107,7 @@ function showResetPasswordError(message){
   let errorAlert = $("#logOnErrorAlert");
   errorAlert.html(message);
   errorAlert.show();
-  setTimout(function(){
+  setTimeout(function(){
     errorAlert.hide();
   }, 3000);
 }

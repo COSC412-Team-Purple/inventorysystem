@@ -21,10 +21,12 @@ function isValidLoginInputs(user, pass){
   if(user.length === 0 || pass.length === 0){
     return false;
   }
+
+  return isValid;
 }
 
 function authenticateMemberInDB(user, pass){
-    servletParameters = {"email": user, "password": pass};
+    servletParameters = {"username": user, "password": pass};
     $.ajax({
         url: 'AuthenticateMember',
         dataType: 'text',
@@ -32,6 +34,8 @@ function authenticateMemberInDB(user, pass){
         data: servletParameters,
         success: function( data ){
             let response = JSON.parse(data);
+            console.log("Response")
+            console.log(response)
             handleAuthenticateResponse(response);
         },
         error: function( jqXhr, textStatus, errorThrown ){
@@ -45,15 +49,22 @@ function handleAuthenticateResponse(response){
   _permissions = response.permissions;
 
   if(memberId !== null || memberId !== ""){
-    setWindowToMainApplication();
+    if(response.needsPasswordReset){
+      hideMainLogin()
+      //interface with ResetPassword.js
+      showPasswordReset();
+    }else{
+      setWindowToMainApplication();
+    }
   }else{
     showLoginError("Memeber could not be found. Try again.");
   }
 }
 
 function setWindowToMainApplication(){
+  console.log("in set window");
   putMemberIdAndPermissionsInSessionStorage();
-  window.location.href = "http://localhost:8080/inventorysystem/Home.html";
+  window.location.href = window.location.href + "Home.html";
 }
 
 
@@ -71,7 +82,7 @@ function showLoginError(message){
   let errorAlert = $("#logOnErrorAlert");
   errorAlert.html(message);
   errorAlert.show();
-  setTimout(function(){
+  setTimeout(function(){
     errorAlert.hide();
   }, 3000)
 }

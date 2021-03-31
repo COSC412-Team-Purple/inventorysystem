@@ -31,7 +31,7 @@ public class Dashboard extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = ServletUtility.getDatabaseConnection();
+		Connection conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("Dashboard servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();

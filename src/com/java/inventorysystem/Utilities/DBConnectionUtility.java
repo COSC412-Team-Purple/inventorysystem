@@ -2,7 +2,7 @@ package com.java.inventorysystem.Utilities;
 
 import java.sql.*;
 
-public class ServletUtility {
+public class DBConnectionUtility {
 
 	public static Connection getDatabaseConnection() {
 		Connection conn = null;

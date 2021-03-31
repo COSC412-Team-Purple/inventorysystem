@@ -50,6 +50,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#" id="rolesNav">Roles</a>
           </li>
+          <form class="form-inline">
+            <button class="btn btn-primary" type="button" id="logOutButton" >Log out</button>
+          </form>
           <!--<li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>-->
@@ -57,6 +60,12 @@
       </div>
     </nav>
     <div id="container" style="margin-left: 20px">
+      <div class="alert alert-success" id="successAlert" hidden="true">
+          Success
+      </div>
+      <div class="alert alert-danger" id="errorAlert" hidden="true">
+          Error
+      </div>
       <div id="dashboardContainer" class="tabContainer"></div>
 
       <div
@@ -148,11 +157,44 @@
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
+
     <script type="text/javascript" src="js/test/main.js"></script>
     <script type="text/javascript" src="js/test/LoadHtmlContainers.js"></script>
     <script type="text/javascript" src="js/test/searchBy.js"></script>
     <script type="text/javascript" src="js/test/Roles.js"></script>
     <script type="text/javascript" src="js/test/CreateRole.js"></script>
     <script type="text/javascript" src="js/test/Dashboard.js"></script>
+
+    <!--
+     main function, global variables and methods used by all modules
+    <script type="text/javascript" src="js/Home.js"></script>
+
+     ActionValidation module
+    <script type="text/javascript" src="js/ActionValidation/ActionValidation.js"></script>
+
+     DashboardDisplay module
+    <script type="text/javascript" src="js/DashboardDisplay/Dashboard.js"></script>
+
+     InventoryItemManagement module
+    <script type="text/javascript" src="js/InventoryItemManagement/ItemDispose.js"></script>
+    <script type="text/javascript" src="js/InventoryItemManagement/ItemIncrease.js"></script>
+    <script type="text/javascript" src="js/InventoryItemManagement/ItemReduce.js"></script>
+    <script type="text/javascript" src="js/InventoryItemManagement/ItemReportMissing.js"></script>
+
+     InventoryItemRegistration module
+    <script type="text/javascript" src="js/InventoryItemRegistration/ItemRegistration.js"></script>
+
+     ItemSearch module
+    <script type="text/javascript" src="js/ItemSearch/SearchItem.js"></script>
+
+     LoadContentAndSetupListeners module
+    <script type="text/javascript" src="js/LoadContentAndSetupListeners/LoadHtmlContainers.js"></script>
+    <script type="text/javascript" src="js/LoadContentAndSetupListeners/Navigation.js"></script>
+
+     RolesManagement module
+    <script type="text/javascript" src="js/RolesManagement/SearchMember.js"></script>
+    <script type="text/javascript" src="js/RolesManagement/CreateRole.js"></script>
+    <script type="text/javascript" src="js/RolesManagement/AssignRole.js"></script>
+   -->
   </body>
 </html>

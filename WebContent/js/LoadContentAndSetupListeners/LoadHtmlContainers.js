@@ -1,3 +1,6 @@
+let loadedFiles = 0;
+let neededFiles = 7;
+
 function loadAllContainers(){
   loadDashHtml();
   loadRolesHtml();
@@ -6,6 +9,26 @@ function loadAllContainers(){
   loadSearchViewHtml();
   loadModalsHtml();
   loadCreateRolesHtml();
+}
+
+function isAllFilesLoaded(){
+  if(loadedFiles !== neededFiles){
+    return false;
+  }else{
+    return true;
+  }
+}
+
+function fireAllListenerFunctions(){
+  getDashboardDataFromDB();
+
+  setupRolesListeners();
+
+  setupCreateRolesListeners();
+
+  setupAdvancedViewListeners();
+
+  setupSearchViewListeners();
 }
 
 function loadDashHtml () {
@@ -25,7 +48,10 @@ function loadDashHtml () {
           $(mainDiv).html(loadedHtml);
           $(loadDiv).remove();
 
-          setupBarChart();
+          loadedFiles += 1;
+          if(isAllFilesLoaded()){
+            fireAllListenerFunctions()
+          }
         })
     });
 }
@@ -46,6 +72,11 @@ function loadRegisterHtml () {
           console.log(loadedHtml);
           $(mainDiv).html(loadedHtml);
           $(loadDiv).remove();
+
+          loadedFiles += 1;
+          if(isAllFilesLoaded()){
+            fireAllListenerFunctions()
+          }
         })
     });
 }
@@ -67,7 +98,11 @@ function loadRolesHtml () {
           $(mainDiv).html(loadedHtml);
           $(loadDiv).remove();
 
-          setupRolesListeners();
+
+          loadedFiles += 1;
+          if(isAllFilesLoaded()){
+            fireAllListenerFunctions()
+          }
         })
     });
 }
@@ -89,7 +124,11 @@ function loadAdvancedViewHtml () {
           $(mainDiv).html(loadedHtml);
           $(loadDiv).remove();
 
-          setupAdvancedViewListeners();
+
+          loadedFiles += 1;
+          if(isAllFilesLoaded()){
+            fireAllListenerFunctions()
+          }
         })
     });
 }
@@ -110,7 +149,10 @@ function loadSearchViewHtml () {
           $(mainDiv).html(loadedHtml);
           $(loadDiv).remove();
 
-          setupSearchViewListeners();
+          loadedFiles += 1;
+          if(isAllFilesLoaded()){
+            fireAllListenerFunctions()
+          }
         })
     });
 }
@@ -135,6 +177,10 @@ function loadModalsHtml () {
             $(mainDivs[i]).html(loadedHtml);
           }
 
+          loadedFiles += 1;
+          if(isAllFilesLoaded()){
+            fireAllListenerFunctions()
+          }
           $(loadDiv).remove();
         })
     });
@@ -156,7 +202,10 @@ function loadCreateRolesHtml () {
           $(mainDiv).html(loadedHtml);
           $(loadDiv).remove();
 
-          setupCreateRolesListeners();
+          loadedFiles += 1;
+          if(isAllFilesLoaded()){
+            fireAllListenerFunctions()
+          }
         })
     });
 }

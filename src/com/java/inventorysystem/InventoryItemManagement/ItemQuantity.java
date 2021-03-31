@@ -38,7 +38,7 @@ public class ItemQuantity extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = ServletUtility.getDatabaseConnection();
+		Connection conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("ItemQuantity servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();

@@ -4,15 +4,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.inventorysystem.Utilities.*;
@@ -35,6 +40,8 @@ public class AuthenticateMember extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println(request.getParameter("username"));
+		System.out.println(request.getParameter("password"));	
 		
 		// 1. get received JSON data from request
 		BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
@@ -55,7 +62,7 @@ public class AuthenticateMember extends HttpServlet {
 		// 4. Do something with the input
 		
 		//connect to database
-		conn = ServletUtility.getDatabaseConnection();
+		conn = DBConnectionUtility.getDatabaseConnection();
 		try {
 			Statement stmt = conn.createStatement();
 			
@@ -84,9 +91,68 @@ public class AuthenticateMember extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		conn = DBConnectionUtility.getDatabaseConnection();
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		
+		JSONObject returnJson = new JSONObject();
+		try {
+			//query for
+			ResultSet memberInfoRs = authenticateMember(username, password);
+			
+			if(!memberInfoRs.first()) {
+				response.sendError(400, "Member not in db");
+			}else {
+				int memberId = memberInfoRs.getInt("member_id");
+				returnJson.put("memberId", memberInfoRs.getInt("member_id"));
+				
+				ResultSet permissionRs = getMemberPermissions((int) returnJson.get("memberId"));
+				String[] permissions = permissionRs.getString("permissions").split(",");
+				returnJson.put("permissions", permissions);
+				
+				ClientResponseUtility.writeToClient(response, returnJson);
+				response.setStatus(200);
+			}
 
+			conn.close();
+		} catch (SQLException e) {
+			response.sendError(400, "An error occurred");
+			e.printStackTrace();
+		}
 	}
 
+	
+	private ResultSet authenticateMember(String username, String password) throws SQLException {
+		
+		
+		//TODO: convert password to hash and include in SQL statement?
+		
+		String query = "SELECT member_id FROM Member WHERE username = ?, password = ?";		
+		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setString(1, username);
+		stmt.setString(2, password);
+		ResultSet rs = stmt.executeQuery();
+		return rs;
+	}
+	
+	private ResultSet getMemberPermissions(int memberId) throws SQLException {
+		//querying for position/role id
+		String query = "SELECT position_id FROM dept_member WHERE member_id = ?";		
+		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setInt(1, memberId);;
+		ResultSet rs = stmt.executeQuery();
+		
+		//querying for permissions
+		int position_id = rs.getInt("position_id");
+		query = "SELECT perms FROM member_pos WHERE position_id = ?";
+		PreparedStatement permQuery = conn.prepareStatement(query);
+		permQuery.setInt(1, position_id);
+		rs = stmt.executeQuery();
+		
+		
+		return rs;
+	}
+	
 	//JSON Input and Output objects for mapping using the Jackson library
 	private class Input
 	{
