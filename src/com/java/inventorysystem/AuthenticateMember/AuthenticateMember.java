@@ -144,18 +144,17 @@ public class AuthenticateMember extends HttpServlet {
 	}
 	
 	private ResultSet getMemberPermissions(int memberId) throws SQLException {
-		//querying for position/role id
-		String query = "SELECT position_id FROM dept_member WHERE member_id = ?";		
-		PreparedStatement stmt = conn.prepareStatement(query);
-		stmt.setInt(1, memberId);;
-		ResultSet rs = stmt.executeQuery();
 		
 		//querying for permissions
-		int position_id = rs.getInt("position_id");
-		query = "SELECT perms FROM member_pos WHERE position_id = ?";
-		PreparedStatement permQuery = conn.prepareStatement(query);
-		permQuery.setInt(1, position_id);
-		rs = stmt.executeQuery();
+		String query = "SELECT perms "
+					 + "FROM member_pos "
+					 + "WHERE position_id = "
+						+ "(SELECT position_id"
+						+ "FROM dept_member"
+						+ "WHERE member_id = ?)";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setInt(1, memberId);
+		ResultSet rs = stmt.executeQuery();
 		
 		
 		return rs;
