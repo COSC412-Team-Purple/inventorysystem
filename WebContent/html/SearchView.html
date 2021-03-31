@@ -23,12 +23,12 @@
 
     <div
     id="dummysearchContainer"
-    class="text-center tabContainer"
-    style="margin-top: 20px"
+    class="text-center tabContainer p-3"
+    style="margin-top: 20px;"
     >
     <h1>Search Item Page</h1>
 
-    <form class="mt-4">
+    <form class="mt-4" id="form">
       <div class="container p-0">
         <div class="row">
           <div id="searchItemContainer" class="col">
@@ -76,7 +76,7 @@
               <option value="human-resources">Human Resources</option>
             </select>
           </div>
-          <div id="priceRangeContainer" class="col mt-3">
+          <div id="priceRangeContainer" class="col mt-4">
             <div class="form-check form-check-inline">
               <input
                 type="checkbox"
@@ -88,7 +88,7 @@
               >
             </div>
             <div id="numbersContainer" class="container">
-              <div class="row" style="align-items: center">
+              <div class="row" style=" justify-content:center" >
                 <label for="priceMin" style="margin: 0">Min: $</label>
 
                 <input
@@ -97,7 +97,7 @@
                   class="form-control"
                   name="min-price"
                   placeholder="0"
-                  style="width: auto"
+                  style="width: 200px"
                   disabled
                 />
                 <label for="priceMax" class="ml-2" style="margin: 0"
@@ -110,7 +110,7 @@
                   class="form-control"
                   name="max-price"
                   placeholder="2000"
-                  style="width: auto"
+                  style="width: 200px"
                   disabled
                 />
               </div>
@@ -126,7 +126,7 @@
       <b>department = 'Any'</b>, <b>category = 'Any'</b>
     </p>
 
-    <table class="table mt-5">
+    <table class="table mt-5" id="table">
       <thead class="thead-light">
         <tr>
           <th scope="col">Id</th>
@@ -242,5 +242,8 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    
+    <script type="text/javascript" src="../js/searchBy.js"></script>
+    <script type="text/javascript" src="../js/ItemSearch/SearchItem.js"></script>
   </body>
 </html>
