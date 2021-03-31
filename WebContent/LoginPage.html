@@ -11,34 +11,38 @@
 <body>
   <div id="logonBigContainter">
     <h1 style="text-align:center">Church of Phillippi Inventory System Login</h1>
+    <div class="alert alert-danger" id="logOnErrorAlert" hidden="true">
+        Error logging in
+    </div>
     <div id="loginContainer" style="margin:auto; width:25%; padding:10px; background:white; margin-top:150px">
 
       <form>
-        <div class="form-group">
+        <div class="form-group mainLogin">
           <label for="emailInput">Email</label>
           <input type="text" class="form-control" id="emailInput" placeholder="janedoe@example.com">
         </div>
-        <div class="form-group">
+        <div class="form-group mainLogin">
           <label for="passwordInput">Password</label>
           <input type="password" class="form-control" id="passwordInput" placeholder="password">
         </div>
         <div class="form-group reset" hidden="true">
-          <label for="newPassword">New Password</label>
-          <input type="password" class="form-control" id="newPassword" placeholder="new password">
+          <label for="newPasswordInput">New Password</label>
+          <input type="password" class="form-control" id="newPasswordInput" placeholder="new password">
         </div>
         <ul class="reset" hidden="true">
-          <li>At least 8 characters long</li>
-          <li>Use of uppercase letter</li>
-          <li>Use of lowercase letter</li>
-          <li>Use of number (0-9)</li>
-          <li>Use of special character (!@#$%)</li>
+          <li id="passCharLengthReminder">At least 8 characters long</li>
+          <li id="passUpperReminder">Use of uppercase letter</li>
+          <li id="passLowerReminder">Use of lowercase letter</li>
+          <li id="passNumberReminder">Use of number (0-9)</li>
+          <li id="passSpecialCharReminder">Use of a special character: !@#$%</li>
         </ul>
         <div class="form-group reset" hidden="true">
-          <label for="confirmPassword">Confirm Password</label>
-          <input type="password" class="form-control" id="confirmPassword" placeholder="confirm password">
+          <label for="confirmPasswordInput">Confirm Password</label>
+          <input type="password" class="form-control" id="confirmPasswordInput" placeholder="confirm password">
         </div>
 
-        <button type="submit" class="btn btn-primary">Log in</button>
+        <button id="logInButton" type="submit" class="btn btn-primary mainLogin">Log in</button>
+        <button id="resetPasswordAndLoginButton" type="submit" class="btn btn-primary reset" hidden="true">Log in</button>
       </form>
     </div>
   </div>
