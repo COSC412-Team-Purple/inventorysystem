@@ -17,6 +17,13 @@ import com.java.inventorysystem.Utilities.*;
 /**
  * Servlet implementation class ItemSearch
  */
+
+/*
+WORKFLOW
+
+1. build sql statement to select * from items where search parameters match, a queue for the parameter names and a queue for the parameter values may be a good idea
+2. return data to client
+*/
 @WebServlet("/ItemSearch")
 public class ItemSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;

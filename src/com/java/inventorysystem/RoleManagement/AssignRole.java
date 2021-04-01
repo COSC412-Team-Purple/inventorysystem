@@ -16,6 +16,13 @@ import com.java.inventorysystem.Utilities.*;
 /**
  * Servlet implementation class AssignRole
  */
+
+/*
+WORKFLOW
+
+1. update dept_member set position_id = position_id where member_id = member_id 
+2. return success to client
+*/
 @WebServlet("/AssignRole")
 public class AssignRole extends HttpServlet {
 	private static final long serialVersionUID = 1L;

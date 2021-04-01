@@ -16,6 +16,14 @@ import com.java.inventorysystem.Utilities.*;
 /**
  * Servlet implementation class ItemQuantity
  */
+
+/*
+WORKFLOW
+
+1. insert record into item_quantity_updates (member_id, item_id, item_name, oldQuantity, updatedQuantity, todays date, comment, type (availible types are register, increase, reduce, report missing, dispose) -> returning update_id
+2. update inventory total set total_value = (total_value + (quantityDifferential * price)) where total_id = 1
+3. update items_by_category set items = (items + quantityDifferential), last_update_id = update_id where category = category -> returning items
+*/
 @WebServlet("/ItemQuantity")
 public class ItemQuantity extends HttpServlet {
 	private static final long serialVersionUID = 1L;

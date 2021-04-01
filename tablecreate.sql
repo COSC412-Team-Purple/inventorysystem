@@ -1,9 +1,9 @@
-CREATE TABLE items ( 
+CREATE TABLE items (
     item_id BIGSERIAL NOT NULL PRIMARY KEY,
     item_name VARCHAR(50) NOT NULL,
     price NUMERIC(5, 2) NOT NULL,
     item_quant INT NOT NULL,
-    item_spec VARCHAR(50) NOT NULL,
+    item_model VARCHAR(50) NOT NULL,
     item_loc VARCHAR(50) NOT NULL,
     dept_name VARCHAR(50) NOT NULL,
     category VARCHAR(50) NOT NULL,
@@ -34,12 +34,12 @@ CREATE TABLE member_pos(
     perms VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE item_dispose ( 
+CREATE TABLE item_dispose (
     item_id INT NOT NULL,
     item_name VARCHAR(50) NOT NULL,
     price NUMERIC(5, 2) NOT NULL,
     item_quant INT NOT NULL,
-    item_spec VARCHAR(50) NOT NULL,
+    item_model VARCHAR(50) NOT NULL,
     item_loc VARCHAR(50) NOT NULL,
     dept_name VARCHAR(50) NOT NULL,
     category VARCHAR(50) NOT NULL,
@@ -49,13 +49,14 @@ CREATE TABLE item_dispose (
     update_id INT NOT NULL
 );
 
-CREATE TABLE item_quantity_updates ( 
+CREATE TABLE item_quantity_updates (
     update_id INT NOT NULL,
     updating_member_id INT NOT NULL,
+    item_id BIGSERIAL NOT NULL,
     item_name VARCHAR(50) NOT NULL,
     old_quant INT NOT NULL,
     updated_quant INT NOT NULL,
-    report_date DATE NOT NULL,
+    update_date DATE NOT NULL,
     comment TEXT,
     update_type VARCHAR(20) NOT NULL
 );
@@ -69,7 +70,7 @@ CREATE TABLE member(
     dob DATE NOT NULL,
     member_date DATE NOT NULL,
     active BOOLEAN NOT NULL,
-    street_name VARCHAR(50) NOT NULL
+    street_name VARCHAR(50) NOT NULL,
     street_number INT NOT NULL,
     apt_number INT,
     city VARCHAR(50) NOT NULL,
@@ -78,6 +79,7 @@ CREATE TABLE member(
 );
 
 CREATE TABLE inventory_total(
+    total_id BIGSERIAL NOT NULL PRIMARY KEY,
     total_value NUMERIC(9 ,2) NOT NULL,
     last_update_id INT NOT NULL
 );

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.java.inventorysystem.Utilities.*;
 /**
- * Servlet implementation class ReportItemMissing
+ * this class can probably be joined with itemQuantity, they do the same thing
  */
 @WebServlet("/ReportItemMissing")
 public class ReportItemMissing extends HttpServlet {

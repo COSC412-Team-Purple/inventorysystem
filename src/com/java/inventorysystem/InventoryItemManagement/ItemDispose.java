@@ -16,6 +16,17 @@ import com.java.inventorysystem.Utilities.*;
 /**
  * Servlet implementation class ItemDispose
  */
+
+/*
+WORKFLOW
+
+1. insert item into items table -> return item_id
+2. insert record into item_quantity_updates (member_id, item_id, item_name, itemQuantity, 0 <-(updated_quant), todays date, "disposing of item", "dispose") -> returning update_id
+3. update inventory total set total_value = (total_value - (itemQuantity * price)) where total_id = 1
+4. update items_by_category set items = (items - quantity), last_update_id = update_id where category = category -> returning items
+5. insert into item_dispose (item_id, item_name, price, quantity, model, location, department, category, purchasedate, brand, memo, update_id)
+6 delete item from items table
+*/
 @WebServlet("/ItemDispose")
 public class ItemDispose extends HttpServlet {
 	private static final long serialVersionUID = 1L;

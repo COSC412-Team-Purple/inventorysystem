@@ -16,6 +16,14 @@ import com.java.inventorysystem.Utilities.*;
 /**
  * Servlet implementation class Dashboard
  */
+
+/*
+WORKFLOW
+
+1. select toal_value from inventory_total where total_id = 1
+2. select category, items from items_by_category
+3. return data to client
+*/
 @WebServlet("/Dashboard")
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;

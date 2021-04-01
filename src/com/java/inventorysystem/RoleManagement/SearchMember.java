@@ -19,6 +19,22 @@ import com.java.inventorysystem.Utilities.*;
 /**
  * Servlet implementation class SearchMember
  */
+
+/*
+WORKFLOW
+
+1. 
+	select member_id, fname, lname from member where member_id = id 
+	
+	OR
+	
+	select member_id, fname, lname from member where fname = fname AND lname = lname
+
+2. select dept_id, position_id, start_date, end_date from dept_member where member_id = member_id
+3. select name_dept from department where dept_id = dept_id
+4. select name_pos from member_pos where position_id = position_id
+5. return member_id, fname, lname, dept_id, start_date, name_dept, name_pos  to client
+*/
 @WebServlet("/SearchMember")
 public class SearchMember extends HttpServlet {
 	private static final long serialVersionUID = 1L;

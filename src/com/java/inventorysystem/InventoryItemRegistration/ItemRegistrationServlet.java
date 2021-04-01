@@ -16,6 +16,17 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ItemRegistrationServlet
  */
+
+/*
+ WORKFLOW
+ 
+ 1.	insert item into items table -> return item_id
+ 2. insert record into item_quantity_updates (member_id, item_id, item_name, 0 <-(old_quant), quantity <-(updated_quant), todays date, "initial item registration", "register") -> returning update_id
+ 3. update inventory total set total_value = (total_value + (quantity * price)) where total_id = 1
+ 4. if category not in db -> insert into items_by_category (category, quantity, update_id)
+ 	else -> update items_by_category set items = (items + quantity), last_update_id = update_id where category = registeredCategory -> returning items
+ 5. if dept not in db -> insert into department (1 (sub_dept_id ?), departmentName)
+ */
 @WebServlet("/ItemRegistration")
 public class ItemRegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

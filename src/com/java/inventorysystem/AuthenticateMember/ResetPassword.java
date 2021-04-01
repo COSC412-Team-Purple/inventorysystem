@@ -15,6 +15,13 @@ import com.java.inventorysystem.Utilities.*;
 /**
  * Servlet implementation class ResetPassword
  */
+
+/*
+WORKFLOW
+
+1. update the password in the member table with matching member_id
+2. return success to client
+*/
 @WebServlet("/ResetPassword")
 public class ResetPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;

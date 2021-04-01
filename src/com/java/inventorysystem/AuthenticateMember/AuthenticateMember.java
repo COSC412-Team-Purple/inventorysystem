@@ -24,6 +24,16 @@ import com.java.inventorysystem.Utilities.*;
 /**
  * Servlet implementation class AuthenticateMember
  */
+
+/*
+WORKFLOW
+
+1. select member_id from member where username and password match
+2. select position_id from dept_member where member_id = member_id
+3. select perms from member_pos where position_id = position_id
+4. check whether the password needs to be changed
+4. return member_id, perms, resetNeeded to client
+*/
 @WebServlet("/AuthenticateMember")
 public class AuthenticateMember extends HttpServlet {
 	private static final long serialVersionUID = 1L;
