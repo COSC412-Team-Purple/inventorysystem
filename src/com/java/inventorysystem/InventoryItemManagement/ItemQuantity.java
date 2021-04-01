@@ -2,6 +2,7 @@ package com.java.inventorysystem.InventoryItemManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,13 +19,13 @@ import com.java.inventorysystem.Utilities.*;
 @WebServlet("/ItemQuantity")
 public class ItemQuantity extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Connection conn;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ItemQuantity() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -38,7 +39,7 @@ public class ItemQuantity extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = DBConnectionUtility.getDatabaseConnection();
+		conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("ItemQuantity servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
@@ -51,6 +52,16 @@ public class ItemQuantity extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//Build SQL statement for modifying the item quantity
+	private ResultSet changeItemQuantity(String item, int amount) throws SQLException {
+		
+		String query = "";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		ResultSet rs = stmt.executeQuery();
+			
+		return rs;
 	}
 
 }

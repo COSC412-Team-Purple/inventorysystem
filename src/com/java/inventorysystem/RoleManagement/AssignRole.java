@@ -2,6 +2,7 @@ package com.java.inventorysystem.RoleManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,13 +19,13 @@ import com.java.inventorysystem.Utilities.*;
 @WebServlet("/AssignRole")
 public class AssignRole extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Connection conn;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public AssignRole() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -38,7 +39,7 @@ public class AssignRole extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = DBConnectionUtility.getDatabaseConnection();
+		conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("AssignRole servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
@@ -53,4 +54,13 @@ public class AssignRole extends HttpServlet {
 		}
 	}
 
+	//Build SQL statement for setting a member's role
+	private ResultSet setMemberRole(int member_id, String role) throws SQLException {
+		
+		String query = "";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		ResultSet rs = stmt.executeQuery();
+			
+		return rs;
+	}
 }

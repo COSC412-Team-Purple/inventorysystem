@@ -18,13 +18,13 @@ import com.java.inventorysystem.Utilities.*;
 @WebServlet("/ResetPassword")
 public class ResetPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Connection conn;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ResetPassword() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -38,7 +38,7 @@ public class ResetPassword extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = DBConnectionUtility.getDatabaseConnection();
+		conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("ResetPassword servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
@@ -51,6 +51,20 @@ public class ResetPassword extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//Check to make sure the new password meets all the password criteria
+	private boolean verifyPassword(String password){
+		boolean success = false;
+		
+		return success;
+	}
+	
+	//Builds SQL string containing the member's new password hash that will be saved to the DB
+	private boolean setNewPassword(int memberId, String password) throws SQLException {
+		boolean success = false;
+		
+		return success;
 	}
 
 }

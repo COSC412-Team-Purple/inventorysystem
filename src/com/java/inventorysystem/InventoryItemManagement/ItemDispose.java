@@ -2,6 +2,7 @@ package com.java.inventorysystem.InventoryItemManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,13 +19,13 @@ import com.java.inventorysystem.Utilities.*;
 @WebServlet("/ItemDispose")
 public class ItemDispose extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Connection conn;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ItemDispose() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -38,7 +39,7 @@ public class ItemDispose extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = DBConnectionUtility.getDatabaseConnection();
+		conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("ItemDispose servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
@@ -50,6 +51,16 @@ public class ItemDispose extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//Build SQL statement for disposing the selected item
+	private ResultSet disposeItem(String item) throws SQLException {
+		
+		String query = "";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		ResultSet rs = stmt.executeQuery();
+			
+		return rs;
 	}
 
 }

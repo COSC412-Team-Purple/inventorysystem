@@ -2,6 +2,7 @@ package com.java.inventorysystem.Dashboard;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,20 +19,20 @@ import com.java.inventorysystem.Utilities.*;
 @WebServlet("/Dashboard")
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Connection conn;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public Dashboard() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = DBConnectionUtility.getDatabaseConnection();
+		conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("Dashboard servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
@@ -53,6 +54,23 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+	}
+	
+	//Build SQL statement retrieving all the item data
+	private ResultSet getItems() throws SQLException {
+		
+		String query = "";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		ResultSet rs = stmt.executeQuery();
+			
+		return rs;
+	}
+	
+	//Compute the total value of all items to be displayed on the dashboard
+	private int calculateItemTotalValue(ResultSet rs) {
+		int value = 0;
+		
+		return value;
 	}
 
 }

@@ -3,6 +3,7 @@ package com.java.inventorysystem.RoleManagement;
 import java.io.IOException;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,20 +22,20 @@ import com.java.inventorysystem.Utilities.*;
 @WebServlet("/SearchMember")
 public class SearchMember extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Connection conn;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public SearchMember() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = DBConnectionUtility.getDatabaseConnection();
+		conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("SearchMember servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
@@ -58,6 +59,16 @@ public class SearchMember extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+	}
+	
+	//Build SQL statement for searching for a member
+	private ResultSet searchMember(String member) throws SQLException {
+		
+		String query = "";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		ResultSet rs = stmt.executeQuery();
+			
+		return rs;
 	}
 
 }

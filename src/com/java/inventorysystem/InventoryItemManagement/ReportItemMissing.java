@@ -2,6 +2,7 @@ package com.java.inventorysystem.InventoryItemManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,13 +19,13 @@ import com.java.inventorysystem.Utilities.*;
 @WebServlet("/ReportItemMissing")
 public class ReportItemMissing extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Connection conn;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ReportItemMissing() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -38,7 +39,7 @@ public class ReportItemMissing extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Connection conn = DBConnectionUtility.getDatabaseConnection();
+		conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("ReportItemMissing servlet connecting to DB");
 		try {
 			Statement stmt = conn.createStatement();
@@ -51,6 +52,16 @@ public class ReportItemMissing extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//Build SQL statement for setting the item as missing
+	private ResultSet reportMissing(String item, int amount) throws SQLException {
+		
+		String query = "";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		ResultSet rs = stmt.executeQuery();
+			
+		return rs;
 	}
 
 }
