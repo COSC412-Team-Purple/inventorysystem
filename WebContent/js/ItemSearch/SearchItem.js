@@ -5,6 +5,7 @@ let _itemPriceCheck = false;
 let _itemMinPrice = 0;
 let _itemMaxPrice = 0;
 
+// fake data
 // const data = [
 //   { name: 'camera', model: 'Camera in 4k', quantity: 2, price: '2,000' },
 // ];
@@ -13,6 +14,8 @@ let _itemMaxPrice = 0;
 const form = document.getElementById('form');
 
 // Functions
+
+// Function to get the min and max prices if the price checkbox is checked
 const priceBoxChecked = () => {
   if (_itemPriceCheck) {
     _itemMinPrice = document.getElementById('priceMin').value;
@@ -21,6 +24,7 @@ const priceBoxChecked = () => {
   }
 };
 
+// validate the search
 const isValidSearch = () => {
   let valid = true;
   if (_itemName === '') {
@@ -29,17 +33,19 @@ const isValidSearch = () => {
   return valid;
 };
 
+// function to show error of no item name entered
 const showSearchError = () => {
   console.log('no search term entered');
 };
 
+// handler to add the response data to screen
 const handleSearchItemResponse = (response) => {
   const table = document.getElementById('table');
   if (response.items.length > 0) {
-    response.items.forEach((item, i) => {
+    response.items.forEach((item) => {
       const html = `
         <tr>
-          <th scope="row">${i + 1}</th>
+          <th scope="row">${item.id}</th>
           <td><a href="" class="itemLinkToAdvancedView">${item.name}</a></td>
           <td>${item.model}</td>
           <td>${item.quantity}</td>
@@ -93,7 +99,7 @@ const handleSearchItemResponse = (response) => {
   }
 };
 
-// handler for search item
+// handler for sending and receiving search item data to back end
 const getSearchItemInDB = () => {
   const servletParameters = {
     'search-item': _itemName,
@@ -126,8 +132,7 @@ form.addEventListener('submit', (e) => {
 
   _itemName = document.getElementById('itemName').value.trim();
   _itemCategory = document.getElementById('itemCategory').value;
-  _itemManagingDepartment = document.getElementById('itemManagingDepartment')
-    .value;
+  _itemManagingDepartment = document.getElementById('itemManagingDepartment').value;
   _itemPriceCheck = document.getElementById('searchByPriceRange').checked;
 
   priceBoxChecked();
