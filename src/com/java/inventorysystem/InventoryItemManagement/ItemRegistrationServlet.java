@@ -1,4 +1,4 @@
-package com.java.inventorysystem.InventoryItemRegistration;
+package com.java.inventorysystem.InventoryItemManagement;
 
 import java.io.IOException;
 import java.sql.Connection;

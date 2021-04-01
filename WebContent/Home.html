@@ -66,13 +66,119 @@
       <div class="alert alert-danger text-center" id="errorAlert" hidden="true">
           Error. *detail about the error*
       </div>
-      <div id="dashboardContainer" class="tabContainer"></div>
+      <div id="dashboardContainer" class="tabContainer">
+        <div class="text-center">
+          <h1>Inventory Balance</h2>
+          <h2 style="color: limegreen">$ <span id="totalIventoryValueDisplay">100,000.00</span></h2>
+        </div>
+        <canvas id="itemsByCategoryBarChart" width="400px" height="100px"></canvas>
+      </div>
 
       <div
         id="searchContainer"
         class="text-center tabContainer"
         style="margin-top: 20px"
-      ></div>
+      >
+      <h1>Search Item Page</h1>
+
+        <form class="mt-4" id="form">
+          <div class="container p-0">
+            <div class="row">
+              <div id="searchItemContainer" class="col">
+                <label for="itemName">Item Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="itemName"
+                  name="item-name"
+                  placeholder="Camera"
+                />
+              </div>
+              <div id="itemCategoryContainer" class="col">
+                <label for="itemCategory">Item Category:</label>
+                <select
+                  class="form-control"
+                  id="itemCategory"
+                  name="item-category"
+                >
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div id="managingDepartmentContainer" class="col mt-3">
+                <label for="itemManagingDepartment">Managing Department:</label>
+                <select
+                  name="managing-department"
+                  id="itemManagingDepartment"
+                  class="form-control"
+                >
+                </select>
+              </div>
+              <div id="priceRangeContainer" class="col mt-4">
+                <div class="form-check form-check-inline">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="searchByPriceRange"
+                  />
+                  <label for="searchByPriceRange" class="form-check-label"
+                    >Price Range:</label
+                  >
+                </div>
+                <div id="numbersContainer" class="container">
+                  <div class="row" style=" justify-content:center" >
+                    <label for="priceMin" style="margin: 0">Min: $</label>
+
+                    <input
+                      type="number"
+                      id="priceMin"
+                      class="form-control"
+                      name="min-price"
+                      placeholder="0"
+                      style="width: 200px"
+                      disabled
+                    />
+                    <label for="priceMax" class="ml-2" style="margin: 0"
+                      >Max: $</label
+                    >
+                    <input
+                      type="number"
+                      id="priceMax"
+                      step="any"
+                      class="form-control"
+                      name="max-price"
+                      placeholder="2000"
+                      style="width: 200px"
+                      disabled
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Search</button>
+          </div>
+        </form>
+
+        <p>
+          Search results for <b>Item name = 'Camera'</b>,
+          <b>department = 'Any'</b>, <b>category = 'Any'</b>
+        </p>
+
+        <table class="table mt-5" id="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Model</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
 
       <!-- Increase Modal -->
       <div
@@ -82,7 +188,70 @@
         role="dialog"
         aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true"
-      ></div>
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header p-4">
+              <h5 class="modal-title" id="modalTitle">Increase Item</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="modal-body p-4 d-flex flex-column align-items-start">
+              <p>Item id: <span id="itemIdIncreaseModal">1</span></p>
+              <p class="mt-3">
+                Item Name: <span id="itemNameIncreaseModal">Camera</span>
+              </p>
+              <p class="mt-3">
+                Item Model:
+                <span id="itemModelIncreaseModal">Studio Camera 4k</span>
+              </p>
+              <p class="mt-3">
+                Currenty Quantity:
+                <span id="itemQuantityIncreaseModal">2</span>
+              </p>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label
+                  for="inputModal"
+                  class="mr-2 text-nowrap"
+                  style="margin: 0"
+                  >How many are you increasing by?</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="increase-number"
+                  id="inputIncreaseModal"
+                />
+              </div>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label for="commentModal" class="mr-1 text-left text-nowrap"
+                  >Reason for increase:
+                </label>
+                <textarea
+                  type="number"
+                  class="form-control"
+                  name="reason"
+                  id="reasonIncreaseModal"
+                  rows="4"
+                ></textarea>
+              </div>
+              <button type="submit" class="form-control btn btn-primary mt-3">
+                Submit Increase
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
 
       <!-- Reduce Modal -->
       <div
@@ -92,7 +261,71 @@
         role="dialog"
         aria-labelledby="reduceModal"
         aria-hidden="true"
-      ></div>
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header p-4">
+              <h5 class="modal-title" id="modalTitle">Reduce Item</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="modal-body p-4 d-flex flex-column align-items-start">
+              <p>Item id: <span id="itemIdReduceModal">1</span></p>
+              <p class="mt-3">
+                Item Name: <span id="itemNameReduceModal">Camera</span>
+              </p>
+              <p class="mt-3">
+                Item Model:
+                <span id="itemModelReduceModal">Studio Camera 4k</span>
+              </p>
+              <p class="mt-3">
+                Currenty Quantity: <span id="itemQuantityModal">2</span>
+              </p>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label
+                  for="inputModal"
+                  class="mr-2 text-nowrap"
+                  style="margin: 0"
+                  >How many are you reducing by?</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="increase-number"
+                  id="inputReduceModal"
+                />
+              </div>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label
+                  for="reasonReduceModal"
+                  class="mr-1 text-left text-nowrap"
+                  >Reason for reduce:
+                </label>
+                <textarea
+                  type="number"
+                  class="form-control"
+                  name="reason"
+                  id="reasonReduceModal"
+                  rows="4"
+                ></textarea>
+              </div>
+              <button type="submit" class="form-control btn btn-primary mt-3">
+                Submit Reduce
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
 
       <!-- Dispose Modal -->
       <div
@@ -102,7 +335,52 @@
         role="dialog"
         aria-labelledby="reduceModal"
         aria-hidden="true"
-      ></div>
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header p-4">
+              <h5 class="modal-title" id="modalTitle">Dispose Item</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="modal-body p-4 d-flex flex-column text-left">
+              <p>Item id: <span id="itemIdDisposeModal">1</span></p>
+              <p class="mt-3">
+                Item Name: <span id="itemNameDisposeModal">Camera</span>
+              </p>
+              <p class="mt-3">
+                Price: $<span id="itemQuantityDisposeModal">1,695.00</span>
+              </p>
+              <p class="mt-3">
+                Department: <span id="itemDepartmentDisposeModal">Media</span>
+              </p>
+              <p class="mt-3">
+                Category:
+                <span id="itemCategoryDisposeModal">Electronics</span>
+              </p>
+              <p class="mt-3">
+                Model:
+                <span id="itemModelDisposeModal">Studio Camera 4k</span>
+              </p>
+              <p class="mt-3">
+                Location: <span id="itemLocationDisposeModal">Media</span>
+              </p>
+              <p class="mt-5 text-danger text-center">
+                Are you sure you want to dispose of this item?
+              </p>
+              <button type="submit" class="form-control btn btn-primary mt-3">
+                Submit Reduce
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
 
       <!-- Report Missing Modal -->
       <div
@@ -112,7 +390,72 @@
         role="dialog"
         aria-labelledby="exampleModalCenterTitle"
         aria-hidden="true"
-      ></div>
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header p-4">
+              <h5 class="modal-title" id="modalTitle">Report Missing Item</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="modal-body p-4 d-flex flex-column align-items-start">
+              <p>Item id: <span id="itemIdModal">1</span></p>
+              <p class="mt-3">
+                Item Name: <span id="itemNameModal">Camera</span>
+              </p>
+              <p class="mt-3">
+                Item Model:
+                <span id="itemModelMissingModal">Studio Camera 4k</span>
+              </p>
+              <p class="mt-3">
+                Currenty Quantity: <span id="itemQuantityModal">2</span>
+              </p>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label
+                  for="inputModal"
+                  class="mr-2 text-nowrap"
+                  style="margin: 0"
+                  >How many are missing?</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="increase-number"
+                  id="inputMissingModal"
+                />
+              </div>
+              <div
+                class="d-flex justify-content-start align-items-center mt-3 w-100"
+              >
+                <label
+                  for="commentModal"
+                  class="mr-1 text-left text-nowrap"
+                  id="labelModal"
+                  >Comments:
+                </label>
+                <textarea
+                  type="number"
+                  class="form-control"
+                  name="reason"
+                  id="commentsModal"
+                  rows="4"
+                ></textarea>
+              </div>
+              <button type="submit" class="form-control btn btn-primary mt-3">
+                Submit Missing Report
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
 
       <!-- Assign Role Modal -->
       <div
@@ -122,25 +465,392 @@
         role="dialog"
         aria-labelledby="assignRoleModal"
         aria-hidden="true"
-      ></div>
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header p-4">
+              <h5 class="modal-title" id="modalTitle">Assign Role</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form class="modal-body p-4 d-flex flex-column text-left">
+              <p class="mt-5 text-center">
+                Are you sure you want to assign
+                <span id="assignModalFirstName" class="text-danger">Jane</span>
+                <span id="assignModalLastName" class="text-danger">Doe</span> to the
+                <span id="assignModalRole" class="text-danger">Inventory Clerk</span> role?
+              </p>
+              <button type="submit" class="form-control btn btn-primary mt-3" id="assignModalConfirmationButton">
+                Confirm Assignment
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
 
-      <div id="advancedItemDetailContainer" class="tabContainer"></div>
 
-      <div id="registerItemContainer" class="tabContainer"></div>
+      <div id="advancedItemDetailContainer" class="tabContainer">
+        <div >
+          <h1 id="advancedItemName" style="display: inline-block">ITEM NAME</h1>
+          <button class="btn bg-primary text-light" id="backToSearchScreenButton"  style="float: right; margin-right:5%">Back to Search Screen</button>
+        </div>
 
-      <div id="RolesContainer" class="tabContainer" ></div>
+        <div style="display: inline-block">
+          <button class="btn bg-success text-light" id="advancedIncreaseBtn" data-toggle="modal" data-target="#increaseModal">Increase</button>
+          <button class="btn btn-secondary" id="advancedReduceBtn" data-toggle="modal" data-target="#reduceModal">Reduce</button>
+          <button class="btn bg-warning" id="advancedDisposeBtn" data-toggle="modal" data-target="#disposeModal">Dispose</button>
+          <button class="btn bg-danger text-light" id="advancedReportMissingBtn" data-toggle="modal" data-target="#reportMissingModal">Report Missing</button>
+        </div>
 
-      <div id="createRoleContainer" class="tabContainer" style="margin-left:5%"></div>
+        <form style="width:100%; margin-top: 20px">
+          <div class="mb-3 row">
+            <label for="advancedItemModelInput" class="col-sm-2 col-form-label">Model:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control-plaintext" id="advancedItemModelInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemBrandInput" class="col-sm-2 col-form-label">Brand:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control-plaintext" id="advancedItemBrandInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemDeptInput" class="col-sm-2 col-form-label">Department:</label>
+            <div class="col-auto">
+              <input type="text" class="form-control-plaintext" id="advancedItemDeptInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemCategoryInput" class="col-sm-2 col-form-label">Category:</label>
+            <div class="col-auto">
+              <input type="text" class="form-control-plaintext" id="advancedItemCategoryInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemLocationInput" class="col-sm-2 col-form-label">Location:</label>
+            <div class="col-auto">
+              <input type="text" class="form-control-plaintext" id="advancedItemLocatonInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemQuantityInput" class="col-sm-2 col-form-label">Quantity:</label>
+            <div class="col-auto">
+              <input type="number" min="0" step="1"  class="form-control-plaintext" id="advancedItemQuantityInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemPriceInput" class="col-sm-2 col-form-label">Price:</label>
+            <div class="col-auto">
+              <input type="number" min="0" step="any"  class="form-control-plaintext" id="advancedItemPriceInput" readonly>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="advancedItemPurchaseDateInput" class="col-sm-2 col-form-label">Purchase Date:</label>
+            <div class="col-auto">
+              <input type="date"  class="form-control-plaintext" id="advancedItemPurchaseDateInput" readonly>
+            </div>
+          </div>
+          <div class="form-floating">
+            <textarea class="form-control-plaintext" placeholder="Comment of the item" id="advancedItemMemoInput" style="height: 100px" readonly></textarea>
+          </div>
+        </form>
+      </div>
 
-    <div id="loading">
-      <div id="loadingDashboard"></div>
-      <div id="loadingRegisterItem"></div>
-      <div id="loadingRoles"></div>
-      <div id="loadingAdvancedView"></div>
-      <div id="loadingSearchView"></div>
-      <div id="loadingModals"></div>
-      <div id="loadingCreateRole"></div>
+      <div id="registerItemContainer" class="tabContainer">
+        <h1>Register Item</h1>
+
+        <form style="width:100%">
+          <div class="mb-3 row">
+            <label for="registerItemNameInput" class="col-sm-2 col-form-label">Name:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control" id="registerItemNameInput">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemModelInput" class="col-sm-2 col-form-label">Model:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control" id="registerItemModelInput">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemBrandInput" class="col-sm-2 col-form-label">Brand:</label>
+            <div class="col-auto">
+              <input type="text"  class="form-control" id="registerItemBrandInput">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemDeptInput" class="col-sm-2 col-form-label">Department:</label>
+            <div class="col-auto">
+              <input class="form-control" list="registerItemDeptOptions" id="registerItemDeptInput" type="text" placeholder="Type to search...">
+              <datalist id="registerItemDeptOptions">
+              </datalist>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemCategoryInput" class="col-sm-2 col-form-label">Category:</label>
+            <div class="col-auto">
+              <input class="form-control" list="registerItemCategoryOptions" id="registerItemCategoryInput" placeholder="Type to search...">
+              <datalist id="registerItemCategoryOptions">
+              </datalist>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemLocationInput" class="col-sm-2 col-form-label">Location:</label>
+            <div class="col-auto">
+              <input class="form-control" list="registerItemLocationOptions" id="registerItemLocationInput" placeholder="Type to search...">
+              <datalist id="registerItemLocationOptions">
+              </datalist>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemQuantityInput" class="col-sm-2 col-form-label">Quantity:</label>
+            <div class="col-auto">
+              <input type="number" min="0" step="1"  class="form-control" id="registerItemQuantityInput">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemPriceInput" class="col-sm-2 col-form-label">Price:</label>
+            <div class="col-auto">
+              <input type="number" min="0" step="any"  class="form-control" id="registerItemPriceInput">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="registerItemPurchaseDateInput" class="col-sm-2 col-form-label">Purchase Date:</label>
+            <div class="col-auto">
+              <input type="date"  class="form-control" id="registerItemPurchaseDateInput">
+            </div>
+          </div>
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment about the item here" id="registerItemMemoInput" style="height: 100px"></textarea>
+          </div>
+          <div style="margin-top: 20px; text-align: center;">
+              <button id="registerItemButton" class="btn btn-primary" >Register Item</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="RolesContainer" class="tabContainer" >
+        <div style="margin-top: 20px;margin-left:5%;margin-right:5%;">
+          <h1 style="display: inline-block;">Search a Member</h1>
+          <button id="toCreateRoleButton" class="btn btn-success" style="float: right; margin-right:20px">Create a Role</button>
+        </div>
+
+        <div style="margin-left:5%;margin-right:5%;padding-top:50px;padding-bottom:50px;">
+          <form class="mt-4">
+            <div class="row" style="margin-bottom:10px">
+              <label for="searchMemberIdInput" class="col-form-label">Member Id</label>
+              <div class="col">
+                <input id="searchMemberIdInput" type="text" class="form-control w-25" placeholder="Id (ex: 1234)">
+              </div>
+            </div>
+
+            <div class="row">
+              <label for="searchMemberFnameInput" class="col-form-label">Member Firstname</label>
+              <div class="col">
+                <input id="searchMemberFnameInput" type="text" class="form-control" placeholder="First name">
+              </div>
+              <label for="searchMemberLnameInput" class="col-form-label">Member Lastname</label>
+              <div class="col">
+                <input id="searchMemberLnameInput" type="text" class="form-control" placeholder="Last name">
+              </div>
+              <div class="col">
+                <button id="searchMemberButton" class="btn btn-primary" >Search Member</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- TODO
+        Add in an area to display the results of the searched Member
+        Add in a simple table of all the roles and permissions
+      -->
+        <div id="searchMemberResultsContainer" style="margin-left:5%;margin-right:5%; border-style: solid; border-width: 1px;">
+          <form style="margin: 10px">
+            <div class="mb-3 row">
+              <label for="memberResultName" class="col-sm-2 col-form-label">Name:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultName" readonly>
+              </div>
+              <label for="memberResultStartDate" class="col-sm-2 col-form-label">Start Date:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultStartDate" readonly>
+              </div>
+              <label for="memberResultEndDate" class="col-sm-2 col-form-label">End Date:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultEndDate" readonly>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="memberResultId" class="col-sm-2 col-form-label">Id:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultId" readonly>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="memberResultDepartment" class="col-sm-2 col-form-label">Department:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultDepartment" readonly>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="memberResultCurrentRole" class="col-sm-2 col-form-label">Current Role:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultCurrentRole" readonly>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-auto">
+                <select class="form-control" id="roleSelect" name="roleSelect">
+                  <option value="Admin">Admin</option>
+                  <option value="Inventory Clerk">Inventory Clerk</option>
+                  <option value="Auditor">Auditor</option>
+                  <option value="Department Manager">Department Manager</option>
+                </select>
+              </div>
+              <div class="col-auto">
+                <button id="assignRoleButton" class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#assignRoleModal">
+                    Assign Role
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <table id="rolesTable" style="margin-left:5%;" class="table mt-5">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Role Id</th>
+              <th scope="col">Role Name</th>
+              <th scope="col">Role Permissions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Admin</td>
+              <td>search_member, assign_roles, create_roles</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Inventory Clerk</td>
+              <td>register_item, increase_quantity, reduce_quantity, dispose_item, report_missing_item</td>
+            </tr>
+        </table>
+      </div>
+
+      <div id="createRoleContainer" class="tabContainer" style="margin-left:5%">
+        <div style="margin-top: 20px">
+          <h1 style="display: inline-block;">Create a Role</h1>
+          <button id="backToRolesScreenButton" class="btn btn-primary" style="float: right; margin-right:5%">Back To Roles Screen</button>
+        </div>
+        <form >
+          <div class="form-group">
+            <label for="roleNameInput">Role Name</label>
+            <input
+              type="text"
+              class="form-control w-25"
+              id="roleNameInput"
+              placeholder="role"
+            />
+          </div>
+          <div class="form-check" style="padding-bottom: 5px">
+            <input
+              class="form-check-input roleCheckbox"
+              type="checkbox"
+              value="register_item"
+              id="registerItemRoleCheckbox"
+            />
+            <label class="form-check-label" for="registerItemRoleCheckbox">
+              Register Item
+            </label>
+          </div>
+          <div class="form-check" style="padding-bottom: 5px">
+            <input
+              class="form-check-input roleCheckbox"
+              type="checkbox"
+              value="increase_and_reduce_quantity"
+              id="increaseAndReduceRoleCheckbox"
+            />
+            <label
+              class="form-check-label"
+              for="increaseAndReduceRoleCheckbox"
+            >
+              Increase/Reduce Item Quantity
+            </label>
+          </div>
+          <div class="form-check" style="padding-bottom: 5px">
+            <input
+              class="form-check-input roleCheckbox"
+              type="checkbox"
+              value="dispose_item"
+              id="disposeItemRoleCheckbox"
+            />
+            <label class="form-check-label" for="disposeItemRoleCheckbox">
+              Dispose Item
+            </label>
+          </div>
+          <div class="form-check" style="padding-bottom: 5px">
+            <input
+              class="form-check-input roleCheckbox"
+              type="checkbox"
+              value="report_missing_item"
+              id="reportMissingItemRoleCheckbox"
+            />
+            <label
+              class="form-check-label"
+              for="reportMissingItemRoleCheckbox"
+            >
+              Report Missing Item
+            </label>
+          </div>
+          <div class="form-check" style="padding-bottom: 5px">
+            <input
+              class="form-check-input roleCheckbox"
+              type="checkbox"
+              value="search_member"
+              id="searchMemberRoleCheckbox"
+            />
+            <label class="form-check-label" for="searchMemberRoleCheckbox">
+              Search a Member
+            </label>
+          </div>
+          <div class="form-check" style="padding-bottom: 5px">
+            <input
+              class="form-check-input roleCheckbox"
+              type="checkbox"
+              value="create_role"
+              id="createRole-RoleCheckbox"
+            />
+            <label class="form-check-label" for="createRole-RoleCheckbox">
+              Create a Role
+            </label>
+          </div>
+          <div class="form-check" style="padding-bottom: 5px">
+            <input
+              class="form-check-input roleCheckbox"
+              type="checkbox"
+              value="assign_role"
+              id="assignRole-RoleCheckbox"
+            />
+            <label class="form-check-label" for="assignRole-RoleCheckbox">
+              Assign a Role to a Member
+            </label>
+          </div>
+          <button id="createRoleButton" type="submit" class="btn btn-primary">Create Role</button>
+        </form>
+      </div>
     </div>
+
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -158,43 +868,34 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 
-    <script type="text/javascript" src="js/test/main.js"></script>
-    <script type="text/javascript" src="js/test/LoadHtmlContainers.js"></script>
-    <script type="text/javascript" src="js/test/searchBy.js"></script>
-    <script type="text/javascript" src="js/test/Roles.js"></script>
-    <script type="text/javascript" src="js/test/CreateRole.js"></script>
-    <script type="text/javascript" src="js/test/Dashboard.js"></script>
 
-    <!--
-     main function, global variables and methods used by all modules
+     <!--main function, global variables and methods used by all modules   -->
     <script type="text/javascript" src="js/Home.js"></script>
 
-     ActionValidation module
+     <!--ActionValidation module   -->
     <script type="text/javascript" src="js/ActionValidation/ActionValidation.js"></script>
 
-     DashboardDisplay module
+     <!--DashboardDisplay module   -->
     <script type="text/javascript" src="js/DashboardDisplay/Dashboard.js"></script>
 
-     InventoryItemManagement module
+     <!--InventoryItemManagement module   -->
     <script type="text/javascript" src="js/InventoryItemManagement/ItemDispose.js"></script>
     <script type="text/javascript" src="js/InventoryItemManagement/ItemIncrease.js"></script>
     <script type="text/javascript" src="js/InventoryItemManagement/ItemReduce.js"></script>
     <script type="text/javascript" src="js/InventoryItemManagement/ItemReportMissing.js"></script>
+    <script type="text/javascript" src="js/InventoryItemManagement/ItemRegistration.js"></script>
+    <script type="text/javascript" src="js/InventoryItemManagement/DepartmentsAndLocations.js"></script>
 
-     InventoryItemRegistration module
-    <script type="text/javascript" src="js/InventoryItemRegistration/ItemRegistration.js"></script>
-
-     ItemSearch module
+    <!-- ItemSearch module   -->
     <script type="text/javascript" src="js/ItemSearch/SearchItem.js"></script>
 
-     LoadContentAndSetupListeners module
-    <script type="text/javascript" src="js/LoadContentAndSetupListeners/LoadHtmlContainers.js"></script>
-    <script type="text/javascript" src="js/LoadContentAndSetupListeners/Navigation.js"></script>
+    <!-- Navigation module   -->   -->
+    <script type="text/javascript" src="js/Navigation/Navigation.js"></script>
 
-     RolesManagement module
+     <!--RolesManagement module   -->
     <script type="text/javascript" src="js/RolesManagement/SearchMember.js"></script>
     <script type="text/javascript" src="js/RolesManagement/CreateRole.js"></script>
     <script type="text/javascript" src="js/RolesManagement/AssignRole.js"></script>
-   -->
+
   </body>
 </html>

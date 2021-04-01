@@ -1,3 +1,5 @@
+
+
 $("#rolesNav").click(function(e) {
   hideAllContainers();
   $("#RolesContainer").show();
@@ -27,3 +29,8 @@ $("#registerNav").click(function(e) {
 $("#logOutButton").click(function(){
     window.location.href = LOGIN_URL;
 });
+
+function setActiveTab(tabElement){
+  $(".active").removeClass("active")
+  $(tabElement).parent().addClass("active");
+}

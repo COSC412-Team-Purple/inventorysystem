@@ -1,28 +1,24 @@
-let _backToRolesScreenButton;
-let _roleCheckboxes;
-let _createRoleButton;
-let _createRoleNameInput;
+let _roleCheckboxes = $(".roleCheckbox");
+let _createRoleButton = $("#createRoleButton");
+let _backToRolesScreenButton = $("#backToRolesScreenButton");
+let _createRoleNameInput = $("#roleNameInput");
 
-function setupCreateRolesListeners() {
-  _roleCheckboxes = $(".roleCheckbox");
-  _createRoleButton = $("#createRoleButton");
-  _backToRolesScreenButton = $("#backToRolesScreenButton");
-  _createRoleNameInput = $("#roleNameInput");
 
-  _backToRolesScreenButton.click(function() {
-    hideAllContainers();
-    $("#RolesContainer").show();
-  });
 
-  _createRoleButton.click(function(){
-    //add a check for if the member has permission, interface with ActionValidation.js hasPermission(permission)
-    //if(hasPermission("create_role")){
-      if(isRoleNameFilledIn()){
-        createRoleInDB();
-      }
-    //}
-  });
-}
+_backToRolesScreenButton.click(function() {
+  hideAllContainers();
+  $("#RolesContainer").show();
+});
+
+_createRoleButton.click(function(){
+  //add a check for if the member has permission, interface with ActionValidation.js hasPermission(permission)
+  //if(hasPermission("create_role")){
+    if(isRoleNameFilledIn()){
+      createRoleInDB();
+    }
+  //}
+});
+
 
 function isRoleNameFilledIn(){
   if(_createRoleNameInput.val().trim() === ""){

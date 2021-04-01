@@ -11,11 +11,9 @@ $( document ).ready(function() {
     hideAllContainers();
     $("#dashboardContainer").show();
 
-    //interface with LoadHtmlContainers.js
-    loadAllContainers();
 
     LOGGED_ON_MEMBER_ID = sessionStoredMemberId;
-    
+
     //interface with ActionValidation.js
     //setLoggedOnMemberPermissions(sessionStorage.getItem('memberPermissions'));
   }else{
@@ -27,6 +25,8 @@ function hideAllContainers(){
   $(".tabContainer").hide();
   $(".innerContainer").hide();
 }
+
+
 
 function showErrorMessage(message){
   let errorAlert = $("#errorAlert");

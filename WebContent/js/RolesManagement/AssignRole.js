@@ -7,7 +7,7 @@ function addRoleToRolesTable(role){
   let rolesTableRow = '<tr>' +
                         '<th scope="row">' + role.roleId + '</th>' +
                         '<td>'+ role.name_pos + '</td>' +
-                        '<td>'+ permsString + '</td>'' +
+                        '<td>'+ permsString + '</td>' +
                       '</tr>';
   $("#rolesTable").append(rolesTableRow);
 }

@@ -19,9 +19,6 @@ function getDashboardDataFromDB(){
 }
 
 function handleDashboardDataFromDB(dashboardData){
-  DEPARTMENTS = dashboardData.departments;
-  LOCATIONS = dashboardData.locations;
-
   //parallel arrays
   CATEGORIES = dashboardData.categories;
   _itemsCorrespondingToCategory = dashboardData.itemNumberCorrespondingToCategory;

@@ -1,4 +1,4 @@
-package com.java.inventorysystem;
+package com.java.inventorysystem.InventoryItemManagement;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,21 +7,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.java.inventorysystem.Utilities.DBConnectionUtility;
-
-import java.sql.*;
+/**
+ * Servlet implementation class GetDepartmentsAndLocations
+ */
 
 /*
- * Servlet implementation class ItemServlet
- */
-@WebServlet("/ItemServlet")
-public class ItemServlet extends HttpServlet {
+WORKFLOW
+
+1. select name_dept from department
+2. select item_loc from items (not repeating if possible)
+3. return both result set data to client
+*/
+@WebServlet("/DepartmentsAndLocations")
+public class GetDepartmentsAndLocations extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ItemServlet() {
+    public GetDepartmentsAndLocations() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,7 +35,7 @@ public class ItemServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -39,24 +43,7 @@ public class ItemServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Connection conn = DBConnectionUtility.getDatabaseConnection();
-		System.out.println("success pass of connection");
-		try {
-			Statement stmt = conn.createStatement();
-			String query = "SELECT table_name FROM information_schema.tables where table_schema = 'public'";
-			ResultSet rs = stmt.executeQuery(query);
-			System.out.println("tables:");
-			
-			while(rs.next()) {
-				System.out.print(rs.getString(1));
-				System.out.println();
-			}
-			response.getWriter().write("successful connection");
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		doGet(request, response);
 	}
 
 }
