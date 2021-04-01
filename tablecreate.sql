@@ -22,7 +22,7 @@ CREATE TABLE department
 CREATE TABLE dept_member(
     dept_id BIGSERIAL NOT NULL PRIMARY KEY,
     position_id INT NOT NULL,
-    member_id BIGSERIAL NOT NULL,
+    member_id INT NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE,
     comment TEXT
