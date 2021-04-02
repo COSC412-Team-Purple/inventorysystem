@@ -1,7 +1,7 @@
 CREATE TABLE items (
     item_id BIGSERIAL NOT NULL PRIMARY KEY,
     item_name VARCHAR(50) NOT NULL,
-    price NUMERIC(5, 2) NOT NULL,
+    price NUMERIC(15, 2) NOT NULL,
     item_quant INT NOT NULL,
     item_model VARCHAR(50) NOT NULL,
     item_loc VARCHAR(50) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE member_pos(
 CREATE TABLE item_dispose (
     item_id INT NOT NULL,
     item_name VARCHAR(50) NOT NULL,
-    price NUMERIC(5, 2) NOT NULL,
+    price NUMERIC(15, 2) NOT NULL,
     item_quant INT NOT NULL,
     item_model VARCHAR(50) NOT NULL,
     item_loc VARCHAR(50) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE item_dispose (
 );
 
 CREATE TABLE item_quantity_updates (
-    update_id INT NOT NULL,
+    update_id BIGSERIAL NOT NULL,
     updating_member_id INT NOT NULL,
     item_id BIGSERIAL NOT NULL,
     item_name VARCHAR(50) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE member(
 
 CREATE TABLE inventory_total(
     total_id BIGSERIAL NOT NULL PRIMARY KEY,
-    total_value NUMERIC(9 ,2) NOT NULL,
+    total_value NUMERIC(15 ,2) NOT NULL,
     last_update_id INT NOT NULL
 );
 

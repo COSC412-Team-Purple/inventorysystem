@@ -15,6 +15,7 @@ public class ClientResponseUtility {
 	}
 	
 	public static void writeToClient(HttpServletResponse response, JSONArray responseJsonArray) throws IOException {
+		System.out.println(responseJsonArray.toJSONString());
 		response.getWriter().write(responseJsonArray.toJSONString());
 	}
 	

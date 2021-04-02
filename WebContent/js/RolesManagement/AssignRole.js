@@ -6,7 +6,7 @@ function addRoleToRolesTable(role){
 
   let rolesTableRow = '<tr>' +
                         '<th scope="row">' + role.roleId + '</th>' +
-                        '<td>'+ role.name_pos + '</td>' +
+                        '<td>'+ role.roleName + '</td>' +
                         '<td>'+ permsString + '</td>' +
                       '</tr>';
   $("#rolesTable").append(rolesTableRow);
@@ -20,6 +20,7 @@ function getRolesInDB(){
         data: "",
         success: function( data, textStatus, xhr ){
             let response = JSON.parse(data);
+            console.log(response);
             handleGetRolesResponse(response);
         },
         error: function( jqXhr, textStatus, errorThrown ){
@@ -37,7 +38,7 @@ function addRoleOptionToRoleSelect(roleName){
 function handleGetRolesResponse(response){
   ROLES = response;
   response.forEach((role) => {
-    addRoleOptionToRoleSelect(role.roleId);
+    addRoleOptionToRoleSelect(role.roleName);
     addRoleToRolesTable(role);
   });
 

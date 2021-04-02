@@ -45,6 +45,7 @@ function authenticateMemberInDB(user, pass){
         },
         error: function( jqXhr, textStatus, errorThrown ){
             console.log( errorThrown );
+            showLoginError(errorThrown);
         }
     });
 }

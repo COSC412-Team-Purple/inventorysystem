@@ -69,7 +69,7 @@
       <div id="dashboardContainer" class="tabContainer">
         <div class="text-center">
           <h1>Inventory Balance</h2>
-          <h2 style="color: limegreen">$ <span id="totalIventoryValueDisplay">100,000.00</span></h2>
+          <h2 style="color: limegreen">$ <span id="totalIventoryValueDisplay">0.00</span></h2>
         </div>
         <canvas id="itemsByCategoryBarChart" width="400px" height="100px"></canvas>
       </div>
@@ -708,10 +708,6 @@
             <div class="mb-3 row">
               <div class="col-auto">
                 <select class="form-control" id="roleSelect" name="roleSelect">
-                  <option value="Admin">Admin</option>
-                  <option value="Inventory Clerk">Inventory Clerk</option>
-                  <option value="Auditor">Auditor</option>
-                  <option value="Department Manager">Department Manager</option>
                 </select>
               </div>
               <div class="col-auto">
@@ -734,16 +730,6 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Admin</td>
-              <td>search_member, assign_roles, create_roles</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Inventory Clerk</td>
-              <td>register_item, increase_quantity, reduce_quantity, dispose_item, report_missing_item</td>
-            </tr>
         </table>
       </div>
 
@@ -889,7 +875,7 @@
     <!-- ItemSearch module   -->
     <script type="text/javascript" src="js/ItemSearch/SearchItem.js"></script>
 
-    <!-- Navigation module   -->   
+    <!-- Navigation module   -->
     <script type="text/javascript" src="js/Navigation/Navigation.js"></script>
 
      <!--RolesManagement module   -->

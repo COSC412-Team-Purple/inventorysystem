@@ -7,9 +7,10 @@ function getDashboardDataFromDB(){
         url: 'Dashboard',
         dataType: 'text',
         type: 'GET',
-        data: servletParameters,
+        data: "",
         success: function( data ){
             let dashboardData = JSON.parse(data);
+            console.log(dashboardData);
             handleDashboardDataFromDB(dashboardData)
         },
         error: function( jqXhr, textStatus, errorThrown ){
@@ -21,10 +22,20 @@ function getDashboardDataFromDB(){
 function handleDashboardDataFromDB(dashboardData){
   //parallel arrays
   CATEGORIES = dashboardData.categories;
-  _itemsCorrespondingToCategory = dashboardData.itemNumberCorrespondingToCategory;
+  _itemsCorrespondingToCategory = dashboardData.itemsByCategory;
 
   updateInventoryTotalValue(dashboardData.inventoryTotal);
   drawItemsByCategoryBarChart();
+  populateCategorySelectAndDatalists();
+}
+
+function populateCategorySelectAndDatalists(){
+  CATEGORIES.forEach((category) =>{
+    let selectOptionHtml = '<option value="'+ category +'">'+ category +'</option>';
+    let datalistOptionHtml = '<option value="'+ category +'" />';
+    $("#itemCategory").append(selectOptionHtml);
+    $("#registerItemCategoryOptions").append(datalistOptionHtml);
+  })
 }
 
 function updateInventoryTotalValue(value){
@@ -50,6 +61,10 @@ function updateItemsByCategory(category, itemNum){
 function drawItemsByCategoryBarChart(){
   var canvas = document.getElementById('itemsByCategoryBarChart').getContext('2d');
 
+  let colors = getBarColors();
+  console.log(colors);
+  console.log(CATEGORIES.length);
+  console.log(colors.length);
   var myChart = new Chart(canvas, {
       type: 'bar',
       data: {
@@ -57,7 +72,7 @@ function drawItemsByCategoryBarChart(){
           datasets: [{
               label: '# of Items by Category',
               data: _itemsCorrespondingToCategory,
-              backgroundColor: getBarColors(),
+              backgroundColor: colors,
               borderWidth: 1
           }]
       },
@@ -77,24 +92,24 @@ function getBarColors(){
   let numOfColorsNeeded = CATEGORIES.length;
   let numOfAvailableColors = _colorPallete.length;
 
-  let returnedColors = []
+  let returnedColors = [];
 
   let colorsNeededPerAvailableRatio = numOfAvailableColors / numOfColorsNeeded;
 
   let colorPalleteIndex=0;
 
-  if(colorsNeededPerAvailableRatio < 1){
+  if(numOfColorsNeeded > numOfAvailableColors){
     //when there are more categories than available colors
-    for(i=0; i < numOfColorsNeeded.length; i++){
+    for(i=0; i < numOfColorsNeeded; i++){
       colorPalleteIndex = i % numOfAvailableColors;
       returnedColors.push(_colorPallete[colorPalleteIndex]);
     }
-  }else if (colorsNeededPerAvailableRatio === 1) {
+  }else if (numOfColorsNeeded === numOfAvailableColors) {
     //when the # of categories is equal to available colors
     return _colorPallete;
-  }else{
+  }else if(numOfColorsNeeded < numOfAvailableColors){
     //when there are less categories than available colors
-    for(i=0; i < numOfColorsNeeded.length; i++){
+    for(let i=0; i < numOfColorsNeeded; i++){
       colorPalleteIndex = Math.floor(i * colorsNeededPerAvailableRatio);
       returnedColors.push(_colorPallete[colorPalleteIndex]);
     }

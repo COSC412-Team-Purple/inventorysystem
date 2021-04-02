@@ -7,15 +7,24 @@ let LOGIN_URL = "http://localhost:8080/inventorysystem/";
 
 $( document ).ready(function() {
   let sessionStoredMemberId = sessionStorage.getItem('memberId');
-  if(sessionStoredMemberId !== null || sessionStoredMemberId !== undefined || sessionStoredMemberId !== ""){
+
+  if(sessionStoredMemberId !== null){
     hideAllContainers();
     $("#dashboardContainer").show();
-
 
     LOGGED_ON_MEMBER_ID = sessionStoredMemberId;
 
     //interface with ActionValidation.js
-    //setLoggedOnMemberPermissions(sessionStorage.getItem('memberPermissions'));
+    setPermissions(sessionStorage.getItem('memberPermissions'));
+
+    //interface with Dashboard.js
+    getDashboardDataFromDB();
+
+    //interface with DepartmentsAndLocations.js
+    getDepartmentsAndLocationsFromDB();
+
+    //interface with AssignRole.js
+    getRolesInDB();
   }else{
     window.location.href = LOGIN_URL;
   }
