@@ -6,6 +6,7 @@ let ROLES = [];
 let LOGIN_URL = "http://localhost:8080/inventorysystem/";
 
 $( document ).ready(function() {
+  $(".alert").hide();
   let sessionStoredMemberId = sessionStorage.getItem('memberId');
 
   if(sessionStoredMemberId !== null){
@@ -51,6 +52,6 @@ function showSuccessMessage(message){
   successAlert.html(message);
   successAlert.show();
   setTimeout(function(){
-    errorAlert.hide();
+    successAlert.hide();
   }, 3000)
 }

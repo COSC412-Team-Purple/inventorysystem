@@ -60,10 +60,10 @@
       </div>
     </nav>
     <div id="container" style="margin-left: 20px">
-      <div class="alert alert-success text-center" id="successAlert" hidden="true">
+      <div class="alert alert-success text-center" id="successAlert">
           Success. *insert detail about successful action*
       </div>
-      <div class="alert alert-danger text-center" id="errorAlert" hidden="true">
+      <div class="alert alert-danger text-center" id="errorAlert">
           Error. *detail about the error*
       </div>
       <div id="dashboardContainer" class="tabContainer">
@@ -744,7 +744,7 @@
           <h1 style="display: inline-block;">Create a Role</h1>
           <button id="backToRolesScreenButton" class="btn btn-primary" style="float: right; margin-right:5%">Back To Roles Screen</button>
         </div>
-        <form >
+        <form id="createRoleForm">
           <div class="form-group">
             <label for="roleNameInput">Role Name</label>
             <input
@@ -837,7 +837,7 @@
               Assign a Role to a Member
             </label>
           </div>
-          <button id="createRoleButton" type="submit" class="btn btn-primary">Create Role</button>
+          <button id="createRoleButton" type="button" class="btn btn-primary">Create Role</button>
         </form>
       </div>
     </div>

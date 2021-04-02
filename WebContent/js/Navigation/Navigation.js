@@ -30,6 +30,21 @@ $("#logOutButton").click(function(){
     window.location.href = LOGIN_URL;
 });
 
+$("#backToSearchScreenButton").click(function() {
+  hideAllContainers();
+  $("#searchContainer").show();
+});
+
+$("#backToRolesScreenButton").click(function() {
+  hideAllContainers();
+  $("#searchContainer").show();
+});
+
+$("#toCreateRoleButton").click(function() {
+  hideAllContainers();
+  $("#createRoleContainer").show();
+});
+
 function setActiveTab(tabElement){
   $(".active").removeClass("active")
   $(tabElement).parent().addClass("active");
