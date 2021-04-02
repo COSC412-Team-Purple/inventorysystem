@@ -1,25 +1,31 @@
-let _itemName = '';
-let _itemCategory = '';
-let _itemManagingDepartment = '';
-let _itemPriceCheck = false;
-let _itemMinPrice = 0;
-let _itemMaxPrice = 0;
+let _searchItemName = '';
+let _searchItemCategory = '';
+let _searchItemManagingDepartment = '';
+let _searchItemPriceCheck = false;
+let _searchItemMinPrice = 0;
+let _searchItemMaxPrice = 0;
 
 // fake data
 // const data = [
-//   { name: 'camera', model: 'Camera in 4k', quantity: 2, price: '2,000' },
+//   {
+//     id: 321,
+//     name: 'camera',
+//     model: 'Camera in 4k',
+//     quantity: 2,
+//     price: '2,000',
+//   },
 // ];
 
 // Form
-const form = document.getElementById('form');
+const _searchItemform = document.getElementById('searchItemForm');
 
 // Functions
 
 // Function to get the min and max prices if the price checkbox is checked
 const priceBoxChecked = () => {
-  if (_itemPriceCheck) {
-    _itemMinPrice = document.getElementById('priceMin').value;
-    _itemMaxPrice = document.getElementById('priceMax').value;
+  if (_searchItemPriceCheck) {
+    _searchItemMinPrice = document.getElementById('priceMin').value;
+    _searchItemMaxPrice = document.getElementById('priceMax').value;
     return;
   }
 };
@@ -27,7 +33,7 @@ const priceBoxChecked = () => {
 // validate the search
 const isValidSearch = () => {
   let valid = true;
-  if (_itemName === '') {
+  if (_searchItemName === '') {
     valid = false;
   }
   return valid;
@@ -41,8 +47,8 @@ const showSearchError = () => {
 // handler to add the response data to screen
 const handleSearchItemResponse = (response) => {
   const table = document.getElementById('table');
-  if (response.items.length > 0) {
-    response.items.forEach((item) => {
+  if (response.length > 0) {
+    response.forEach((item) => {
       const html = `
         <tr>
           <th scope="row">${item.id}</th>
@@ -102,12 +108,12 @@ const handleSearchItemResponse = (response) => {
 // handler for sending and receiving search item data to back end
 const getSearchItemInDB = () => {
   const servletParameters = {
-    'search-item': _itemName,
-    'item-category': _itemCategory,
-    'managing-department': _itemManagingDepartment,
-    'price-checkbox': _itemPriceCheck,
-    'min-price': _itemMinPrice,
-    'max-price': _itemMaxPrice,
+    'search-item': _searchItemName,
+    'item-category': _searchItemCategory,
+    'managing-department': _searchItemManagingDepartment,
+    'price-checkbox': _searchItemPriceCheck,
+    'min-price': _searchItemMinPrice,
+    'max-price': _searchItemMaxPrice,
   };
   $.ajax({
     url: 'ItemSearch',
@@ -127,17 +133,21 @@ const getSearchItemInDB = () => {
 };
 
 // Form submit event
-form.addEventListener('submit', (e) => {
+_searchItemform.addEventListener('submit', (e) => {
   e.preventDefault();
+  console.log('this is a submit');
 
-  _itemName = document.getElementById('itemName').value.trim();
-  _itemCategory = document.getElementById('itemCategory').value;
-  _itemManagingDepartment = document.getElementById('itemManagingDepartment').value;
-  _itemPriceCheck = document.getElementById('searchByPriceRange').checked;
+  _searchItemName = document.getElementById('itemName').value.trim();
+  _searchItemCategory = document.getElementById('itemCategory').value;
+  _searchItemManagingDepartment = document.getElementById(
+    'itemManagingDepartment'
+  ).value;
+  _searchItemPriceCheck = document.getElementById('searchByPriceRange').checked;
 
   priceBoxChecked();
   if (isValidSearch()) {
-    getSearchItemInDB();
+    // getSearchItemInDB();
+    handleSearchItemResponse(data);
   } else {
     showSearchError();
   }
