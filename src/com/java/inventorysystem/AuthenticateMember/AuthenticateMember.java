@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ WORKFLOW
 public class AuthenticateMember extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private Connection conn;
-    private String defaultPassword = "Ch@ngeme!1234";
+    private String defaultPassword = "default";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -51,51 +52,6 @@ public class AuthenticateMember extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(request.getParameter("username"));
-		System.out.println(request.getParameter("password"));	
-		
-		// 1. get received JSON data from request
-		BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
-		
-		String json_in = "";
-		if(reader != null){
-			json_in = reader.readLine();
-			System.out.println(json_in);
-		}
-		
-		// 2. initiate jackson mapper
-		ObjectMapper mapper = new ObjectMapper();
-		
-		// 3. Convert received JSON to Input object containing the expected inputs
-		Input input = mapper.readValue(json_in, Input.class);
-		System.out.println("Got inputs: username=" + input.username + " and password=" + input.password);
-
-		// 4. Do something with the input
-		
-		//connect to database
-		conn = DBConnectionUtility.getDatabaseConnection();
-		try {
-			Statement stmt = conn.createStatement();
-			
-			//TODO: convert password to hash and include in SQL statement?
-			
-			String query = "SELECT * FROM ";		//TODO: SQL statement, need to get username and password from database
-			ResultSet rs = stmt.executeQuery(query);
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		//rs should contain the credentials if the statement was successful, otherwise will be empty?
-		Output output = new Output();
-		
-		output.success = true;//for now
-		
-		// 5. Set response type to JSON
-		response.setContentType("application/json");	
-		
-		// 6. Send Output object as JSON to client
-		mapper.writeValue(response.getOutputStream(), output);
 	}
 
 	/**
@@ -111,15 +67,19 @@ public class AuthenticateMember extends HttpServlet {
 			//query for
 			ResultSet memberInfoRs = authenticateMember(username, password);
 			
-			if(!memberInfoRs.first()) {
-				response.sendError(400, "Member not in db");
-			}else {
+			int hits = 0;
+			
+			while(memberInfoRs.next()) {
+				hits++;
+			
 				int memberId = memberInfoRs.getInt("member_id");
+				System.out.println("member id: " + memberId);
 				returnJson.put("memberId", memberId);
 				
 				ResultSet permissionRs = getMemberPermissions(memberId);
-				String[] permissions = permissionRs.getString("permissions").split(",");
-				returnJson.put("permissions", permissions);
+				String[] permissions = permissionRs.getString("perms").split(",");
+				System.out.println("member permissions: " + Arrays.toString(permissions));
+				returnJson.put("permissions", Arrays.toString(permissions));
 				
 				
 				if(password.equals(defaultPassword)) {
@@ -130,6 +90,10 @@ public class AuthenticateMember extends HttpServlet {
 				
 				ClientResponseUtility.writeToClient(response, returnJson);
 				response.setStatus(200);
+			}
+			
+			if(hits == 0) {
+				response.sendError(400, "Member not in db");
 			}
 
 			conn.close();
@@ -145,7 +109,7 @@ public class AuthenticateMember extends HttpServlet {
 		
 		//TODO: convert password to hash and include in SQL statement?
 		
-		String query = "SELECT member_id FROM Member WHERE username = ?, password = ?";		
+		String query = "SELECT member_id FROM member WHERE username = ? AND passw = ?";		
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setString(1, username);
 		stmt.setString(2, password);
@@ -159,26 +123,15 @@ public class AuthenticateMember extends HttpServlet {
 		String query = "SELECT perms "
 					 + "FROM member_pos "
 					 + "WHERE position_id = "
-						+ "(SELECT position_id"
-						+ "FROM dept_member"
+						+ "(SELECT position_id "
+						+ "FROM dept_member "
 						+ "WHERE member_id = ?)";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, memberId);
 		ResultSet rs = stmt.executeQuery();
 		
-		
+		rs.next();
 		return rs;
 	}
 	
-	//JSON Input and Output objects for mapping using the Jackson library
-	private class Input
-	{
-		String username;
-		String password;
-	}
-	
-	private class Output
-	{
-		boolean success;
-	}
 }

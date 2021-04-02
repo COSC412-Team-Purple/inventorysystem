@@ -10,6 +10,7 @@ public class ClientResponseUtility {
 	private JSONObject json;
 	
 	public static void writeToClient(HttpServletResponse response, JSONObject responseJson) throws IOException {
+		System.out.println(responseJson.toJSONString());
 		response.getWriter().write(responseJson.toJSONString());
 	}
 	

@@ -7,12 +7,13 @@ public class DBConnectionUtility {
 	public static Connection getDatabaseConnection() {
 		Connection conn = null;
 		
-		String host = System.getenv("DB_HOST");
+		String host = System.getenv("DEV_HOST");
 		String port = System.getenv("DB_PORT");
-		String user = System.getenv("DB_USER");
-		String password = System.getenv("DB_PASS");
+		String user = System.getenv("DEV_USER");
+		String password = System.getenv("DEV_PASS");
+		String db = System.getenv("DEV_DB");
 				
-		String url = "jdbc:postgresql://" + host + ":" + port + "/postgres";
+		String url = "jdbc:postgresql://" + host + ":" + port + "/" + db;
 		
 		try {
 			Class.forName("org.postgresql.Driver");

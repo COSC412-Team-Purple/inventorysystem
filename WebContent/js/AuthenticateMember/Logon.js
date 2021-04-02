@@ -4,6 +4,11 @@ let _logInButton = $("#logInButton")
 let _memberId = null;
 let _memberPermissions = null;
 
+$(document).ready(function(){
+  $(".reset").hide();
+  $("#logOnErrorAlert").hide();
+});
+
 _logInButton.click(function(){
   let user = _emailInput.val().trim();
   let pass = _passwordInput.val().trim();
@@ -30,7 +35,7 @@ function authenticateMemberInDB(user, pass){
     $.ajax({
         url: 'AuthenticateMember',
         dataType: 'text',
-        type: 'GET',
+        type: 'POST',
         data: servletParameters,
         success: function( data ){
             let response = JSON.parse(data);
@@ -48,7 +53,8 @@ function handleAuthenticateResponse(response){
   _memberId = response.memberId;
   _permissions = response.permissions;
 
-  if(memberId !== null || memberId !== ""){
+  if(_memberId !== null || _memberId !== ""){
+    putMemberIdAndPermissionsInSessionStorage(response.memberId, response.permissions);
     if(response.needsPasswordReset){
       hideMainLogin()
       //interface with ResetPassword.js
@@ -63,14 +69,13 @@ function handleAuthenticateResponse(response){
 
 function setWindowToMainApplication(){
   console.log("in set window");
-  putMemberIdAndPermissionsInSessionStorage();
   window.location.href = window.location.href + "Home.html";
 }
 
 
-function putMemberIdAndPermissionsInSessionStorage(){
-  sessionStorage.setItem('memberId', _memberid);
-  sessionStorage.setItem('memberPermissions', _memberPermissions);
+function putMemberIdAndPermissionsInSessionStorage(memberid, permissions){
+  sessionStorage.setItem('memberId', memberid);
+  sessionStorage.setItem('memberPermissions', permissions);
 }
 
 

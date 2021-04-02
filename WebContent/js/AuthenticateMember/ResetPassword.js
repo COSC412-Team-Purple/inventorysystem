@@ -69,7 +69,7 @@ function validPasswordInputs(newPass, confirmPass){
 //does the password have a number
   let hasNum = false;
   for(i= 0; i < 10 && !hasNum; i++){
-    if(newPass.includes("'" + i + "'")){
+    if(newPass.includes(i)){
       hasNum = true;
     }
   }

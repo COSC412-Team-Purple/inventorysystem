@@ -29,9 +29,9 @@ CREATE TABLE dept_member(
 );
 
 CREATE TABLE member_pos(
-    position_id INT NOT NULL,
+    position_id BIGSERIAL NOT NULL PRIMARY KEY,
     name_pos VARCHAR(50) NOT NULL,
-    perms VARCHAR(50) NOT NULL
+    perms VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE item_dispose (
