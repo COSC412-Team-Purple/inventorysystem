@@ -8,15 +8,18 @@ let _searchItemMaxPrice = 0;
 let _searchItems = [];
 
 // fake data
-// const data = [
-//   {
-//     id: 12,
-//     name: 'camera',
-//     model: 'Camera in 8k',
-//     quantity: 1,
-//     price: '1,340',
-//   },
-// ];
+const data = [
+  {
+    id: 12,
+    name: 'camera',
+    model: 'Camera in 8k',
+    quantity: 1,
+    price: '1,340',
+    managingDepartment: 'media',
+    location: 'media room',
+    category: 'Video',
+  },
+];
 
 const paginationState = {
   itemsPerPage: 10,
@@ -79,7 +82,6 @@ const pageButtons = (pages) => {
 const _searchItemform = document.getElementById('searchItemForm');
 
 // Functions
-const updateItemQuantity = (id, quanity) => {};
 
 // pagination function
 const pagination = () => {
@@ -127,9 +129,13 @@ const buildTable = () => {
   const table = document.getElementById('table');
   data.items.forEach((item, i) => {
     const html = `
-      <tr data-row-number=${i}">
+      <tr class="itemRow" data-row-number="${item.id}">
         <th scope="row">${item.id}</th>
-        <td><a href="" class="itemLinkToAdvancedView">${item.name}</a></td>
+        <td id="name">${
+          !item.deleted
+            ? `<a href="" class="itemLinkToAdvancedView">${item.name}</a>`
+            : `${item.name}`
+        }</td>
         <td>${item.model}</td>
         <td id="itemQ">${item.quantity}</td>
         <td>${item.price}</td>
@@ -137,38 +143,69 @@ const buildTable = () => {
         <td>
           <button
             class="btn bg-success text-light"
-            id="1-increaseBtn"
+            id="increaseBtn1"
             data-toggle="modal"
             data-target="#increaseModal"
             data-id="${item.id}"
             data-name="${item.name}"
             data-model="${item.model}"
             data-quantity="${item.quantity}"
+            data-price="${item.price}"
+            data-department="${item.managingDepartment}"
+            data-location="${item.location}"
+            data-category="${item.category}"
+            ${item.deleted && 'disabled'}
           >
             Increase
           </button>
           <button
             class="btn btn-secondary"
-            id="1-reduceBtn"
+            id="reduceBtn1"
             data-toggle="modal"
             data-target="#reduceModal"
-            
+            data-id="${item.id}"
+            data-name="${item.name}"
+            data-model="${item.model}"
+            data-quantity="${item.quantity}"
+            data-price="${item.price}"
+            data-department="${item.managingDepartment}"
+            data-location="${item.location}"
+            data-category="${item.category}"
+            ${item.deleted && 'disabled'}
           >
             Reduce
           </button>
           <button
             class="btn bg-warning"
-            id="1-disposeBtn"
+            id="disposeBtn1"
             data-toggle="modal"
             data-target="#disposeModal"
+            data-id="${item.id}"
+            data-name="${item.name}"
+            data-model="${item.model}"
+            data-quantity="${item.quantity}"
+            data-price="${item.price}"
+            data-department="${item.managingDepartment}"
+            data-location="${item.location}"
+            data-category="${item.category}"
+            ${item.deleted && 'disabled'}
           >
             Dispose
           </button>
           <button
             class="btn bg-danger text-light"
-            id="1-reportMissingBtn"
+            id="reportMissingBtn1"
             data-toggle="modal"
             data-target="#reportMissingModal"
+            data-id="${item.id}"
+            data-name="${item.name}"
+            data-model="${item.model}"
+            data-quantity="${item.quantity}"
+            data-price="${item.price}"
+            data-department="${item.managingDepartment}"
+            data-location="${item.location}"
+            data-category="${item.category}"
+            ${item.deleted && 'disabled'}
           >
             Report Missing
           </button>
@@ -184,7 +221,7 @@ const buildTable = () => {
 
 // handler to add the response data to screen
 const handleSearchItemResponse = (response) => {
-  response.forEach((item, i) => {
+  response.forEach((item) => {
     _searchItems.push({ ...item, hasPermission: true });
   });
 
@@ -247,3 +284,27 @@ _searchItemform.addEventListener('submit', (e) => {
     showSearchError();
   }
 });
+
+// Function to increase or decrease the quantity
+const updateItemQuantity = (id, quantity) => {
+  const items = Array.from(document.querySelectorAll('.itemRow'));
+  const item = items.find((i) => +i.attributes[1].value === id);
+  const newQ = +item.querySelector('#itemQ').innerHTML + +quantity;
+  item.querySelector('#itemQ').innerHTML = newQ;
+  const itemFromSearch = _searchItems.find((i) => i.id === id);
+  itemFromSearch.quantity = newQ;
+};
+
+// Function for deleting an item
+const deleteItem = (id, name) => {
+  const items = Array.from(document.querySelectorAll('.itemRow'));
+  const item = items.find((i) => +i.attributes[1].value === id);
+  item.querySelector('#name').innerHTML = name;
+  item.querySelector('#increaseBtn1').disabled = true;
+  item.querySelector('#reduceBtn1').disabled = true;
+  item.querySelector('#disposeBtn1').disabled = true;
+  item.querySelector('#reportMissingBtn1').disabled = true;
+
+  const itemFromSearch = _searchItems.find((i) => i.id === id);
+  itemFromSearch.deleted = true;
+};

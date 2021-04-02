@@ -1,16 +1,17 @@
 // variables
-let _itemID = 0;
-let _itemName = '';
-let _itemQuantity = 0;
-let _itemPrice = 0;
-let _itemDepartment = '';
-let _itemCategory = '';
-let _itemModel = '';
-let _itemLocation = '';
-let _memberId = 0;
+let _disposeItemID = 0;
+let _disposeItemName = '';
+let _disposeItemQuantity = 0;
+let _disposeItemPrice = 0;
+let _disposeItemDepartment = '';
+let _disposeItemCategory = '';
+let _disposeItemModel = '';
+let _disposeItemLocation = '';
+
+let _disposeRowId = 0;
 
 // form
-const form = document.getElementById('disposeForm');
+const disposeForm = document.getElementById('disposeForm');
 
 // function to handle the response data
 const handleDisposeResponse = (response) => {
@@ -20,15 +21,15 @@ const handleDisposeResponse = (response) => {
 // handler for sending and recieving data from backend
 const disposeItemInDB = () => {
   const servletParameters = {
-    'item-id': _itemID,
-    'item-name': _itemName,
-    'item-quantity': _itemQuantity,
-    'item-price': _itemPrice,
-    'item-department': _itemDepartment,
-    'item-category': _itemDepartment,
-    'item-model': _itemDepartment,
-    'item-location': _itemDepartment,
-    'member-id': _memberId,
+    'item-id': _disposeItemID,
+    'item-name': _disposeItemName,
+    'item-quantity': _disposeItemQuantity,
+    'item-price': _disposeItemPrice,
+    'item-department': _disposeItemDepartment,
+    'item-category': _disposeItemCategory,
+    'item-model': _disposeItemModel,
+    'item-location': _disposeItemLocation,
+    'member-id': LOGGED_ON_MEMBER_ID,
   };
   $.ajax({
     url: 'ItemDispose',
@@ -48,18 +49,44 @@ const disposeItemInDB = () => {
 };
 
 // form submit event handler
-form.addEventListener('submit', (e) => {
+disposeForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  _itemName = document.getElementById('itemNameDisposeModal').value;
-  _itemID = document.getElementById('itemIdDisposeModal').value;
-  _itemQuantity = document.getElementById('itemQuantityDisposeModal').value;
-  _itemPrice = document.getElementById('itemIdDisposeModal').value;
-  _itemDepartment = document.getElementById('itemDepartmentDisposeModal').value;
-  _itemCategory = document.getElementById('itemCategoryDisposeModal').value;
-  _itemModel = document.getElementById('itemModelDisposeModal').value;
-  _itemLocation = document.getElementById('itemLocationDisposeModal').value;
-  _memberId = 0;
-
   disposeItemInDB();
+  deleteItem(_disposeRowId, _disposeItemName);
+  $('#disposeModal').modal('hide');
+});
+
+// function to get data from dispose button
+$('#disposeModal').on('show.bs.modal', function (e) {
+  //get data-id attribute of the clicked element
+  _disposeItemID = $(e.relatedTarget).data('id');
+  _disposeItemName = $(e.relatedTarget).data('name');
+  _disposeItemPrice = $(e.relatedTarget).data('price');
+  _disposeItemDepartment = $(e.relatedTarget).data('department');
+  _disposeItemCategory = $(e.relatedTarget).data('category');
+  _disposeItemModel = $(e.relatedTarget).data('model');
+  _disposeItemLocation = $(e.relatedTarget).data('location');
+  _disposeItemQuantity = $(e.relatedTarget).data('quantity');
+  _disposeRowId = $(e.relatedTarget.parentElement.parentElement).data(
+    'rowNumber'
+  );
+
+  document.getElementById('itemIdDisposeModal').innerText = _disposeItemID;
+  document.getElementById('itemNameDisposeModal').innerText = _disposeItemName;
+  document.getElementById(
+    'itemPriceDisposeModal'
+  ).innerText = _disposeItemPrice;
+  document.getElementById(
+    'itemDepartmentDisposeModal'
+  ).innerText = _disposeItemDepartment;
+  document.getElementById(
+    'itemCategoryDisposeModal'
+  ).innerText = _disposeItemCategory;
+  document.getElementById(
+    'itemModelIncreaseModal'
+  ).innerText = _disposeItemModel;
+  document.getElementById(
+    'itemLocationDisposeModal'
+  ).innerText = _disposeItemLocation;
 });

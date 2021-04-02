@@ -1,12 +1,11 @@
 // variables
-let _itemID = 0;
-let _itemName = '';
-let _itemCurrentQuantity = 0;
-let _itemMissingQuantity = 0;
-let _memberId = 0;
+let _reportMissingItemID = 0;
+let _reportMissingItemName = '';
+let _reportMissingItemCurrentQuantity = 0;
+let _reportMissingItemMissingQuantity = 0;
 
 // form
-const form = document.getElementById('reportMissingForm');
+const reportMissingForm = document.getElementById('reportMissingForm');
 
 // function to handle the response data
 const handleReportMissingResponse = (response) => {
@@ -16,14 +15,14 @@ const handleReportMissingResponse = (response) => {
 // handler for sending and receiving data from backend
 const reportMissingItemInDB = () => {
   const servletParameters = {
-    'item-id': _itemID,
-    'item-name': _itemName,
-    'item-current-quantity': _itemCurrentQuantity,
-    'item-missing-quantity': _itemMissingQuantity,
-    'member-id': _memberId,
+    'item-id': _reportMissingItemID,
+    'item-name': _reportMissingItemName,
+    'item-current-quantity': _reportMissingItemCurrentQuantity,
+    'item-missing-quantity': _reportMissingItemMissingQuantity,
+    'member-id': LOGGED_ON_MEMBER_ID,
   };
   $.ajax({
-    url: 'ItemDispose',
+    url: 'ReportItemMissing',
     dataType: 'text',
     type: 'PUT',
     data: servletParameters,
@@ -40,14 +39,33 @@ const reportMissingItemInDB = () => {
 };
 
 // form submit event handler
-form.addEventListener('submit', (e) => {
+reportMissingForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  _itemName = document.getElementById('itemNameModal').value;
-  _itemID = document.getElementById('itemIdModal').value;
-  _itemCurrentQuantity = document.getElementById('itemQuantityModal').value;
-  _itemMissingQuantity = document.getElementById('inputMissingModal').value;
-  _memberId = 0;
+  _reportMissingItemName = document.getElementById('itemNameMissingModal')
+    .value;
+  _reportMissingItemID = document.getElementById('itemIdMissingModal').value;
+  _reportMissingItemCurrentQuantity = document.getElementById(
+    'itemQuantityMissingModal'
+  ).value;
+  _reportMissingItemMissingQuantity = document.getElementById(
+    'inputMissingModal'
+  ).value;
 
   reportMissingItemInDB();
+  $('#reportMissingModal').modal('hide');
+});
+
+// function to get data from report missing button
+$('#reportMissingModal').on('show.bs.modal', function (e) {
+  //get data-id attribute of the clicked element
+  const itemId = $(e.relatedTarget).data('id');
+  const itemName = $(e.relatedTarget).data('name');
+  const itemModel = $(e.relatedTarget).data('model');
+  const itemQuantity = $(e.relatedTarget).data('quantity');
+
+  document.getElementById('itemIdMissingModal').innerText = itemId;
+  document.getElementById('itemNameMissingModal').innerText = itemName;
+  document.getElementById('itemModelMissingModal').innerText = itemModel;
+  document.getElementById('itemQuantityMissingModal').innerText = itemQuantity;
 });

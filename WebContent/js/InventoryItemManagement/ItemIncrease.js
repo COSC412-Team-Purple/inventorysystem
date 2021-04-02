@@ -1,18 +1,22 @@
-let _itemName = '';
-let _itemID = 0;
-let _memberId = 0;
-let _itemOldQuantity = '';
-let _itemNewQuantity = 0;
-let _itemPrice = 0;
-let _comment = '';
+let _increaseItemName = '';
+let _increaseItemID = 0;
+let _increaseItemOldQuantity = '';
+let _increaseItemNewQuantity = 0;
+let _increaseItemPrice = 0;
+let _increaseComment = '';
+
+let _increaseRowId = 0;
 
 // form
-const form = document.getElementById('increaseForm');
+const increaseForm = document.getElementById('increaseForm');
 
 // functions
-const validQuanity = () => {
+const validIncreaseQuanity = () => {
   let valid = true;
-  valid = _itemNewQuantity === '' ? false : true;
+  valid =
+    _increaseItemNewQuantity === '' || _increaseItemNewQuantity <= 0
+      ? false
+      : true;
   return valid;
 };
 
@@ -20,20 +24,20 @@ const showIncreaseError = () => {
   console.log('No new quanity was inserted');
 };
 
-const handleQuantityUpdateResponse = (response) => {
+const handleIncreaseQuantityUpdateResponse = (response) => {
   console.log(response);
 };
 
 // handler for search item
 const increaseItemInDB = () => {
   const servletParameters = {
-    'item-id': _itemID,
-    'item-name': _itemName,
-    'member-id': _memberId,
-    'item-old-quanity': _itemOldQuantity,
-    'item-new-quanity': _itemNewQuantity,
-    'item-price': _itemPrice,
-    'comment': _comment,
+    'item-id': _increaseItemID,
+    'item-name': _increaseItemName,
+    'member-id': LOGGED_ON_MEMBER_ID,
+    'item-old-quanity': _increaseItemOldQuantity,
+    'item-new-quanity': _increaseItemNewQuantity,
+    'item-price': _increaseItemPrice,
+    comment: _increaseComment,
   };
   $.ajax({
     url: 'ItemQuantity',
@@ -44,7 +48,7 @@ const increaseItemInDB = () => {
       let response = JSON.parse(data);
       console.log('Response');
       console.log(response);
-      handleQuantityUpdateResponse(response);
+      handleIncreaseQuantityUpdateResponse(response);
     },
     error: function (jqXhr, textStatus, errorThrown) {
       console.log(errorThrown);
@@ -53,19 +57,44 @@ const increaseItemInDB = () => {
 };
 
 // form submit event handler
-form.addEventListener('submit', (e) => {
+increaseForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  _itemName = document.getElementById('itemNameIncreaseModal').value;
-  _itemID = document.getElementById('itemIdIncreaseModal').value;
-  _memberId = '';
-  _itemOldQuantity = document.getElementById('itemQuantityIncreaseModal').value;
-  _itemNewQuantity = document.getElementById('increase-number').value;
-  _itemPrice = 0;
-  _comment = document.getElementById('reason').value;
-  if (validQuanity()) {
+  _increaseItemNewQuantity = document.getElementById('inputIncreaseModal')
+    .value;
+  _increaseComment = document.getElementById('reasonIncreaseModal').value;
+
+  if (validIncreaseQuanity()) {
     increaseItemInDB();
+    // showSuccessMessage('Increased Item Quantity');
+    updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
+    console.log('increased quantity');
+    $('#increaseModal').modal('hide');
   } else {
     showIncreaseError();
   }
+});
+
+// function to get data from increase button
+$('#increaseModal').on('show.bs.modal', function (e) {
+  //get data-id attribute of the clicked element
+  _increaseItemID = $(e.relatedTarget).data('id');
+  _increaseItemName = $(e.relatedTarget).data('name');
+  const itemModel = $(e.relatedTarget).data('model');
+  _increaseItemOldQuantity = $(e.relatedTarget).data('quantity');
+  _increaseRowId = $(e.relatedTarget.parentElement.parentElement).data(
+    'rowNumber'
+  );
+  _increaseItemPrice = $(e.relatedTarget.parentElement.parentElement).data(
+    'price'
+  );
+
+  document.getElementById('itemIdIncreaseModal').innerText = _increaseItemID;
+  document.getElementById(
+    'itemNameIncreaseModal'
+  ).innerText = _increaseItemName;
+  document.getElementById('itemModelIncreaseModal').innerText = itemModel;
+  document.getElementById(
+    'itemQuantityIncreaseModal'
+  ).innerText = _increaseItemOldQuantity;
 });
