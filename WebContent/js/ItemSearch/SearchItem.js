@@ -58,7 +58,7 @@ const pageButtons = (pages) => {
       paginationState.currentPage === page ? 'active' : ''
     }"><button class="page-link page" value="${page}">${page}</button></li>`;
   }
-  const table = document.getElementById('table');
+  const tableBody = document.getElementById('tableBody');
 
   if (paginationState.currentPage != 1) {
     pageButtonWrap.innerHTML =
@@ -71,7 +71,7 @@ const pageButtons = (pages) => {
   }
 
   $('.page').on('click', function () {
-    table.innerHTML = '';
+    tableBody.innerHTML = '';
     paginationState.currentPage = Number($(this).val());
     console.log('add new event');
     buildTable();
@@ -126,7 +126,7 @@ const showSearchError = () => {
 // function to build table with data
 const buildTable = () => {
   const data = pagination();
-  const table = document.getElementById('table');
+  const tableBody = document.getElementById('tableBody');
   data.items.forEach((item, i) => {
     const html = `
       <tr class="itemRow" data-row-number="${item.id}">
@@ -212,7 +212,7 @@ const buildTable = () => {
         </td>
       </tr>
     `;
-    table.insertAdjacentHTML('beforeend', html);
+    tableBody.insertAdjacentHTML('beforeend', html);
   });
   if (_searchItems.length > paginationState.itemsPerPage) {
     pageButtons(data.pages);
@@ -221,11 +221,13 @@ const buildTable = () => {
 
 // handler to add the response data to screen
 const handleSearchItemResponse = (response) => {
+  _searchItems = [];
   response.forEach((item) => {
     _searchItems.push({ ...item, hasPermission: true });
   });
 
-  const table = document.getElementById('table');
+  const tableBody = document.getElementById('tableBody');
+  tableBody.innerHTML = '';
   if (_searchItems.length > 0) {
     buildTable();
   } else {
@@ -234,19 +236,18 @@ const handleSearchItemResponse = (response) => {
       <td>No Items were found</td>
     </tr>
     `;
-    table.innerHTML = html;
+    tableBody.innerHTML = html;
   }
 };
 
 // handler for sending and receiving search item data to back end
 const getSearchItemInDB = () => {
   const servletParameters = {
-    'search-item': _searchItemName,
-    'item-category': _searchItemCategory,
-    'managing-department': _searchItemManagingDepartment,
-    'price-checkbox': _searchItemPriceCheck,
-    'min-price': _searchItemMinPrice,
-    'max-price': _searchItemMaxPrice,
+    'item_name': _searchItemName,
+    'item_category': _searchItemCategory,
+    'item_dept': _searchItemManagingDepartment,
+    'item_price_min': _searchItemMinPrice,
+    'item_price_max': _searchItemMaxPrice,
   };
   $.ajax({
     url: 'ItemSearch',
@@ -277,12 +278,10 @@ _searchItemform.addEventListener('submit', (e) => {
   _searchItemPriceCheck = document.getElementById('searchByPriceRange').checked;
 
   priceBoxChecked();
-  if (isValidSearch()) {
-    getSearchItemInDB();
-    // handleSearchItemResponse(data);
-  } else {
-    showSearchError();
-  }
+  
+  getSearchItemInDB();
+  // handleSearchItemResponse(data);
+  
 });
 
 // Function to increase or decrease the quantity
