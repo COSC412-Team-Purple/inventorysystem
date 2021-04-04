@@ -52,6 +52,7 @@ const registerItemInDB = () => {
     'item_brand': _registerItemBrand,
     'item_description': _registerItemDescription,
   };
+  console.log(servletParameters);
   $.ajax({
     url: 'ItemRegistrationServlet',
     dataType: 'text',
@@ -92,7 +93,7 @@ form.addEventListener('submit', (e) => {
     registerItemInDB();
     //handleRegisterItemResponse();
     showSuccessMessage('successful item registration');
-    
+
   } else {
     showErrorMessage('Unsuccessful Item Registration');
   }

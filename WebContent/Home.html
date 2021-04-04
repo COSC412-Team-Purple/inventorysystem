@@ -653,7 +653,7 @@
             <div class="row" style="margin-bottom:10px">
               <label for="searchMemberIdInput" class="col-form-label">Member Id</label>
               <div class="col">
-                <input id="searchMemberIdInput" type="text" class="form-control w-25" placeholder="Id (ex: 1234)">
+                <input id="searchMemberIdInput" type="number" class="form-control w-25" placeholder="1">
               </div>
             </div>
 
@@ -667,7 +667,7 @@
                 <input id="searchMemberLnameInput" type="text" class="form-control" placeholder="Last name">
               </div>
               <div class="col">
-                <button id="searchMemberButton" class="btn btn-primary" >Search Member</button>
+                <button id="searchMemberButton" class="btn btn-primary" type="button">Search Member</button>
               </div>
             </div>
           </form>
@@ -684,6 +684,12 @@
               <div class="col-auto">
                 <input type="text"  class="form-control-plaintext" id="memberResultName" readonly>
               </div>
+              <label for="memberResultId" class="col-sm-2 col-form-label">Id:</label>
+              <div class="col-auto">
+                <input type="text"  class="form-control-plaintext" id="memberResultId" readonly>
+              </div>
+            </div>
+            <div class="mb-3 row">
               <label for="memberResultStartDate" class="col-sm-2 col-form-label">Start Date:</label>
               <div class="col-auto">
                 <input type="text"  class="form-control-plaintext" id="memberResultStartDate" readonly>
@@ -691,12 +697,6 @@
               <label for="memberResultEndDate" class="col-sm-2 col-form-label">End Date:</label>
               <div class="col-auto">
                 <input type="text"  class="form-control-plaintext" id="memberResultEndDate" readonly>
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <label for="memberResultId" class="col-sm-2 col-form-label">Id:</label>
-              <div class="col-auto">
-                <input type="text"  class="form-control-plaintext" id="memberResultId" readonly>
               </div>
             </div>
             <div class="mb-3 row">
@@ -869,7 +869,7 @@
 
      <!--DashboardDisplay module   -->
     <script type="text/javascript" src="js/DashboardDisplay/Dashboard.js"></script>
-    
+
     <!-- ItemSearch module   -->
     <script type="text/javascript" src="js/ItemSearch/SearchItem.js"></script>
     <script type="text/javascript" src="js/searchBy.js"></script>
@@ -881,7 +881,7 @@
     <script type="text/javascript" src="js/InventoryItemManagement/ItemReportMissing.js"></script>
     <script type="text/javascript" src="js/InventoryItemManagement/ItemRegistration.js"></script>
     <script type="text/javascript" src="js/InventoryItemManagement/DepartmentsAndLocations.js"></script>
-  
+
     <!-- Navigation module   -->
     <script type="text/javascript" src="js/Navigation/Navigation.js"></script>
 

@@ -3,6 +3,7 @@ package com.java.inventorysystem.RoleManagement;
 import java.io.IOException;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
 
 import com.java.inventorysystem.Utilities.*;
 
@@ -51,37 +54,117 @@ public class SearchMember extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		conn = DBConnectionUtility.getDatabaseConnection();
-		System.out.println("SearchMember servlet connecting to DB");
-		try {
-			Statement stmt = conn.createStatement();
-			String member = request.getParameter("?"); //Need name attribute from member field
-			//Separate fname and lname fields? or one field and split fname and lname?
-			String query = "SELECT * FROM member where fname = " + member;
-			ResultSet rs = stmt.executeQuery(query);
-			
-			while(rs.next()) {
-				response.getWriter().write(rs.getString(1) + "\n");
-			}
 
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		conn = DBConnectionUtility.getDatabaseConnection();
+		System.out.println("Get member servlet connecting to DB");
+		int member_id = Integer.valueOf(request.getParameter("member_id"));
+		String member_fname = request.getParameter("member_fname");
+		String member_lname = request.getParameter("member_lname");
+		try {
+			JSONObject returnJson = new JSONObject();
+			ResultSet memberResult = this.searchMember(member_id, member_fname, member_lname);
+			int hits = 0;
+			while(memberResult.next()) {
+				hits++;
+				member_id = memberResult.getInt("member_id");
+				returnJson.put("member_id", member_id);
+				returnJson.put("member_fname", memberResult.getString("fname"));
+				returnJson.put("member_lname", memberResult.getString("lname"));
+			}
+			
+			if(hits != 0) {
+				ResultSet deptMemberResults = this.getMemberDeptMemberInfo(member_id);
+				int dept_id = 0;
+				int position_id = 0;
+				while(deptMemberResults.next()) {
+					dept_id = deptMemberResults.getInt("dept_id");
+					position_id = deptMemberResults.getInt("position_id");
+					returnJson.put("member_start_date", deptMemberResults.getDate("start_date").toString());
+					
+					Date end = deptMemberResults.getDate("end_date");
+					if(end != null) {
+						returnJson.put("member_end_date", end.toString());
+					}else {
+						returnJson.put("member_end_date", null);
+					}
+				}
+				
+				if(dept_id != 0) {
+					ResultSet deptResults = this.getDeptInfo(dept_id);
+					ResultSet positionResults = this.getPositionName(position_id);
+					
+					while(deptResults.next()) {
+						returnJson.put("member_dept", deptResults.getString("name_dept"));
+					}
+					
+					while(positionResults.next()) {
+						returnJson.put("member_role", positionResults.getString("name_pos"));
+					}
+				}else {
+					returnJson.put("member_start_date", "");
+					returnJson.put("member_end_date", "");
+					returnJson.put("member_dept", "");
+					returnJson.put("member_role", "");
+				}
+			}else {
+				returnJson.put("member_id", 0);
+			}
+			
 
+
+			ClientResponseUtility.writeToClient(response, returnJson);
+			response.setStatus(200);
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response.sendError(400, "error finding inventory total and items by category data");
+		}
 	}
 	
 	//Build SQL statement for searching for a member
-	private ResultSet searchMember(String member) throws SQLException {
+	private ResultSet searchMember(int member_id, String member_fname, String member_lname) throws SQLException {
 		
-		String query = "";
+		String query = "SELECT member_id, fname, lname FROM member WHERE member_id = ? OR (fname = ? AND lname = ?) ;";
 		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setInt(1, member_id);
+		stmt.setString(2, member_fname);
+		stmt.setString(3, member_lname);
+		ResultSet rs = stmt.executeQuery();
+			
+		return rs;
+	}
+	
+	private ResultSet getMemberDeptMemberInfo(int member_id) throws SQLException {
+		
+		String query = "SELECT dept_id, position_id, start_date, end_date FROM dept_member WHERE member_id = ?;";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setInt(1, member_id);
+		ResultSet rs = stmt.executeQuery();
+			
+		return rs;
+	}
+	
+	private ResultSet getDeptInfo(int dept_id) throws SQLException {
+		
+		String query = "SELECT name_dept FROM department WHERE dept_id = ?;";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setInt(1, dept_id);
+		ResultSet rs = stmt.executeQuery();
+			
+		return rs;
+	}
+	
+	private ResultSet getPositionName(int position_id) throws SQLException {
+		
+		String query = "SELECT name_pos FROM member_pos WHERE position_id = ?;";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setInt(1, position_id);
 		ResultSet rs = stmt.executeQuery();
 			
 		return rs;
