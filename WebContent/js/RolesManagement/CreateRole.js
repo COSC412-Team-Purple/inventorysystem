@@ -1,14 +1,7 @@
 let _roleCheckboxes = $(".roleCheckbox");
 let _createRoleButton = $("#createRoleButton");
-let _backToRolesScreenButton = $("#backToRolesScreenButton");
 let _createRoleNameInput = $("#roleNameInput");
 
-
-
-_backToRolesScreenButton.click(function() {
-  hideAllContainers();
-  $("#RolesContainer").show();
-});
 
 _createRoleButton.click(function(event){
   //add a check for if the member has permission, interface with ActionValidation.js hasPermission(permission)
@@ -44,13 +37,16 @@ function getCheckedOnPermissions(){
       permissions += $(this).val() + ",";
     }
   });
+  //remove the last comma on the build permissions string
   permissions = permissions.slice(0, -1);
-  return permissions
+  return permissions;
 }
 
 function handleCreateRoleResponse(response){
+  //add role to gloabal array
   ROLES.push(response);
-  //interface with AssignRole.js
+
+  //interface with AssignRole.js to add role to dropdown and table
   addRoleToRolesTable(response);
   addRoleOptionToRoleSelect(response.roleName);
 

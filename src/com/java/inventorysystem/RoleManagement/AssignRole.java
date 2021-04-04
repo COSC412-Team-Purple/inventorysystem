@@ -12,6 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
+
 import com.java.inventorysystem.Utilities.*;
 /**
  * Servlet implementation class AssignRole
@@ -49,12 +52,17 @@ public class AssignRole extends HttpServlet {
 		conn = DBConnectionUtility.getDatabaseConnection();
 		System.out.println("AssignRole servlet connecting to DB");
 		try {
-			Statement stmt = conn.createStatement();
-			String member = request.getParameter("?");
-			String role = request.getParameter("?");
-			String query = "UPDATE "; //TODO: SQL for setting the member to new role
-			ResultSet rs = stmt.executeQuery(query);
+			int member_id = Integer.valueOf(request.getParameter("member_id"));
+			int role_id = Integer.valueOf(request.getParameter("role_id"));
 			
+			JSONObject returnJson = new JSONObject();
+			ResultSet rs = this.setMemberRole(member_id, role_id);
+			while(rs.next()) {
+				returnJson.put("member_role", rs.getString("name_pos"));
+			}
+			
+			ClientResponseUtility.writeToClient(response, returnJson);
+			response.setStatus(200);
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,10 +70,14 @@ public class AssignRole extends HttpServlet {
 	}
 
 	//Build SQL statement for setting a member's role
-	private ResultSet setMemberRole(int member_id, String role) throws SQLException {
+	private ResultSet setMemberRole(int member_id, int role_id) throws SQLException {
 		
-		String query = "";
+		String query = "UPDATE dept_member SET position_id = ? WHERE member_id = ? "
+				+ "RETURNING (SELECT name_pos FROM member_pos WHERE position_id = ?);"; //TODO: SQL for setting the member to new role
 		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setInt(1, role_id);
+		stmt.setInt(2, member_id);
+		stmt.setInt(3, role_id);
 		ResultSet rs = stmt.executeQuery();
 			
 		return rs;

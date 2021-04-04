@@ -5,6 +5,7 @@ let _searchMemberLnameInput = $("#searchMemberLnameInput");
 
 
 _searchMemberButton.click(function(){
+  //if the member has permission to search members and they entered a valid search
   if(hasPermission("search_member") && validMemberSearch()){
     searchMemberInDB()
   }
@@ -13,10 +14,12 @@ _searchMemberButton.click(function(){
 function validMemberSearch(){
   let valid = false;
   let id = Number(_searchMemberIdInput.val());
-  console.log(Math.floor(id));
-  console.log(id);
+
+//ceck to see if the entered number is a integer
   if(Math.floor(id) === id){
     valid = true;
+
+  //check to see if a value was even entered into the id
   }else if(id === ""){
     valid = false;
   }else{
@@ -26,9 +29,12 @@ function validMemberSearch(){
 
   let fname = _searchMemberFnameInput.val().trim();
   let lname = _searchMemberLnameInput.val().trim();
+  //check to see if inputs are empty
   if(lname !== "" && fname !== ""){
     valid = true;
   }
+
+  //if invalid search, show error
   if(!valid){
     showErrorMessage("Error. Either member id needs a value or both first name and last name needs a value.");
   }
@@ -37,6 +43,7 @@ function validMemberSearch(){
 
 function searchMemberInDB(){
     let memberId = _searchMemberIdInput.val();
+    //if the id is empty, set to 0 so there is no type error on the java side
     if(memberId === ""){
       memberId = 0;
     }
@@ -59,10 +66,14 @@ function searchMemberInDB(){
 }
 
 function handleSearchMemberResponse(response){
+  //if the member_id > 0, then the member was found
   if(response.member_id > 0){
+    //populate the results on the page
     $("#memberResultName").val(response.member_fname + " " + response.member_lname);
     $("#memberResultId").val(response.member_id);
     $("#memberResultStartDate").val(response.member_start_date);
+
+    //if the member does not have an end date, set it as present
     if(response.member_end_date !== null){
       $("#memberResultEndDate").val(response.member_end_date);
     }else{
@@ -71,5 +82,7 @@ function handleSearchMemberResponse(response){
 
     $("#memberResultDepartment").val(response.member_dept);
     $("#memberResultCurrentRole").val(response.member_role);
+  }else{
+    showErrorMessage("Error. Member not found");
   }
 }
