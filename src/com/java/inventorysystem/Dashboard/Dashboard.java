@@ -25,7 +25,7 @@ import com.java.inventorysystem.Utilities.*;
 /*
 WORKFLOW
 
-1. select toal_value from inventory_total where total_id = 1
+1. select total_value from inventory_total where total_id = 1
 2. select category, items from items_by_category
 3. return data to client
 */
@@ -67,19 +67,19 @@ public class Dashboard extends HttpServlet {
 
 	}
 	
-	//Build SQL statement retrieving all the item data
-	private ResultSet getItems() throws SQLException {
+	//1. select total_value from inventory_total where total_id = 1
+	private ResultSet getInventoryTotal() throws SQLException {
 		
-		String query = "SELECT category, items FROM items_by_category";
+		String query = "SELECT total_value FROM inventory_total WHERE total_id = 1";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet results = stmt.executeQuery();
 			
 		return results;
 	}
 	
-	//Compute the total value of all items to be displayed on the dashboard
-	private ResultSet getInventoryTotal() throws SQLException {
-		String query = "SELECT total_value FROM inventory_total";
+	//2. select category, items from items_by_category
+	private ResultSet getItems() throws SQLException {
+		String query = "SELECT category, items FROM items_by_category";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet results = stmt.executeQuery();
 			

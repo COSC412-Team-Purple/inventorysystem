@@ -109,25 +109,50 @@ public class ItemSearch extends HttpServlet {
 	//Build SQL statement for searching for an item in the DB
 	private ResultSet searchItem(String name, String category, String dept, float priceMin, float priceMax) throws SQLException {
 		
-		//item name is mandatory
-
-		//set defaults for category and dept in preparation for the sql statement
-		if(category.equals("any"))
+		String query = "SELECT * FROM items WHERE";
+		boolean AND = false;
+		
+		if(!name.isEmpty())
 		{
-			category = "*";
+			query += " items = '" + name + "'";
+			AND = true;
 		}
 		
-		if(dept.equals("any"))
+		//The html page drop-down must be either "any" or some pre-defined category
+		//If it is "any" then ignore, otherwise include the specific category in the SQL
+		if(!category.equals("any"))
 		{
-			dept = "*";
+			if(AND)
+			{
+				query += " AND";
+			}
+			
+			query += " category = '" + category + "'";
+			AND = true;
 		}
 		
-		String query = "SELECT * FROM items WHERE category = " + category + " AND dept_name = " + dept;
-		
+		//The html page drop-down must be either "any" or some pre-defined dept
+		//If it is "any" then ignore, otherwise include the specific dept in the SQL
+		if(!dept.equals("any"))
+		{
+			if(AND)
+			{
+				query += " AND";
+			}
+			
+			query += " dept_name = '" + dept + "'";
+			AND = true;
+		}
+			
 		if( !(priceMin == 0.0 && priceMax == 0.0) && priceMin <= priceMax )
 		{
+			if(AND)
+			{
+				query += " AND";
+			}
+			
 			//If both are 0 then ignore price condition
-			query = query + " AND price >= " + priceMin + " AND price <= " + priceMax;
+			query = query + " price >= " + priceMin + " AND price <= " + priceMax;
 		}
 		
 		PreparedStatement stmt = conn.prepareStatement(query);
