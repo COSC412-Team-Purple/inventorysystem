@@ -47,10 +47,10 @@ public class ItemSearch extends HttpServlet {
 		String item_name = request.getParameter("item_name");
 		String category  = request.getParameter("item_category");
 		String dept      = request.getParameter("item_dept");
-		float priceMin   = Float.parseFloat(request.getParameter("item_price_max"));
-		float priceMax   = Float.parseFloat(request.getParameter("item_price_min"));
+		float priceMin   = Float.parseFloat(request.getParameter("item_price_min"));
+		float priceMax   = Float.parseFloat(request.getParameter("item_price_max"));
 		JSONObject returnJson = new JSONObject();
-		
+			
 		try {
 			conn = DBConnectionUtility.getDatabaseConnection();
 			
@@ -64,7 +64,7 @@ public class ItemSearch extends HttpServlet {
 				int itemID          = item_info.getInt("item_id");
 				String itemName     = item_info.getString("item_name");
 				float itemPrice     = item_info.getFloat("price");
-				int itemQuantity    = item_info.getInt("item_quat");
+				int itemQuantity    = item_info.getInt("item_quant");
 				String itemModel    = item_info.getString("item_model");
 				String itemLocation = item_info.getString("item_loc");
 				String itemDept     = item_info.getString("dept_name");
@@ -73,10 +73,14 @@ public class ItemSearch extends HttpServlet {
 				String itemBrand    = item_info.getString("item_brand");
 				String itemText     = item_info.getString("item_memo");
 				
+				//Debug
+				//System.out.println("ID  Name  Price  Quantity  Model  Locaiton  Dept  Category  Date  Brand  Text");
+				//System.out.println(itemID + "  " + itemName + "  " + itemPrice + "  " + itemQuantity + "  " + itemModel + "  " + itemLocation + "  " + itemDept + "  " + itemCategory + "  " + itemDate + "  " + itemBrand + "  " + itemText);
+				
 				returnJson.put("item_id", itemID);
 				returnJson.put("item_name", itemName);
 				returnJson.put("price", itemPrice);
-				returnJson.put("item_quat", itemQuantity);
+				returnJson.put("item_quant", itemQuantity);
 				returnJson.put("item_model", itemModel);
 				returnJson.put("item_loc", itemLocation);
 				returnJson.put("dept_name", itemDept);
@@ -109,12 +113,13 @@ public class ItemSearch extends HttpServlet {
 	//Build SQL statement for searching for an item in the DB
 	private ResultSet searchItem(String name, String category, String dept, float priceMin, float priceMax) throws SQLException {
 		
-		String query = "SELECT * FROM items WHERE";
+		String query = "SELECT * FROM items";
+		String suffix = ""; 
 		boolean AND = false;
 		
 		if(!name.isEmpty())
 		{
-			query += " items = '" + name + "'";
+			suffix += " item_name = '" + name + "'";
 			AND = true;
 		}
 		
@@ -124,10 +129,10 @@ public class ItemSearch extends HttpServlet {
 		{
 			if(AND)
 			{
-				query += " AND";
+				suffix += " AND";
 			}
 			
-			query += " category = '" + category + "'";
+			suffix += " category = '" + category + "'";
 			AND = true;
 		}
 		
@@ -137,10 +142,10 @@ public class ItemSearch extends HttpServlet {
 		{
 			if(AND)
 			{
-				query += " AND";
+				suffix += " AND";
 			}
 			
-			query += " dept_name = '" + dept + "'";
+			suffix += " dept_name = '" + dept + "'";
 			AND = true;
 		}
 			
@@ -148,12 +153,20 @@ public class ItemSearch extends HttpServlet {
 		{
 			if(AND)
 			{
-				query += " AND";
+				suffix += " AND";
 			}
 			
 			//If both are 0 then ignore price condition
-			query = query + " price >= " + priceMin + " AND price <= " + priceMax;
+			suffix += " price >= " + priceMin + " AND price <= " + priceMax;
 		}
+		
+		if(!suffix.isEmpty())
+		{
+			query += " WHERE" + suffix;
+		}
+		
+		//Debug
+		//System.out.println("Running Query: " + query);
 		
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();

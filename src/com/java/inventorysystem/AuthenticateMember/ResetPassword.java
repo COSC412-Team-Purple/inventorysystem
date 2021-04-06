@@ -140,11 +140,14 @@ public class ResetPassword extends HttpServlet {
 		
 		String query = "UPDATE member SET passw = " + password + " WHERE member_id = " + member_id;
 		PreparedStatement stmt = conn.prepareStatement(query);
-		ResultSet rs = stmt.executeQuery();
+		int success = stmt.executeUpdate();
 
-		//Resultset should always contain something if it succeeds I think. If resultset is empty then it failed
-		//This means the new password can't be set for some reason such as the username doesn't exist 
-		return rs.next();
+		if(success == 1)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 
 }
