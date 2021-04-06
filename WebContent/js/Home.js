@@ -47,6 +47,42 @@ function showErrorMessage(message){
   }, 3000)
 }
 
+function showErrorMessageOnIncreaseModal(message){
+  let errorAlert = $("#errorAlertIncreaseModal");
+  errorAlert.html(message);
+  errorAlert.show();
+  setTimeout(function(){
+    errorAlert.hide();
+  }, 3000)
+}
+
+function showErrorMessageOnReduceModal(message){
+  let errorAlert = $("#errorAlertReduceModal");
+  errorAlert.html(message);
+  errorAlert.show();
+  setTimeout(function(){
+    errorAlert.hide();
+  }, 3000)
+}
+
+function showErrorMessageOnDisposeModal(message){
+  let errorAlert = $("#errorAlertDisposeModal");
+  errorAlert.html(message);
+  errorAlert.show();
+  setTimeout(function(){
+    errorAlert.hide();
+  }, 3000)
+}
+
+function showErrorMessageOnReportMissingModal(message){
+  let errorAlert = $("#errorAlertReportMissingModal");
+  errorAlert.html(message);
+  errorAlert.show();
+  setTimeout(function(){
+    errorAlert.hide();
+  }, 3000)
+}
+
 function showSuccessMessage(message){
   let successAlert = $("#successAlert");
   successAlert.html(message);

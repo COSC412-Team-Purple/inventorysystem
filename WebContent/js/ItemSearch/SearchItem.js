@@ -7,6 +7,9 @@ let _searchItemMaxPrice = 0;
 
 let _searchItems = [];
 
+// Form
+const _searchItemform = document.getElementById('searchItemForm');
+
 // fake data
 const data = [
   {
@@ -20,6 +23,8 @@ const data = [
     category: 'Video',
   },
 ];
+
+
 
 const paginationState = {
   itemsPerPage: 10,
@@ -78,8 +83,7 @@ const pageButtons = (pages) => {
   });
 };
 
-// Form
-const _searchItemform = document.getElementById('searchItemForm');
+
 
 // Functions
 
@@ -258,10 +262,12 @@ const getSearchItemInDB = () => {
       let response = JSON.parse(data);
       console.log('Response');
       console.log(response);
+      console.log(data)
       handleSearchItemResponse(response);
     },
     error: function (jqXhr, textStatus, errorThrown) {
       console.log(errorThrown);
+      showErrorMessage('Unable to Find Item')
     },
   });
 };
@@ -278,10 +284,8 @@ _searchItemform.addEventListener('submit', (e) => {
   _searchItemPriceCheck = document.getElementById('searchByPriceRange').checked;
 
   priceBoxChecked();
-  
-  getSearchItemInDB();
-  // handleSearchItemResponse(data);
-  
+  //getSearchItemInDB();
+  handleSearchItemResponse(data);
 });
 
 // Function to increase or decrease the quantity

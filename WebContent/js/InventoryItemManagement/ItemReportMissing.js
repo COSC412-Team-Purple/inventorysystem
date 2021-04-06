@@ -1,15 +1,37 @@
 // variables
 let _reportMissingItemID = 0;
 let _reportMissingItemName = '';
-let _reportMissingItemCurrentQuantity = 0;
+let _reportMissingItemCurrentQuantity = '';
 let _reportMissingItemMissingQuantity = 0;
 
 // form
 const reportMissingForm = document.getElementById('reportMissingForm');
 
+// check if new quantity is valid
+const validMissingQuanity = () => {
+	
+  let valid = true;
+  if(_reportMissingItemMissingQuantity <= 0) {
+  console.log('input equals a 0')
+  	valid = false;
+  	showErrorMessageOnReportMissingModal('Please Enter a Positive Number')
+  }
+  if(_reportMissingItemMissingQuantity > _reportMissingItemCurrentQuantity) {
+  console.log('missing bigger than current')
+  	valid = false;
+  	showErrorMessageOnReportMissingModal('Missing Quantity is Larger than Current Quantity')
+  }
+      
+  return valid;
+  
+};
+
+
 // function to handle the response data
 const handleReportMissingResponse = (response) => {
   console.log(response);
+  showSuccessMessage('Item Successfully Reported Missing')
+   $('#reportMissingModal').modal('hide');
 };
 
 // handler for sending and receiving data from backend
@@ -34,6 +56,7 @@ const reportMissingItemInDB = () => {
     },
     error: function (jqXhr, textStatus, errorThrown) {
       console.log(errorThrown);
+      showErrorMessageOnReportMissingModal('Unable to Report Item Missing')
     },
   });
 };
@@ -42,30 +65,30 @@ const reportMissingItemInDB = () => {
 reportMissingForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  _reportMissingItemName = document.getElementById('itemNameMissingModal')
-    .value;
-  _reportMissingItemID = document.getElementById('itemIdMissingModal').value;
-  _reportMissingItemCurrentQuantity = document.getElementById(
-    'itemQuantityMissingModal'
-  ).value;
-  _reportMissingItemMissingQuantity = document.getElementById(
+  _reportMissingItemMissingQuantity = +document.getElementById(
     'inputMissingModal'
   ).value;
-
-  reportMissingItemInDB();
-  $('#reportMissingModal').modal('hide');
+  
+  
+  if(validMissingQuanity()) {
+  	reportMissingItemInDB();
+  }
 });
 
 // function to get data from report missing button
 $('#reportMissingModal').on('show.bs.modal', function (e) {
   //get data-id attribute of the clicked element
-  const itemId = $(e.relatedTarget).data('id');
-  const itemName = $(e.relatedTarget).data('name');
+  _reportMissingItemID = $(e.relatedTarget).data('id');
+  _reportMissingItemName = $(e.relatedTarget).data('name');
   const itemModel = $(e.relatedTarget).data('model');
-  const itemQuantity = $(e.relatedTarget).data('quantity');
+  _reportMissingItemCurrentQuantity = $(e.relatedTarget).data('quantity');
+  
+  console.log(_reportMissingItemName)
+  console.log(itemModel)
+  console.log(_reportMissingItemCurrentQuantity);
 
-  document.getElementById('itemIdMissingModal').innerText = itemId;
-  document.getElementById('itemNameMissingModal').innerText = itemName;
+  document.getElementById('itemIdMissingModal').innerText = _reportMissingItemID;
+  document.getElementById('itemNameMissingModal').innerText = _reportMissingItemName;
   document.getElementById('itemModelMissingModal').innerText = itemModel;
-  document.getElementById('itemQuantityMissingModal').innerText = itemQuantity;
+  document.getElementById('itemQuantityMissingModal').innerText = _reportMissingItemCurrentQuantity;
 });

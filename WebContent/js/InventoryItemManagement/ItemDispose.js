@@ -15,6 +15,9 @@ const disposeForm = document.getElementById('disposeForm');
 
 // function to handle the response data
 const handleDisposeResponse = (response) => {
+	deleteItem(_disposeRowId, _disposeItemName);
+	showSuccessMessage('Item Successfully Disposed')
+	$('#disposeModal').modal('hide');
   console.log(response);
 };
 
@@ -44,6 +47,7 @@ const disposeItemInDB = () => {
     },
     error: function (jqXhr, textStatus, errorThrown) {
       console.log(errorThrown);
+      showErrorMessageOnDisposeModal('Unable to Dispose Item')
     },
   });
 };
@@ -53,8 +57,6 @@ disposeForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
   disposeItemInDB();
-  deleteItem(_disposeRowId, _disposeItemName);
-  $('#disposeModal').modal('hide');
 });
 
 // function to get data from dispose button

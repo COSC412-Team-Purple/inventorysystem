@@ -81,7 +81,7 @@ public class ItemSearch extends HttpServlet {
 				returnJson.put("item_loc", itemLocation);
 				returnJson.put("dept_name", itemDept);
 				returnJson.put("category", itemCategory);
-				returnJson.put("purchase_date", itemDate);
+				returnJson.put("purchase_date", itemDate.toString());
 				returnJson.put("item_brand", itemBrand);
 				returnJson.put("item_memo", itemText);
 								

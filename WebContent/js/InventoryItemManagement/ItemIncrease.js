@@ -12,11 +12,13 @@ const increaseForm = document.getElementById('increaseForm');
 
 // functions
 const validIncreaseQuanity = () => {
+  console.log(+_increaseItemNewQuantity)
   let valid = true;
-  valid =
-    _increaseItemNewQuantity === '' || _increaseItemNewQuantity <= 0
-      ? false
-      : true;
+  if(_increaseItemNewQuantity <= 0) {
+  	valid = false;
+  	showErrorMessageOnIncreaseModal('Please Enter a Positive Number')
+  }
+      
   return valid;
 };
 
@@ -25,6 +27,9 @@ const showIncreaseError = () => {
 };
 
 const handleIncreaseQuantityUpdateResponse = (response) => {
+  updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
+  showSuccessMessage('Increased Item Quantity');
+  $('#increaseModal').modal('hide');
   console.log(response);
 };
 
@@ -52,6 +57,7 @@ const increaseItemInDB = () => {
     },
     error: function (jqXhr, textStatus, errorThrown) {
       console.log(errorThrown);
+      showErrorMessageOnIncreaseModal('Unable to Increase Quantity')
     },
   });
 };
@@ -60,16 +66,16 @@ const increaseItemInDB = () => {
 increaseForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  _increaseItemNewQuantity = document.getElementById('inputIncreaseModal')
+  _increaseItemNewQuantity = +document.getElementById('inputIncreaseModal')
     .value;
   _increaseComment = document.getElementById('reasonIncreaseModal').value;
+  
 
   if (validIncreaseQuanity()) {
     increaseItemInDB();
-    // showSuccessMessage('Increased Item Quantity');
-    updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
+    
     console.log('increased quantity');
-    $('#increaseModal').modal('hide');
+    
   } else {
     showIncreaseError();
   }

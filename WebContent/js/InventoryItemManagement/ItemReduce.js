@@ -2,7 +2,7 @@
 let _reduceItemName = '';
 let _reduceItemID = 0;
 let _reduceItemModel = '';
-let _reduceItemOldQuantity = '';
+let _reduceItemOldQuantity = 0;
 let _reduceItemNewQuantity = 0;
 let _reduceItemPrice = 0;
 let _reduceComment = '';
@@ -17,12 +17,15 @@ const reduceForm = document.getElementById('reduceForm');
 // check if new quantity is valid
 const validReduceQuanity = () => {
   let valid = true;
-  valid =
-    _reduceItemNewQuantity === '' ||
-    _reduceItemNewQuantity <= 0 ||
-    _reduceItemNewQuantity > _reduceItemOldQuantity
-      ? false
-      : true;
+  if(_reduceItemNewQuantity <= 0) {
+  	valid = false; 
+  	showErrorMessageOnReduceModal('Please Enter a Positive Number')
+  }
+  if(_reduceItemNewQuantity > _reduceItemOldQuantity) {
+  	valid = false;
+  	showErrorMessageOnReduceModal('Reduce Quantity larger than Current Quantity')
+  }
+      
   return valid;
 };
 
@@ -33,6 +36,9 @@ const showReduceError = () => {
 
 // function to handle the response data
 const handleReduceQuantityUpdateResponse = (response) => {
+	showSuccessMessage('Item Successfully Reduced')
+	updateItemQuantity(_reduceRowId, -1 * _reduceItemNewQuantity);
+	$('#reduceModal').modal('hide');
   console.log(response);
 };
 
@@ -60,6 +66,7 @@ const reduceItemInDB = () => {
     },
     error: function (jqXhr, textStatus, errorThrown) {
       console.log(errorThrown);
+      showErrorMessageOnReduceModal('Unable to Reduce Quantity')
     },
   });
 };
@@ -68,16 +75,11 @@ const reduceItemInDB = () => {
 reduceForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  _reduceItemNewQuantity = document.getElementById('inputReduceModal').value;
+  _reduceItemNewQuantity = +document.getElementById('inputReduceModal').value;
   _reduceComment = document.getElementById('reasonReduceModal').value;
   if (validReduceQuanity()) {
     reduceItemInDB();
-
-    updateItemQuantity(_reduceRowId, -1 * _reduceItemNewQuantity);
-    $('#reduceModal').modal('hide');
-  } else {
-    showReduceError();
-  }
+  } 
 });
 
 // function used to get data from reduce button
@@ -97,7 +99,6 @@ $('#reduceModal').on('show.bs.modal', function (e) {
   document.getElementById('itemIdReduceModal').innerText = _reduceItemID;
   document.getElementById('itemNameReduceModal').innerText = _reduceItemName;
   document.getElementById('itemModelReduceModal').innerText = _reduceItemModel;
-  document.getElementById(
-    'itemQuantityReduceModal'
-  ).innerText = _reduceItemOldQuantity;
+  console.log(document.getElementById('itemQuantityReduceModal'));
+  document.getElementById('itemQuantityReduceModal').innerText = _reduceItemOldQuantity;
 });

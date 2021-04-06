@@ -177,7 +177,7 @@
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="tableBody">
           </tbody>
         </table>
         <div >
@@ -197,6 +197,9 @@
       >
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
+          	<div class="alert alert-danger text-center" id="errorAlertIncreaseModal">
+          		Error. *detail about the error*
+      		</div>
             <div class="modal-header p-4">
               <h5 class="modal-title" id="modalTitle">Increase Item</h5>
               <button
@@ -270,6 +273,9 @@
       >
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
+          	<div class="alert alert-danger text-center" id="errorAlertReduceModal">
+          		Error. *detail about the error*
+      		</div>
             <div class="modal-header p-4">
               <h5 class="modal-title" id="modalTitle">Reduce Item</h5>
               <button
@@ -291,7 +297,7 @@
                 <span id="itemModelReduceModal">Studio Camera 4k</span>
               </p>
               <p class="mt-3">
-                Currenty Quantity: <span id="itemQuantityModal">2</span>
+                Currenty Quantity: <span id="itemQuantityReduceModal">2</span>
               </p>
               <div
                 class="d-flex justify-content-start align-items-center mt-3 w-100"
@@ -344,6 +350,9 @@
       >
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
+          	<div class="alert alert-danger text-center" id="errorAlertDisposeModal">
+          		Error. *detail about the error*
+      		</div>
             <div class="modal-header p-4">
               <h5 class="modal-title" id="modalTitle">Dispose Item</h5>
               <button
@@ -361,7 +370,7 @@
                 Item Name: <span id="itemNameDisposeModal">Camera</span>
               </p>
               <p class="mt-3">
-                Price: $<span id="itemQuantityDisposeModal">1,695.00</span>
+                Price: $<span id="itemPriceDisposeModal">1,695.00</span>
               </p>
               <p class="mt-3">
                 Department: <span id="itemDepartmentDisposeModal">Media</span>
@@ -399,6 +408,9 @@
       >
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
+          	<div class="alert alert-danger text-center" id="errorAlertReportMissingModal">
+          		Error. *detail about the error*
+      		</div>
             <div class="modal-header p-4">
               <h5 class="modal-title" id="modalTitle">Report Missing Item</h5>
               <button
@@ -411,16 +423,16 @@
               </button>
             </div>
             <form class="modal-body p-4 d-flex flex-column align-items-start" id="reportMissingForm">
-              <p>Item id: <span id="itemIdModal">1</span></p>
+              <p>Item id: <span id="itemIdMissingModal">1</span></p>
               <p class="mt-3">
-                Item Name: <span id="itemNameModal">Camera</span>
+                Item Name: <span id="itemNameMissingModal">Camera</span>
               </p>
               <p class="mt-3">
                 Item Model:
                 <span id="itemModelMissingModal">Studio Camera 4k</span>
               </p>
               <p class="mt-3">
-                Currenty Quantity: <span id="itemQuantityModal">2</span>
+                Currenty Quantity: <span id="itemQuantityMissingModal">2</span>
               </p>
               <div
                 class="d-flex justify-content-start align-items-center mt-3 w-100"
