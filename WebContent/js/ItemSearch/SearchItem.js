@@ -284,8 +284,8 @@ _searchItemform.addEventListener('submit', (e) => {
   _searchItemPriceCheck = document.getElementById('searchByPriceRange').checked;
 
   priceBoxChecked();
-  //getSearchItemInDB();
-  handleSearchItemResponse(data);
+  getSearchItemInDB();
+  //handleSearchItemResponse(data);
 });
 
 // Function to increase or decrease the quantity

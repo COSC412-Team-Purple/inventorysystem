@@ -47,12 +47,26 @@ const checkLocCatDeptExist = () => {
 	}
 }
 
+const clearFields = () => {
+	document.getElementById('registerItemNameInput').value = '';
+    document.getElementById('registerItemPriceInput').value = '';
+    document.getElementById('registerItemQuantityInput').value = '';
+  	document.getElementById('registerItemModelInput').value = '';
+  	document.getElementById('registerItemLocationInput').value = '';
+  	document.getElementById('registerItemDeptInput').value = '';
+  	document.getElementById('registerItemCategoryInput').value = '';
+  	document.getElementById('registerItemPurchaseDateInput').value = '';
+  	document.getElementById('registerItemBrandInput').value = '';
+  	document.getElementById('registerItemMemoInput').value = '';
+}
+
 // handler to handle the response from backend
 const handleRegisterItemResponse = (response) => {
   console.log('new item registered');
   showSuccessMessage('New Item Successfully Registered')
   checkLocCatDeptExist();
   console.log(response);
+  clearFields();
 };
 
 // handler for search item
@@ -83,6 +97,7 @@ const registerItemInDB = () => {
     },
     error: function (jqXhr, textStatus, errorThrown) {
       console.log(errorThrown);
+      showErrorMessage('Unsuccessful Item Registration');
     },
   });
 };
@@ -107,16 +122,11 @@ registerItemform.addEventListener('submit', (e) => {
     .value;
 
   if (allFieldsFilledCheck()) {
-    //registerItemInDB();
-    handleRegisterItemResponse("");
+  	
+    registerItemInDB();
+    //handleRegisterItemResponse("");
   } else {
     showErrorMessage('Unsuccessful Item Registration');
   }
 });
 
-
-const getInfo = () => {
-	console.log('Departments', DEPARTMENTS)
-	console.log('Categories', CATEGORIES)
-	console.log('LOCATIONS', LOCATIONS)
-}
