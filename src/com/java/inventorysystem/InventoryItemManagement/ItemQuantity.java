@@ -70,22 +70,21 @@ public class ItemQuantity extends HttpServlet {
 		returnJson.put("itemId", itemId);
 		
 		try {
-			JSONObject itemSearch = this.searchItem(itemId, itemId);
+			JSONObject itemSearch = this.searchItem(itemId, startingQuantity);
 			returnJson.put("deleted", itemSearch.get("deleted"));
 			returnJson.put("modifiedByOtherMember", itemSearch.get("modifiedByOtherMember"));
 			returnJson.put("modifiedQuantity", itemSearch.get("modifiedQuantity"));
 			
-			if( (boolean)returnJson.get("deleted") || (boolean)returnJson.get("modifiedByOtherMember")) {
-				ClientResponseUtility.writeToClient(response, returnJson);
-			}else {
+			if( !(boolean)returnJson.get("deleted") && !(boolean)returnJson.get("modifiedByOtherMember")) {
 				InventoryManagementUtility.changeItemQuantityInItemsTable(itemId, newQuantity, conn);
 				int update_id = InventoryManagementUtility.addRecordToItemQuantityUpdatesTable(memberId, itemId, itemName, differential, memberId, comment, update_type, conn);
+				System.out.println("update id: " + update_id);
 				boolean updateItemsByCategory = InventoryManagementUtility.updateItemsByCategory(itemCategory, differential, update_id, conn);
-				boolean totalValueUpdate = InventoryManagementUtility.updateTotalValue(differential, price, conn);
+				boolean totalValueUpdate = InventoryManagementUtility.updateTotalValue(differential, price, update_id, conn);
 				
 				returnJson.put("updatedQuantity", newQuantity);
 			}
-			
+			ClientResponseUtility.writeToClient(response, returnJson);
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -95,15 +94,17 @@ public class ItemQuantity extends HttpServlet {
 	private JSONObject searchItem(int itemId, int startingQuantity) throws SQLException {
 		JSONObject item = new JSONObject();
 		
-		String query = "SELECT item_quant FROM items WHERE item_id = ?"; //TODO: SQL for setting the new amount
+		String query = "SELECT item_quant FROM items WHERE item_id = ?;"; //TODO: SQL for setting the new amount
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, itemId);
-		ResultSet rs = stmt.executeQuery(query);
+		ResultSet rs = stmt.executeQuery();
 		boolean itemDeleted = true;
 		boolean modifiedByOtherMember = false;
 		while(rs.next()) {
 			itemDeleted = false;
 			int returnedQuantity = rs.getInt("item_quant");
+			System.out.println("starting quantity: " + startingQuantity);
+			System.out.println("quantity in db: " + returnedQuantity);
 			if( returnedQuantity != startingQuantity) {
 				modifiedByOtherMember = true;
 				item.put("modifiedQuantity", returnedQuantity);
@@ -118,6 +119,16 @@ public class ItemQuantity extends HttpServlet {
 	}
 	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// BELOW HERE IS IN InventoryManagementUtility.java
 	
@@ -136,7 +147,7 @@ public class ItemQuantity extends HttpServlet {
 	private int addRecordToItemQuantityUpdatesTable(int memberId, int itemId, String itemName, int old_quant, int updated_quant, String comment, String update_type) throws SQLException {
 		Date update_date = new Date();
 		String query = "INSERT INTO item_quantity_updates (updating_member_id, item_id, item_name, old_quant, updated_quant, update_date, comment, update_type) "
-						+ "VALUES (?,?,?,?,?,?,?,?)";
+						+ "VALUES (?,?,?,?,?,?,?,?) RETURNING update_id;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, memberId);
 		stmt.setInt(2, itemId);

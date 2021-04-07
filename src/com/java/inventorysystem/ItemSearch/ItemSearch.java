@@ -172,6 +172,7 @@ public class ItemSearch extends HttpServlet {
 		
 		//Debug
 		//System.out.println("Running Query: " + query);
+		query += " ORDER BY item_id ASC;";
 		
 
 		PreparedStatement stmt = conn.prepareStatement(query);

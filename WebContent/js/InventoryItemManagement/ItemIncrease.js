@@ -25,7 +25,7 @@ const validIncreaseQuanity = () => {
   	valid = false;
   	showErrorMessageOnIncreaseModal('Please Enter a Positive Number')
   }
-      
+
   return valid;
 };
 
@@ -40,7 +40,7 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
 	  	$('#increaseModal').modal('hide');
 	  }, 3000)
   }
-  
+
   if (response.deleted && _increaseOnAdvancedView) {
 	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member');
 	  deleteItem(_increaseItemID, _increaseItemName);
@@ -50,27 +50,27 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
 	  	$('#increaseModal').modal('hide');
 	  }, 3000)
   }
-  
+
   if (response.modifiedByOtherMember && !_increaseOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
   	document.getElementById('itemQuantityIncreaseModal').innerText = response.modifiedQuantity;
   	clearIncreaseModalFields()
   }
-  
+
   if (response.modifiedByOtherMember && _increaseOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
   	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
   	clearIncreaseModalFields()
   }
-  
+
   if(!response.modifiedByOtherMember && !response.deleted && !_increaseOnAdvancedView) {
 	  updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
 	  showSuccessMessage('Increased Item Quantity');
 	  clearIncreaseModalFields()
 	  $('#increaseModal').modal('hide');
-	  
+
   }
-  
+
   if(!response.modifiedByOtherMember && !response.deleted && _increaseOnAdvancedView) {
 	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
 	  document.getElementById('advancedItemQuantityInput').value = _increaseItemOldQuantity + _increaseItemNewQuantity;
@@ -93,6 +93,7 @@ const increaseItemInDB = () => {
     "item-category": _increaseCategory,
     "update_type": "increase",
   };
+	console.log(servletParameters);
   $.ajax({
     url: 'ItemQuantity',
     dataType: 'text',
@@ -118,11 +119,11 @@ increaseForm.addEventListener('submit', (e) => {
   _increaseItemNewQuantity = +document.getElementById('inputIncreaseModal')
     .value;
   _increaseComment = document.getElementById('reasonIncreaseModal').value;
-  
+
 
   if (validIncreaseQuanity()) {
     increaseItemInDB();
-  } 
+  }
 });
 
 // function to get data from increase button
