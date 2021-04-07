@@ -4,10 +4,6 @@ let _logInButton = $("#logInButton")
 let _memberId = null;
 let _memberPermissions = null;
 
-$(document).ready(function(){
-  $(".reset").hide();
-  $("#logOnErrorAlert").hide();
-});
 
 _logInButton.click(function(){
   let user = _emailInput.val().trim();

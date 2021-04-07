@@ -1,3 +1,11 @@
 .danger {
   color: red;
 }
+
+.reset{
+  display: none;
+}
+
+.alert{
+  display: none;
+}

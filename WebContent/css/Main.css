@@ -39,3 +39,11 @@ form.example::after {
   clear: both;
   display: table;
 }
+
+.tabContainer {
+  display: none;
+}
+
+.alert {
+  display: none;
+}

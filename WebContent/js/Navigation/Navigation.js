@@ -9,7 +9,7 @@ $("#rolesNav").click(function(e) {
 $("#dashboardNav").click(function() {
   //interface with Dashboard.js
   getDashboardDataFromDB();
-  
+
   hideAllContainers();
   $("#dashboardContainer").show();
 
@@ -30,6 +30,7 @@ $("#registerNav").click(function(e) {
 });
 
 $("#logOutButton").click(function(){
+    sessionStorage.clear();
     window.location.href = LOGIN_URL;
 });
 
