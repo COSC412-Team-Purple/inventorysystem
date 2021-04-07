@@ -69,14 +69,14 @@ const handleReportMissingResponse = (response) => {
   }
   
   if(!response.modifiedByOtherMember && !response.deleted && !_reportMissingOnAdvancedView) {
-	  updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
+	  updateItemQuantity(_reportMissingItemID, -1 * _reportMissingItemMissingQuantity);
 	  showSuccessMessage('Item Successfully Reported Missing');
 	  clearReportMissingModalFields()
 	  $('#reportMissingModal').modal('hide');
   }
   
   if(!response.modifiedByOtherMember && !response.deleted && _reportMissingOnAdvancedView) {
-	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
+	  updateItemQuantity(_reportMissingItemID, -1 * _reportMissingItemMissingQuantity);
 	  document.getElementById('advancedItemQuantityInput').value = _increaseItemOldQuantity + _increaseItemNewQuantity;
 	  showSuccessMessage('Item Successfully Reported Missing');
 	  clearReportMissingModalFields()

@@ -70,14 +70,14 @@ const handleReduceQuantityUpdateResponse = (response) => {
   }
   
   if(!response.modifiedByOtherMember && !response.deleted && !_reduceOnAdvancedView) {
-	  updateItemQuantity(_increaseRowId, -1 * _reduceItemNewQuantity);
+	  updateItemQuantity(_reduceRowId, -1 * _reduceItemNewQuantity);
 	  showSuccessMessage('Reduced Item Quantity');
 	  clearReduceModalFields()
 	  $('#reduceModal').modal('hide');
   }
   
   if(!response.modifiedByOtherMember && !response.deleted && _reduceOnAdvancedView) {
-	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
+	  updateItemQuantity(_reduceRowId, -1 * _reduceItemNewQuantity);
 	  document.getElementById('advancedItemQuantityInput').value = _reduceItemOldQuantity + _reduceItemNewQuantity;
 	  showSuccessMessage('Successfully Reduced Item Quantity');
 	  clearReduceModalFields()
