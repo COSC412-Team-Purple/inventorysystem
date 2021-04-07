@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.java.inventorysystem.Utilities.*;
@@ -49,7 +50,7 @@ public class ItemSearch extends HttpServlet {
 		String dept      = request.getParameter("item_dept");
 		float priceMin   = Float.parseFloat(request.getParameter("item_price_min"));
 		float priceMax   = Float.parseFloat(request.getParameter("item_price_max"));
-		JSONObject returnJson = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
 			
 		try {
 			conn = DBConnectionUtility.getDatabaseConnection();
@@ -59,6 +60,7 @@ public class ItemSearch extends HttpServlet {
 			int hits = 0;
 			
 			while(item_info.next()) {
+				JSONObject returnJson = new JSONObject();
 				hits++;
 			
 				int itemID          = item_info.getInt("item_id");
@@ -88,10 +90,12 @@ public class ItemSearch extends HttpServlet {
 				returnJson.put("purchase_date", itemDate.toString());
 				returnJson.put("item_brand", itemBrand);
 				returnJson.put("item_memo", itemText);
-								
-				ClientResponseUtility.writeToClient(response, returnJson);
-				response.setStatus(200);
+						
+				jsonArray.add(returnJson);
 			}
+			
+			ClientResponseUtility.writeToClient(response, jsonArray);
+			response.setStatus(200);
 			
 			if(hits == 0) {
 				response.sendError(400, "item not in DB");
