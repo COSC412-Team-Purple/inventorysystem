@@ -21,20 +21,23 @@ function getDashboardDataFromDB(){
 
 function handleDashboardDataFromDB(dashboardData){
   //parallel arrays
-  CATEGORIES = dashboardData.categories;
+  populateCategorySelectAndDatalists(dashboardData.categories);
   _itemsCorrespondingToCategory = dashboardData.itemsByCategory;
 
   updateInventoryTotalValue(dashboardData.inventoryTotal);
   drawItemsByCategoryBarChart();
-  populateCategorySelectAndDatalists();
+
 }
 
-function populateCategorySelectAndDatalists(){
-  CATEGORIES.forEach((category) =>{
-    let selectOptionHtml = '<option value="'+ category +'">'+ category +'</option>';
-    let datalistOptionHtml = '<option value="'+ category +'" />';
-    $("#itemCategory").append(selectOptionHtml);
-    $("#registerItemCategoryOptions").append(datalistOptionHtml);
+function populateCategorySelectAndDatalists(categories){
+  categories.forEach((category) =>{
+    if(!CATEGORIES.includes(category)){
+      CATEGORIES.push(category);
+      let selectOptionHtml = '<option value="'+ category +'">'+ category +'</option>';
+      let datalistOptionHtml = '<option value="'+ category +'" />';
+      $("#itemCategory").append(selectOptionHtml);
+      $("#registerItemCategoryOptions").append(datalistOptionHtml);
+    }
   })
 }
 
@@ -44,7 +47,7 @@ function updateInventoryTotalValue(value){
   $("#totalIventoryValueDisplay").html(inventoryTotalCommaFormatted);
 }
 
-function updateItemsByCategory(category, itemNum){
+/*function updateItemsByCategory(category, itemNum){
 
   //when there are more categories than corresponding items -> an item was registered to a new category
   if(CATEGORIES.length !== _itemsCorrespondingToCategory.length){
@@ -56,7 +59,7 @@ function updateItemsByCategory(category, itemNum){
   }
 
   drawItemsByCategoryBarChart()
-}
+}*/
 
 function drawItemsByCategoryBarChart(){
   var canvas = document.getElementById('itemsByCategoryBarChart').getContext('2d');

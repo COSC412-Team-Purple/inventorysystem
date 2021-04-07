@@ -7,6 +7,9 @@ $("#rolesNav").click(function(e) {
 });
 
 $("#dashboardNav").click(function() {
+  //interface with Dashboard.js
+  getDashboardDataFromDB();
+  
   hideAllContainers();
   $("#dashboardContainer").show();
 

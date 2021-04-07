@@ -6,9 +6,7 @@ import org.json.simple.JSONObject;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
-public class ClientResponseUtility {
-	private JSONObject json;
-	
+public class ClientResponseUtility{
 	public static void writeToClient(HttpServletResponse response, JSONObject responseJson) throws IOException {
 		System.out.println(responseJson.toJSONString());
 		response.getWriter().write(responseJson.toJSONString());

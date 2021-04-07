@@ -3,6 +3,9 @@ let _createRoleButton = $("#createRoleButton");
 let _createRoleNameInput = $("#roleNameInput");
 
 
+
+
+
 _createRoleButton.click(function(event){
   //add a check for if the member has permission, interface with ActionValidation.js hasPermission(permission)
 
@@ -37,9 +40,9 @@ function getCheckedOnPermissions(){
       permissions += $(this).val() + ",";
     }
   });
-  //remove the last comma on the build permissions string
+  //remove the last comma on the build permission string
   permissions = permissions.slice(0, -1);
-  return permissions;
+  return permissions
 }
 
 function handleCreateRoleResponse(response){

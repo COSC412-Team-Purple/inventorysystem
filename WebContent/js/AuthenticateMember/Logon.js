@@ -31,7 +31,7 @@ function isValidLoginInputs(user, pass){
 }
 
 function authenticateMemberInDB(user, pass){
-    servletParameters = {"username": user, "password": pass};
+    let servletParameters = {"username": user, "password": pass};
     $.ajax({
         url: 'AuthenticateMember',
         dataType: 'text',
@@ -74,8 +74,8 @@ function setWindowToMainApplication(){
 }
 
 
-function putMemberIdAndPermissionsInSessionStorage(memberid, permissions){
-  sessionStorage.setItem('memberId', memberid);
+function putMemberIdAndPermissionsInSessionStorage(memberId, permissions){
+  sessionStorage.setItem('memberId', memberId);
   sessionStorage.setItem('memberPermissions', permissions);
 }
 

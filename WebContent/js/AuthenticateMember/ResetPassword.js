@@ -12,8 +12,8 @@ _resetPasswordAndLoginButton.click(function(){
   }
 });
 
-function handleResetPasswordResponse(statusCode){
-  if(statusCode === 200){
+function handleResetPasswordResponse(response){
+  if(response.success){
     //switch to main application, interface with Logon.js
     setWindowToMainApplication();
   }else{

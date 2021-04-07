@@ -164,6 +164,7 @@ public class ItemSearch extends HttpServlet {
 			suffix += " price >= " + priceMin + " AND price <= " + priceMax;
 		}
 		
+
 		if(!suffix.isEmpty())
 		{
 			query += " WHERE" + suffix;
@@ -172,6 +173,7 @@ public class ItemSearch extends HttpServlet {
 		//Debug
 		//System.out.println("Running Query: " + query);
 		
+
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
 			
