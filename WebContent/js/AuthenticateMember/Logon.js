@@ -45,7 +45,7 @@ function authenticateMemberInDB(user, pass){
         },
         error: function( jqXhr, textStatus, errorThrown ){
             console.log( errorThrown );
-            showLoginError(errorThrown);
+            showLoginError("No member in our database matched these credentials");
         }
     });
 }

@@ -22,14 +22,15 @@ function handleResetPasswordResponse(response){
 }
 
 function resetPasswordInDB(newPass){
-    servletParameters = {"id": getMemberId(), "newPassword" : newPass};
+    servletParameters = {"member_id": getMemberId(), "password" : newPass};
     $.ajax({
-        url: 'AuthenticateMember',
+        url: 'ResetPassword',
         dataType: 'text',
         type: 'POST',
         data: servletParameters,
-        success: function( data, textStatus, xhr ){
-          handleResetPasswordResponse(xhr.status)
+        success: function( data ){
+          let response = JSON.parse(data);
+          handleResetPasswordResponse(response);
         },
         error: function( jqXhr, textStatus, errorThrown ){
             showResetPasswordError(errorThrown);

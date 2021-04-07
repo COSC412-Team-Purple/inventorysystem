@@ -50,7 +50,7 @@ public class ResetPassword extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String member_id = request.getParameter("member_id"); //need a name for the reset username field
+		int member_id = Integer.valueOf(request.getParameter("member_id")); //need a name for the reset username field
 		String newPassword = request.getParameter("password"); //need a name for the reset password field
 		JSONObject returnJson = new JSONObject();
 		
@@ -136,10 +136,13 @@ public class ResetPassword extends HttpServlet {
 	}
 	
 	//Builds SQL string containing the member's new password hash that will be saved to the DB
-	private boolean setNewPassword(String member_id, String password) throws SQLException {
-		
-		String query = "UPDATE member SET passw = " + password + " WHERE member_id = " + member_id;
+	private boolean setNewPassword(int member_id, String password) throws SQLException {
+		System.out.println("member id: " + member_id);
+		System.out.println("new password: " + password);
+		String query = "UPDATE member SET passw = ? WHERE member_id = ?;";
 		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setString(1, password);
+		stmt.setInt(2, member_id);
 		int success = stmt.executeUpdate();
 
 		if(success == 1)
