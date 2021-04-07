@@ -96,7 +96,7 @@ const pagination = () => {
 
   const trimmedData = _searchItems.slice(trimStart, trimend);
 
-  const totalPages = Math.ceil((_searchItems.length + 1) / itemsPerPage);
+  const totalPages = Math.ceil((_searchItems.length) / itemsPerPage);
 
   return {
     items: trimmedData,
@@ -133,16 +133,16 @@ const buildTable = () => {
   const tableBody = document.getElementById('tableBody');
   data.items.forEach((item, i) => {
     const html = `
-      <tr class="itemRow" data-row-number="${item.id}">
-        <th scope="row">${item.id}</th>
+      <tr class="itemRow" data-row-number="${item.item_id}">
+        <th scope="row">${item.item_id}</th>
         <td id="name">${
           !item.deleted
-            ? `<a href="" class="itemLinkToAdvancedView">${item.name}</a>`
+            ? `<a href="" class="itemLinkToAdvancedView">${item.item_name}</a>`
             : `${item.name}`
         }</td>
-        <td>${item.model}</td>
-        <td id="itemQ">${item.quantity}</td>
-        <td>${item.price}</td>
+        <td>${item.item_model}</td>
+        <td id="itemQ">${item.item_quant}</td>
+        <td>$${item.price.toFixed(2)}</td>
         <!-- for the id of the buttons it will be <id>-<btn name> -->
         <td>
           <button
@@ -150,13 +150,13 @@ const buildTable = () => {
             id="increaseBtn1"
             data-toggle="modal"
             data-target="#increaseModal"
-            data-id="${item.id}"
-            data-name="${item.name}"
-            data-model="${item.model}"
-            data-quantity="${item.quantity}"
+            data-id="${item.item_id}"
+            data-name="${item.item_name}"
+            data-model="${item.item_model}"
+            data-quantity="${item.item_quant}"
             data-price="${item.price}"
-            data-department="${item.managingDepartment}"
-            data-location="${item.location}"
+            data-department="${item.dept_name}"
+            data-location="${item.item_loc}"
             data-category="${item.category}"
             ${item.deleted && 'disabled'}
           >
@@ -167,13 +167,13 @@ const buildTable = () => {
             id="reduceBtn1"
             data-toggle="modal"
             data-target="#reduceModal"
-            data-id="${item.id}"
-            data-name="${item.name}"
-            data-model="${item.model}"
-            data-quantity="${item.quantity}"
+            data-id="${item.item_id}"
+            data-name="${item.item_name}"
+            data-model="${item.item_model}"
+            data-quantity="${item.item_quant}"
             data-price="${item.price}"
-            data-department="${item.managingDepartment}"
-            data-location="${item.location}"
+            data-department="${item.dept_name}"
+            data-location="${item.item_loc}"
             data-category="${item.category}"
             ${item.deleted && 'disabled'}
           >
@@ -184,13 +184,13 @@ const buildTable = () => {
             id="disposeBtn1"
             data-toggle="modal"
             data-target="#disposeModal"
-            data-id="${item.id}"
-            data-name="${item.name}"
-            data-model="${item.model}"
-            data-quantity="${item.quantity}"
+            data-id="${item.item_id}"
+            data-name="${item.item_name}"
+            data-model="${item.item_model}"
+            data-quantity="${item.item_quant}"
             data-price="${item.price}"
-            data-department="${item.managingDepartment}"
-            data-location="${item.location}"
+            data-department="${item.dept_name}"
+            data-location="${item.item_loc}"
             data-category="${item.category}"
             ${item.deleted && 'disabled'}
           >
@@ -201,13 +201,13 @@ const buildTable = () => {
             id="reportMissingBtn1"
             data-toggle="modal"
             data-target="#reportMissingModal"
-            data-id="${item.id}"
-            data-name="${item.name}"
-            data-model="${item.model}"
-            data-quantity="${item.quantity}"
+            data-id="${item.item_id}"
+            data-name="${item.item_name}"
+            data-model="${item.item_model}"
+            data-quantity="${item.item_quant}"
             data-price="${item.price}"
-            data-department="${item.managingDepartment}"
-            data-location="${item.location}"
+            data-department="${item.dept_name}"
+            data-location="${item.item_loc}"
             data-category="${item.category}"
             ${item.deleted && 'disabled'}
           >

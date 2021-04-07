@@ -82,10 +82,6 @@ $('#reportMissingModal').on('show.bs.modal', function (e) {
   _reportMissingItemName = $(e.relatedTarget).data('name');
   const itemModel = $(e.relatedTarget).data('model');
   _reportMissingItemCurrentQuantity = $(e.relatedTarget).data('quantity');
-  
-  console.log(_reportMissingItemName)
-  console.log(itemModel)
-  console.log(_reportMissingItemCurrentQuantity);
 
   document.getElementById('itemIdMissingModal').innerText = _reportMissingItemID;
   document.getElementById('itemNameMissingModal').innerText = _reportMissingItemName;

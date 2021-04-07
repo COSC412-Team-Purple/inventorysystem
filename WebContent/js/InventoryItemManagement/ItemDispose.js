@@ -78,7 +78,7 @@ $('#disposeModal').on('show.bs.modal', function (e) {
   document.getElementById('itemNameDisposeModal').innerText = _disposeItemName;
   document.getElementById(
     'itemPriceDisposeModal'
-  ).innerText = _disposeItemPrice;
+  ).innerText = _disposeItemPrice.toFixed(2);
   document.getElementById(
     'itemDepartmentDisposeModal'
   ).innerText = _disposeItemDepartment;
