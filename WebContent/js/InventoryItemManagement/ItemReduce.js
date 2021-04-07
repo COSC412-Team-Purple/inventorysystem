@@ -98,6 +98,7 @@ const reduceItemInDB = () => {
     "comment": _reduceComment,
     "update_type": "reduce"
   };
+  console.log(servletParameters)
   $.ajax({
     url: 'ItemQuantity',
     dataType: 'text',
@@ -122,6 +123,8 @@ reduceForm.addEventListener('submit', (e) => {
 
   _reduceItemNewQuantity = +document.getElementById('inputReduceModal').value;
   _reduceComment = document.getElementById('reasonReduceModal').value;
+  
+  _reduceItemNewQuantity = _reduceItemOldQuantity - _reduceItemNewQuantity
   if (validReduceQuanity()) {
     reduceItemInDB();
   } 

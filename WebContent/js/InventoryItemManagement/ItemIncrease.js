@@ -1,6 +1,6 @@
 let _increaseItemName = '';
 let _increaseItemID = 0;
-let _increaseItemOldQuantity = '';
+let _increaseItemOldQuantity = 0;
 let _increaseItemNewQuantity = 0;
 let _increaseItemPrice = 0;
 let _increaseComment = '';
@@ -19,7 +19,7 @@ const increaseForm = document.getElementById('increaseForm');
 
 // functions
 const validIncreaseQuanity = () => {
-  console.log(+_increaseItemNewQuantity)
+  
   let valid = true;
   if(_increaseItemNewQuantity <= 0) {
   	valid = false;
@@ -119,7 +119,7 @@ increaseForm.addEventListener('submit', (e) => {
   _increaseItemNewQuantity = +document.getElementById('inputIncreaseModal')
     .value;
   _increaseComment = document.getElementById('reasonIncreaseModal').value;
-
+  _increaseItemNewQuantity = _increaseItemNewQuantity + _increaseItemOldQuantity
 
   if (validIncreaseQuanity()) {
     increaseItemInDB();
@@ -132,7 +132,7 @@ $('#increaseModal').on('show.bs.modal', function (e) {
   _increaseItemID = $(e.relatedTarget).data('id');
   _increaseItemName = $(e.relatedTarget).data('name');
   const itemModel = $(e.relatedTarget).data('model');
-  _increaseItemOldQuantity = $(e.relatedTarget).data('quantity');
+  _increaseItemOldQuantity = +$(e.relatedTarget).data('quantity');
   _increaseRowId = $(e.relatedTarget.parentElement.parentElement).data(
     'rowNumber'
   );

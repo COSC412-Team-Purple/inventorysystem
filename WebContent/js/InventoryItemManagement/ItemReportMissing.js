@@ -122,7 +122,7 @@ reportMissingForm.addEventListener('submit', (e) => {
     'inputMissingModal'
   ).value;
   _reportMissingItemComment = document.getElementById('commentsModal').value
-  
+  _reportMissingItemMissingQuantity = _reportMissingItemCurrentQuantity - _reportMissingItemMissingQuantity
   
   if(validMissingQuanity()) {
   	reportMissingItemInDB();
