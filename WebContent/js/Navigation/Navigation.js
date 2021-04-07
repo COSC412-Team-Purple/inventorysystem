@@ -48,6 +48,17 @@ $("#toCreateRoleButton").click(function() {
   $("#createRoleContainer").show();
 });
 
+document.getElementById('tableBody').addEventListener('click', (e) => {
+	console.log(e.target)
+	if(!e.target.classList.contains('advanced')) {
+		return
+	}
+	console.log('advanced view')
+	hideAllContainers();
+  	$("#advancedItemDetailContainer").show();
+  	setActiveTab(this)
+})
+
 function setActiveTab(tabElement){
   $(".active").removeClass("active")
   $(tabElement).parent().addClass("active");

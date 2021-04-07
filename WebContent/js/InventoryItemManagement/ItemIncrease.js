@@ -27,22 +27,38 @@ const showIncreaseError = () => {
 };
 
 const handleIncreaseQuantityUpdateResponse = (response) => {
-  updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
-  showSuccessMessage('Increased Item Quantity');
-  $('#increaseModal').modal('hide');
-  console.log(response);
+  if (response.deleted) {
+	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
+	  deleteItem(_increaseRowId, _increaseItemName);
+	  setTimeout(() => {
+	  	$('#increaseModal').modal('hide');
+	  }, 3000)
+  }
+  
+  if (response.modifiedByOtherMember){
+  	showErrorMessageOnIncreaseModal('Item Updated');
+  	document.getElementById('itemQuantityIncreaseModal').innerText = response.modifiedQuantity;
+  }
+  if(!response.modifiedByOtherMember && response.deleted) {
+	  updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
+	  showSuccessMessage('Increased Item Quantity');
+	  $('#increaseModal').modal('hide');
+	  console.log(response);
+  }
 };
 
 // handler for search item
 const increaseItemInDB = () => {
   const servletParameters = {
-    'item-id': _increaseItemID,
-    'item-name': _increaseItemName,
-    'member-id': LOGGED_ON_MEMBER_ID,
-    'item-old-quanity': _increaseItemOldQuantity,
-    'item-new-quanity': _increaseItemNewQuantity,
-    'item-price': _increaseItemPrice,
-    comment: _increaseComment,
+    "item-id": _increaseItemID,
+    "item-name": _increaseItemName,
+    "member-id": LOGGED_ON_MEMBER_ID,
+    "item-old-quantity": _increaseItemOldQuantity,
+    "item-new-quantity": _increaseItemNewQuantity,
+    "item-price": _increaseItemPrice,
+    "comment": _increaseComment,
+    "item-category": _increaseCategory,
+    "update_type": increase,
   };
   $.ajax({
     url: 'ItemQuantity',

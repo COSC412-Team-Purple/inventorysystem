@@ -137,8 +137,8 @@ const buildTable = () => {
         <th scope="row">${item.item_id}</th>
         <td id="name">${
           !item.deleted
-            ? `<a href="" class="itemLinkToAdvancedView">${item.item_name}</a>`
-            : `${item.name}`
+            ? `<a href="#" id="itemLinkToAdvancedView" class="advanced">${item.item_name}</a>`
+            : `${item.item_name}`
         }</td>
         <td>${item.item_model}</td>
         <td id="itemQ">${item.item_quant}</td>
