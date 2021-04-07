@@ -3,9 +3,17 @@ let _reportMissingItemID = 0;
 let _reportMissingItemName = '';
 let _reportMissingItemCurrentQuantity = '';
 let _reportMissingItemMissingQuantity = 0;
+let _reportMissingItemCategory = '';
+let _reportMissingItemComment = '';
+let _reportMissingOnAdvancedView = false;
 
 // form
 const reportMissingForm = document.getElementById('reportMissingForm');
+
+const clearReportMissingModalFields = () => {
+	document.getElementById('commentsModal').value = '';
+	document.getElementById('inputMissingModal').value = '';
+}
 
 // check if new quantity is valid
 const validMissingQuanity = () => {
@@ -29,24 +37,69 @@ const validMissingQuanity = () => {
 
 // function to handle the response data
 const handleReportMissingResponse = (response) => {
-  console.log(response);
-  showSuccessMessage('Item Successfully Reported Missing')
-   $('#reportMissingModal').modal('hide');
+  if (response.deleted && !_reportMissingOnAdvancedView) {
+	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
+	  deleteItem(_reportMissingItemID, _reportMissingItemName);
+	  clearReportMissingModalFields()
+	  setTimeout(() => {
+	  	$('#reportMissingModal').modal('hide');
+	  }, 3000)
+  }
+  
+  if (response.deleted && _reportMissingOnAdvancedView) {
+	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member');
+	  deleteItem(_reportMissingItemID, _reportMissingItemName);
+	  deleteItemOnAdvancedView()
+	  clearReportMissingModalFields()
+	  setTimeout(() => {
+	  	$('#reportMissingModal').modal('hide');
+	  }, 3000)
+  }
+  
+  if (response.modifiedByOtherMember && !_reportMissingOnAdvancedView){
+  	showErrorMessageOnIncreaseModal('Item Updated by Another member');
+  	document.getElementById('itemQuantityMissingModal').innerText = response.modifiedQuantity;
+  	clearReportMissingModalFields()
+  }
+  
+  if (response.modifiedByOtherMember && _reportMissingOnAdvancedView){
+  	showErrorMessageOnIncreaseModal('Item Updated by Another member');
+  	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
+  	clearReportMissingModalFields()
+  }
+  
+  if(!response.modifiedByOtherMember && !response.deleted && !_reportMissingOnAdvancedView) {
+	  updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
+	  showSuccessMessage('Item Successfully Reported Missing');
+	  clearReportMissingModalFields()
+	  $('#reportMissingModal').modal('hide');
+  }
+  
+  if(!response.modifiedByOtherMember && !response.deleted && _reportMissingOnAdvancedView) {
+	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
+	  document.getElementById('advancedItemQuantityInput').value = _increaseItemOldQuantity + _increaseItemNewQuantity;
+	  showSuccessMessage('Item Successfully Reported Missing');
+	  clearReportMissingModalFields()
+	  $('#reportMissingModal').modal('hide');
+  }
 };
 
 // handler for sending and receiving data from backend
 const reportMissingItemInDB = () => {
   const servletParameters = {
-    'item-id': _reportMissingItemID,
-    'item-name': _reportMissingItemName,
-    'item-current-quantity': _reportMissingItemCurrentQuantity,
-    'item-missing-quantity': _reportMissingItemMissingQuantity,
-    'member-id': LOGGED_ON_MEMBER_ID,
+    "item-id": _reportMissingItemID,
+    "item-name": _reportMissingItemName,
+    "item-current-quantity": _reportMissingItemCurrentQuantity,
+    "item-missing-quantity": _reportMissingItemMissingQuantity,
+    "member-id": LOGGED_ON_MEMBER_ID,
+    "item-category": _reportMissingItemCategory,
+    "update_type": "reportmissing",
+    "comment": _reportMissingItemComment,
   };
   $.ajax({
     url: 'ReportItemMissing',
     dataType: 'text',
-    type: 'PUT',
+    type: 'POST',
     data: servletParameters,
     success: function (data) {
       let response = JSON.parse(data);
@@ -68,6 +121,7 @@ reportMissingForm.addEventListener('submit', (e) => {
   _reportMissingItemMissingQuantity = +document.getElementById(
     'inputMissingModal'
   ).value;
+  _reportMissingItemComment = document.getElementById('commentsModal').value
   
   
   if(validMissingQuanity()) {
@@ -82,6 +136,7 @@ $('#reportMissingModal').on('show.bs.modal', function (e) {
   _reportMissingItemName = $(e.relatedTarget).data('name');
   const itemModel = $(e.relatedTarget).data('model');
   _reportMissingItemCurrentQuantity = $(e.relatedTarget).data('quantity');
+  _reportMissingItemCategory = $(e.relatedTarget).data('category');
 
   document.getElementById('itemIdMissingModal').innerText = _reportMissingItemID;
   document.getElementById('itemNameMissingModal').innerText = _reportMissingItemName;

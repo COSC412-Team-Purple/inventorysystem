@@ -1,12 +1,14 @@
 
 
 $("#rolesNav").click(function(e) {
+  clearSearchTable()
   hideAllContainers();
   $("#RolesContainer").show();
   setActiveTab(this);
 });
 
 $("#dashboardNav").click(function() {
+  clearSearchTable()
   //interface with Dashboard.js
   getDashboardDataFromDB();
 
@@ -24,6 +26,7 @@ $("#searchNav").click(function() {
 });
 
 $("#registerNav").click(function(e) {
+  clearSearchTable()
   hideAllContainers();
   $("#registerItemContainer").show();
   setActiveTab(this);
@@ -45,17 +48,17 @@ $("#backToRolesScreenButton").click(function() {
 });
 
 $("#toCreateRoleButton").click(function() {
+  clearSearchTable()
   hideAllContainers();
   $("#createRoleContainer").show();
 });
 
 document.getElementById('tableBody').addEventListener('click', (e) => {
-	console.log(e.target)
 	if(!e.target.classList.contains('advanced')) {
 		return
 	}
-	console.log('advanced view')
 	hideAllContainers();
+	giveDataToAdvanceView(e.target);
   	$("#advancedItemDetailContainer").show();
   	setActiveTab(this)
 })

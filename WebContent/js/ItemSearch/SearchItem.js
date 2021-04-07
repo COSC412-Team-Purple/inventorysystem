@@ -84,8 +84,15 @@ const pageButtons = (pages) => {
 };
 
 
-
 // Functions
+
+// clear search table 
+const clearSearchTable = () => {
+	const tableBody = document.getElementById('tableBody');
+	tableBody.innerHTML = '';
+	const pageButton = document.getElementById('pageButtons');
+	pageButton.innerHTML = '';
+}
 
 // pagination function
 const pagination = () => {
@@ -122,10 +129,6 @@ const isValidSearch = () => {
   return valid;
 };
 
-// function to show error of no item name entered
-const showSearchError = () => {
-  console.log('no search term entered');
-};
 
 // function to build table with data
 const buildTable = () => {
@@ -137,7 +140,23 @@ const buildTable = () => {
         <th scope="row">${item.item_id}</th>
         <td id="name">${
           !item.deleted
-            ? `<a href="#" id="itemLinkToAdvancedView" class="advanced">${item.item_name}</a>`
+            ? `<a 
+            	href="#" 
+            	id="itemLinkToAdvancedView" 
+            	class="advanced" 
+            	data-id="${item.item_id}"
+	            data-name="${item.item_name}"
+	            data-model="${item.item_model}"
+	            data-quantity="${item.item_quant}"
+	            data-price="${item.price}"
+	            data-department="${item.dept_name}"
+	            data-location="${item.item_loc}"
+	            data-category="${item.category}"
+	            data-brand="${item.item_brand}"
+	            data-purchasedate="${item.purchase_date}"
+	            data-comment="${item.item_memo}"
+	            data-deleted="${false}"
+            	>${item.item_name}</a>`
             : `${item.item_name}`
         }</td>
         <td>${item.item_model}</td>
@@ -158,6 +177,7 @@ const buildTable = () => {
             data-department="${item.dept_name}"
             data-location="${item.item_loc}"
             data-category="${item.category}"
+            data-advanced="${false}"
             ${item.deleted && 'disabled'}
           >
             Increase
@@ -175,6 +195,7 @@ const buildTable = () => {
             data-department="${item.dept_name}"
             data-location="${item.item_loc}"
             data-category="${item.category}"
+            data-advanced="${false}"
             ${item.deleted && 'disabled'}
           >
             Reduce
@@ -192,6 +213,7 @@ const buildTable = () => {
             data-department="${item.dept_name}"
             data-location="${item.item_loc}"
             data-category="${item.category}"
+            data-advanced="${false}"
             ${item.deleted && 'disabled'}
           >
             Dispose
@@ -209,6 +231,7 @@ const buildTable = () => {
             data-department="${item.dept_name}"
             data-location="${item.item_loc}"
             data-category="${item.category}"
+            data-advanced="${false}"
             ${item.deleted && 'disabled'}
           >
             Report Missing
@@ -261,8 +284,7 @@ const getSearchItemInDB = () => {
     success: function (data) {
       let response = JSON.parse(data);
       console.log('Response');
-      console.log(response);
-      console.log(data)
+    
       handleSearchItemResponse(response);
     },
     error: function (jqXhr, textStatus, errorThrown) {

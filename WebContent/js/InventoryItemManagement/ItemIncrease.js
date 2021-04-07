@@ -4,8 +4,15 @@ let _increaseItemOldQuantity = '';
 let _increaseItemNewQuantity = 0;
 let _increaseItemPrice = 0;
 let _increaseComment = '';
+let _increaseCategory = '';
+let _increaseOnAdvancedView = false;
 
 let _increaseRowId = 0;
+
+const clearIncreaseModalFields = () => {
+	document.getElementById('reasonIncreaseModal').value = '';
+	document.getElementById('inputIncreaseModal').value = '';
+}
 
 // form
 const increaseForm = document.getElementById('increaseForm');
@@ -22,28 +29,54 @@ const validIncreaseQuanity = () => {
   return valid;
 };
 
-const showIncreaseError = () => {
-  console.log('No new quanity was inserted');
-};
+
 
 const handleIncreaseQuantityUpdateResponse = (response) => {
-  if (response.deleted) {
+  if (response.deleted && !_increaseOnAdvancedView) {
 	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
 	  deleteItem(_increaseRowId, _increaseItemName);
+	  clearIncreaseModalFields()
 	  setTimeout(() => {
 	  	$('#increaseModal').modal('hide');
 	  }, 3000)
   }
   
-  if (response.modifiedByOtherMember){
-  	showErrorMessageOnIncreaseModal('Item Updated');
-  	document.getElementById('itemQuantityIncreaseModal').innerText = response.modifiedQuantity;
+  if (response.deleted && _increaseOnAdvancedView) {
+	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member');
+	  deleteItem(_increaseItemID, _increaseItemName);
+	  deleteItemOnAdvancedView()
+	  clearIncreaseModalFields()
+	  setTimeout(() => {
+	  	$('#increaseModal').modal('hide');
+	  }, 3000)
   }
-  if(!response.modifiedByOtherMember && response.deleted) {
+  
+  if (response.modifiedByOtherMember && !_increaseOnAdvancedView){
+  	showErrorMessageOnIncreaseModal('Item Updated by Another member');
+  	document.getElementById('itemQuantityIncreaseModal').innerText = response.modifiedQuantity;
+  	clearIncreaseModalFields()
+  }
+  
+  if (response.modifiedByOtherMember && _increaseOnAdvancedView){
+  	showErrorMessageOnIncreaseModal('Item Updated by Another member');
+  	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
+  	clearIncreaseModalFields()
+  }
+  
+  if(!response.modifiedByOtherMember && !response.deleted && !_increaseOnAdvancedView) {
 	  updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
 	  showSuccessMessage('Increased Item Quantity');
+	  clearIncreaseModalFields()
 	  $('#increaseModal').modal('hide');
-	  console.log(response);
+	  
+  }
+  
+  if(!response.modifiedByOtherMember && !response.deleted && _increaseOnAdvancedView) {
+	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
+	  document.getElementById('advancedItemQuantityInput').value = _increaseItemOldQuantity + _increaseItemNewQuantity;
+	  showSuccessMessage('Successfully Increased Item Quantity');
+	  clearIncreaseModalFields()
+	  $('#increaseModal').modal('hide');
   }
 };
 
@@ -58,12 +91,12 @@ const increaseItemInDB = () => {
     "item-price": _increaseItemPrice,
     "comment": _increaseComment,
     "item-category": _increaseCategory,
-    "update_type": increase,
+    "update_type": "increase",
   };
   $.ajax({
     url: 'ItemQuantity',
     dataType: 'text',
-    type: 'PUT',
+    type: 'POST',
     data: servletParameters,
     success: function (data) {
       let response = JSON.parse(data);
@@ -89,12 +122,7 @@ increaseForm.addEventListener('submit', (e) => {
 
   if (validIncreaseQuanity()) {
     increaseItemInDB();
-    
-    console.log('increased quantity');
-    
-  } else {
-    showIncreaseError();
-  }
+  } 
 });
 
 // function to get data from increase button
@@ -107,9 +135,10 @@ $('#increaseModal').on('show.bs.modal', function (e) {
   _increaseRowId = $(e.relatedTarget.parentElement.parentElement).data(
     'rowNumber'
   );
-  _increaseItemPrice = $(e.relatedTarget.parentElement.parentElement).data(
-    'price'
-  );
+  _increaseItemPrice = $(e.relatedTarget).data('price');
+  _increaseCategory = $(e.relatedTarget).data('category');
+  _increaseOnAdvancedView = $(e.relatedTarget).data('advanced');
+  console.log(_increaseOnAdvancedView)
 
   document.getElementById('itemIdIncreaseModal').innerText = _increaseItemID;
   document.getElementById(

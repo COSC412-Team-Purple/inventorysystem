@@ -6,6 +6,8 @@ let _reduceItemOldQuantity = 0;
 let _reduceItemNewQuantity = 0;
 let _reduceItemPrice = 0;
 let _reduceComment = '';
+let _reduceCategory = '';
+let _reduceOnAdvancedView = false;
 
 let _reduceRowId = 0;
 
@@ -13,6 +15,11 @@ let _reduceRowId = 0;
 const reduceForm = document.getElementById('reduceForm');
 
 // functions
+
+const clearReduceModalFields = () => {
+	document.getElementById('reasonReduceModal').value = '';
+	document.getElementById('inputReduceModal').value = '';
+}
 
 // check if new quantity is valid
 const validReduceQuanity = () => {
@@ -25,38 +32,76 @@ const validReduceQuanity = () => {
   	valid = false;
   	showErrorMessageOnReduceModal('Reduce Quantity larger than Current Quantity')
   }
-      
   return valid;
 };
 
-// error function
-const showReduceError = () => {
-  console.log('No new quanity was inserted');
-};
 
 // function to handle the response data
 const handleReduceQuantityUpdateResponse = (response) => {
-	showSuccessMessage('Item Successfully Reduced')
-	updateItemQuantity(_reduceRowId, -1 * _reduceItemNewQuantity);
-	$('#reduceModal').modal('hide');
-  console.log(response);
+  if (response.deleted && !_reduceOnAdvancedView) {
+	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
+	  deleteItem(_reduceRowId, _reduceItemName);
+	  clearReduceModalFields()
+	  setTimeout(() => {
+	  	$('#reduceModal').modal('hide');
+	  }, 3000)
+  }
+  
+  if (response.deleted && _reduceOnAdvancedView) {
+	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member');
+	  deleteItem(_reduceItemID, _reduceItemName);
+	  deleteItemOnAdvancedView()
+	  clearReduceModalFields()
+	  setTimeout(() => {
+	  	$('#reduceModal').modal('hide');
+	  }, 3000)
+  }
+  
+  if (response.modifiedByOtherMember && !_reduceOnAdvancedView){
+  	showErrorMessageOnIncreaseModal('Item Updated by Another member');
+  	document.getElementById('itemQuantityIncreaseModal').innerText = response.modifiedQuantity;
+  	clearReduceModalFields()
+  }
+  
+  if (response.modifiedByOtherMember && _reduceOnAdvancedView){
+  	showErrorMessageOnIncreaseModal('Item Updated by Another member');
+  	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
+  	clearReduceModalFields()
+  }
+  
+  if(!response.modifiedByOtherMember && !response.deleted && !_reduceOnAdvancedView) {
+	  updateItemQuantity(_increaseRowId, -1 * _reduceItemNewQuantity);
+	  showSuccessMessage('Reduced Item Quantity');
+	  clearReduceModalFields()
+	  $('#reduceModal').modal('hide');
+  }
+  
+  if(!response.modifiedByOtherMember && !response.deleted && _reduceOnAdvancedView) {
+	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
+	  document.getElementById('advancedItemQuantityInput').value = _reduceItemOldQuantity + _reduceItemNewQuantity;
+	  showSuccessMessage('Successfully Reduced Item Quantity');
+	  clearReduceModalFields()
+	  $('#reduceModal').modal('hide');
+  }
 };
 
 // handler for sending and recieving data from backend
 const reduceItemInDB = () => {
   const servletParameters = {
-    'item-id': _reduceItemID,
-    'item-name': _reduceItemName,
-    'member-id': LOGGED_ON_MEMBER_ID,
-    'item-old-quanity': _reduceItemOldQuantity,
-    'item-new-quanity': _reduceItemNewQuantity,
-    'item-price': _reduceItemPrice,
-    comment: _reduceComment,
+    "item-id": _reduceItemID,
+    "item-name": _reduceItemName,
+    "member-id": LOGGED_ON_MEMBER_ID,
+    "item-old-quantity": _reduceItemOldQuantity,
+    "item-new-quantity": _reduceItemNewQuantity,
+    "item-price": _reduceItemPrice,
+    "item-category": _reduceCategory,
+    "comment": _reduceComment,
+    "update_type": "reduce"
   };
   $.ajax({
     url: 'ItemQuantity',
     dataType: 'text',
-    type: 'PUT',
+    type: 'POST',
     data: servletParameters,
     success: function (data) {
       let response = JSON.parse(data);
@@ -92,9 +137,11 @@ $('#reduceModal').on('show.bs.modal', function (e) {
   _reduceRowId = $(e.relatedTarget.parentElement.parentElement).data(
     'rowNumber'
   );
-  _reduceItemPrice = $(e.relatedTarget.parentElement.parentElement).data(
+  _reduceCategory = $(e.relatedTarget).data('category');
+  _reduceItemPrice = $(e.relatedTarget).data(
     'price'
   );
+  _reduceOnAdvancedView = $(e.relatedTarget).data('advanced');
 
   document.getElementById('itemIdReduceModal').innerText = _reduceItemID;
   document.getElementById('itemNameReduceModal').innerText = _reduceItemName;
