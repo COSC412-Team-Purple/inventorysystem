@@ -57,15 +57,18 @@ public class InventoryManagementUtility {
 
 		String updateQuery = "";
 		if(isCategoryPresent(category, conn)) {
-			updateQuery += "UPDATE items_by_category SET items = ?, last_update_id = ? WHERE category = ?;";
+			updateQuery += "UPDATE items_by_category "
+							+ "SET items = (SELECT items FROM items_by_category WHERE category = ?) + ?"
+							+ ", last_update_id = ? WHERE category = ?;";
 		}else {
 			updateQuery += "INSERT into items_by_category (items, last_update_id, category) VALUES(?,?,?);";
 		}
 		
 		PreparedStatement stmt = conn.prepareStatement(updateQuery);
-		stmt.setInt(1, itemDifferential);
-		stmt.setInt(2, last_update_id);
-		stmt.setString(3, category);
+		stmt.setString(1, category);
+		stmt.setInt(2, itemDifferential);
+		stmt.setInt(3, last_update_id);
+		stmt.setString(4, category);
 		int updatedRows = stmt.executeUpdate();
 		
 		if(updatedRows > 0) {
