@@ -55,7 +55,7 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
 	  return
   }
 
-  // On Search Page
+  // On Search Page 
   if (response.modifiedByOtherMember && !_increaseOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
   	updateItemQuantity(_increaseRowId, response.modifiedQuantity);
