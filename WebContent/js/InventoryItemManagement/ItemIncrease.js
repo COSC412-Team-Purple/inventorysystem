@@ -18,10 +18,11 @@ const clearIncreaseModalFields = () => {
 const increaseForm = document.getElementById('increaseForm');
 
 // functions
-const validIncreaseQuanity = () => {
-  
+const validIncreaseQuanity = (input) => {
+  console.log(input.toFixed(0))
   let valid = true;
-  if(_increaseItemNewQuantity <= 0) {
+  if (input <= 0) {
+  	console.log('failed')
   	valid = false;
   	showErrorMessageOnIncreaseModal('Please Enter a Positive Number')
   }
@@ -134,12 +135,13 @@ const increaseItemInDB = () => {
 increaseForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  _increaseItemNewQuantity = +document.getElementById('inputIncreaseModal')
-    .value;
+  _increaseItemNewQuantity = +document.getElementById('inputIncreaseModal').value;
+  const input = _increaseItemNewQuantity
+  console.log(input)
   _increaseComment = document.getElementById('reasonIncreaseModal').value;
   _increaseItemNewQuantity = _increaseItemNewQuantity + _increaseItemOldQuantity
 
-  if (validIncreaseQuanity()) {
+  if (validIncreaseQuanity(input)) {
     increaseItemInDB();
   }
 });

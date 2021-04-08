@@ -18,10 +18,10 @@ const clearReportMissingModalFields = () => {
 }
 
 // check if new quantity is valid
-const validMissingQuanity = () => {
+const validMissingQuanity = (input) => {
 
   let valid = true;
-  if (_reportMissingItemMissingQuantity === 0) {
+  if (input <= 0) {
   	valid = false;
   	showErrorMessageOnReportMissingModal('Please Enter a Positive Number')
   }
@@ -39,58 +39,67 @@ const handleReportMissingResponse = (response) => {
 
   // On Search Page
   if (response.deleted && !_reportMissingOnAdvancedView) {
-	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
+	  showErrorMessageOnReportMissingModal('Item Deleted by Another Member')
 	  deleteItem(_reportMissingItemID, _reportMissingItemName);
 	  clearReportMissingModalFields()
 	  setTimeout(() => {
 	  	$('#reportMissingModal').modal('hide');
 	  }, 3000)
+	  return
   }
   
   // in advanced view
   if (response.deleted && _reportMissingOnAdvancedView) {
-	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member');
+	  showErrorMessageOnReportMissingModal('Item Deleted by Another Member');
 	  deleteItem(_reportMissingItemID, _reportMissingItemName);
 	  deleteItemOnAdvancedView()
 	  clearReportMissingModalFields()
 	  setTimeout(() => {
 	  	$('#reportMissingModal').modal('hide');
 	  }, 3000)
+	  return
   }
   // On Search Page
   if (response.modifiedByOtherMember && !_reportMissingOnAdvancedView){
-  	showErrorMessageOnIncreaseModal('Item Updated by Another member');
+  	showErrorMessageOnReportMissingModal('Item Updated by Another member');
   	updateItemQuantity(_reportMissingItemID, response.modifiedQuantity);
-  	document.getElementById('itemQuantityMissingModal').value = response.modifiedQuantity;
+  	document.getElementById('itemQuantityMissingModal').innerHTML = response.modifiedQuantity;
+  	_reportMissingItemCurrentQuantity = response.modifiedQuantity;
   	clearReportMissingModalFields()
+  	return
   }
 	
   // in advanced view
   if (response.modifiedByOtherMember && _reportMissingOnAdvancedView){
-  	showErrorMessageOnIncreaseModal('Item Updated by Another member');
+  	showErrorMessageOnReportMissingModal('Item Updated by Another member');
   	updateItemQuantity(_reportMissingItemID, response.modifiedQuantity);
   	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
-  	document.getElementById('itemQuantityMissingModal').value = response.modifiedQuantity;
+  	document.getElementById('itemQuantityMissingModal').innerHTML = response.modifiedQuantity;
   	_reportMissingItemCurrentQuantity = response.modifiedQuantity;
   	rebuildAdvancedViewButtons(response.modifiedQuantity)
   	clearReportMissingModalFields()
+  	return
   }
 
   // On Search Page
   if(!response.modifiedByOtherMember && !response.deleted && !_reportMissingOnAdvancedView) {
-	  updateItemQuantity(_reportMissingItemID, -1 * _reportMissingItemMissingQuantity);
+	  updateItemQuantity(_reportMissingItemID, _reportMissingItemMissingQuantity);
 	  showSuccessMessage('Item Successfully Reported Missing');
 	  clearReportMissingModalFields()
 	  $('#reportMissingModal').modal('hide');
+	  return
   }
 
 	// in advanced view
   if(!response.modifiedByOtherMember && !response.deleted && _reportMissingOnAdvancedView) {
-	  updateItemQuantity(_reportMissingItemID, -1 * _reportMissingItemMissingQuantity);
-	  document.getElementById('advancedItemQuantityInput').value = _increaseItemOldQuantity + _increaseItemNewQuantity;
+	  updateItemQuantity(_reportMissingItemID, _reportMissingItemMissingQuantity);
+	  console.log(_reportMissingItemMissingQuantity)
+	  document.getElementById('advancedItemQuantityInput').value = _reportMissingItemMissingQuantity
+	  rebuildAdvancedViewButtons(_reportMissingItemMissingQuantity)
 	  showSuccessMessage('Item Successfully Reported Missing');
 	  clearReportMissingModalFields()
 	  $('#reportMissingModal').modal('hide');
+	  return
   }
 };
 
@@ -129,13 +138,14 @@ const reportMissingItemInDB = () => {
 reportMissingForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  _reportMissingItemMissingQuantity = +document.getElementById(
-    'inputMissingModal'
-  ).value;
+  _reportMissingItemMissingQuantity = +document.getElementById('inputMissingModal').value;
+  const input = _reportMissingItemMissingQuantity;
+  
   _reportMissingItemComment = document.getElementById('commentsModal').value
   _reportMissingItemMissingQuantity = _reportMissingItemCurrentQuantity - _reportMissingItemMissingQuantity
+  console.log(_reportMissingItemMissingQuantity)
 
-  if(validMissingQuanity()) {
+  if(validMissingQuanity(input)) {
   	reportMissingItemInDB();
   }
 });
@@ -149,6 +159,7 @@ $('#reportMissingModal').on('show.bs.modal', function (e) {
   _reportMissingItemCurrentQuantity = $(e.relatedTarget).data('quantity');
   _reportMissingItemCategory = $(e.relatedTarget).data('category');
   _reportMissingItemPrice = $(e.relatedTarget).data('price');
+  _reportMissingOnAdvancedView = $(e.relatedTarget).data('advanced');
 
   document.getElementById('itemIdMissingModal').innerText = _reportMissingItemID;
   document.getElementById('itemNameMissingModal').innerText = _reportMissingItemName;

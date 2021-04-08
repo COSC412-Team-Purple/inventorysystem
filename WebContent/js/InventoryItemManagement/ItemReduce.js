@@ -22,9 +22,9 @@ const clearReduceModalFields = () => {
 }
 
 // check if new quantity is valid
-const validReduceQuanity = () => {
+const validReduceQuanity = (input) => {
   let valid = true;
-  if(_reduceItemNewQuantity === 0) {
+  if(input <= 0) {
     console.log('input equals 0')
   	valid = false; 
   	showErrorMessageOnReduceModal('Please Enter a Positive Number')
@@ -61,6 +61,7 @@ const handleReduceQuantityUpdateResponse = (response) => {
 	  setTimeout(() => {
 	  	$('#reduceModal').modal('hide');
 	  }, 3000)
+	  return
   }
   
   // On Search Page
@@ -143,12 +144,13 @@ reduceForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
   _reduceItemNewQuantity = +document.getElementById('inputReduceModal').value;
+  const input = _reduceItemNewQuantity;
+  
   _reduceComment = document.getElementById('reasonReduceModal').value;
-  
   _reduceItemNewQuantity = _reduceItemOldQuantity - _reduceItemNewQuantity
-  console.log(_reduceItemNewQuantity)
+  console.log(input)
   
-  if (validReduceQuanity()) {
+  if (validReduceQuanity(input)) {
     reduceItemInDB();
   } 
 });
