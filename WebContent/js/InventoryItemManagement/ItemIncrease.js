@@ -31,7 +31,8 @@ const validIncreaseQuanity = () => {
 
 
 const handleIncreaseQuantityUpdateResponse = (response) => {
-console.log(response)
+
+  // On Search Page
   if (response.deleted && !_increaseOnAdvancedView) {
 	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
 	  deleteItem(_increaseRowId, _increaseItemName);
@@ -39,8 +40,10 @@ console.log(response)
 	  setTimeout(() => {
 	  	$('#increaseModal').modal('hide');
 	  }, 3000)
+	  return
   }
-
+  
+  // in advanced view
   if (response.deleted && _increaseOnAdvancedView) {
 	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member');
 	  deleteItem(_increaseItemID, _increaseItemName);
@@ -49,39 +52,49 @@ console.log(response)
 	  setTimeout(() => {
 	  	$('#increaseModal').modal('hide');
 	  }, 3000)
+	  return
   }
 
+  // On Search Page
   if (response.modifiedByOtherMember && !_increaseOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
-  	document.getElementById('itemQuantityIncreaseModal').innerText = response.modifiedQuantity;
+  	updateItemQuantity(_increaseRowId, response.modifiedQuantity);
+  	document.getElementById('itemQuantityIncreaseModal').innerHTML = response.modifiedQuantity;
+  	_increaseItemOldQuantity = response.modifiedQuantity;
   	clearIncreaseModalFields()
+  	return
   }
-
+  
+  // in advanced view
   if (response.modifiedByOtherMember && _increaseOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
+  	updateItemQuantity(_increaseItemID, response.modifiedQuantity);
   	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
+  	document.getElementById('itemQuantityIncreaseModal').innerHTML = response.modifiedQuantity;
+	_increaseItemOldQuantity = response.modifiedQuantity;
   	rebuildAdvancedViewButtons(response.modifiedQuantity)
   	clearIncreaseModalFields()
+  	return
   }
-
+  
+  // On Search Page
   if(!response.modifiedByOtherMember && !response.deleted && !_increaseOnAdvancedView) {
-  	  console.log("old", _increaseItemOldQuantity)
-  	  console.log("new", _increaseItemNewQuantity)
 	  updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
 	  showSuccessMessage('Increased Item Quantity');
 	  clearIncreaseModalFields()
 	  $('#increaseModal').modal('hide');
-
+	  return
   }
 
+  // in advanced view
   if(!response.modifiedByOtherMember && !response.deleted && _increaseOnAdvancedView) {
-  	  console.log("in advanced view")
 	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
 	  rebuildAdvancedViewButtons(_increaseItemNewQuantity)
 	  document.getElementById('advancedItemQuantityInput').value = _increaseItemNewQuantity;
 	  showSuccessMessage('Successfully Increased Item Quantity');
 	  clearIncreaseModalFields()
 	  $('#increaseModal').modal('hide');
+	  return
   }
 };
 
@@ -144,8 +157,6 @@ $('#increaseModal').on('show.bs.modal', function (e) {
   _increaseItemPrice = $(e.relatedTarget).data('price');
   _increaseCategory = $(e.relatedTarget).data('category');
   _increaseOnAdvancedView = $(e.relatedTarget).data('advanced');
-  
-  console.log(_increaseItemOldQuantity)
 
   document.getElementById('itemIdIncreaseModal').innerText = _increaseItemID;
   document.getElementById(

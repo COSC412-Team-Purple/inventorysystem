@@ -13,20 +13,6 @@ let _searchItems = [];
 // Form
 const _searchItemform = document.getElementById('searchItemForm');
 
-// fake data
-const data = [
-  {
-    id: 12,
-    name: 'camera',
-    model: 'Camera in 8k',
-    quantity: 1,
-    price: '1,340',
-    managingDepartment: 'media',
-    location: 'media room',
-    category: 'Video',
-  },
-];
-
 const checkPermissions = () => {
 	_searchItemPermissionIncreaseAndDecrease = setPermissions('increase_and_reduce_quantity')
 	_searchItemPermissionDispose = setPermissions('dispose_item')
@@ -87,7 +73,6 @@ const pageButtons = (pages) => {
   $('.page').on('click', function () {
     tableBody.innerHTML = '';
     paginationState.currentPage = Number($(this).val());
-    console.log('add new event');
     buildTable();
   });
 };

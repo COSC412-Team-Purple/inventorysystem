@@ -40,17 +40,21 @@ const validReduceQuanity = () => {
 
 // function to handle the response data
 const handleReduceQuantityUpdateResponse = (response) => {
+
+  // On Search Page
   if (response.deleted && !_reduceOnAdvancedView) {
-	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
+	  showErrorMessageOnReduceModal('Item Deleted by Another Member')
 	  deleteItem(_reduceRowId, _reduceItemName);
 	  clearReduceModalFields()
 	  setTimeout(() => {
 	  	$('#reduceModal').modal('hide');
 	  }, 3000)
+	  return
   }
   
+  // in advanced view
   if (response.deleted && _reduceOnAdvancedView) {
-	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member');
+	  showErrorMessageOnReduceModal('Item Deleted by Another Member');
 	  deleteItem(_reduceItemID, _reduceItemName);
 	  deleteItemOnAdvancedView()
 	  clearReduceModalFields()
@@ -59,26 +63,38 @@ const handleReduceQuantityUpdateResponse = (response) => {
 	  }, 3000)
   }
   
+  // On Search Page
   if (response.modifiedByOtherMember && !_reduceOnAdvancedView){
-  	showErrorMessageOnIncreaseModal('Item Updated by Another member');
-  	document.getElementById('itemQuantityIncreaseModal').value = response.modifiedQuantity;
+  	showErrorMessageOnReduceModal('Item Updated by Another member');
+  	updateItemQuantity(_reduceRowId, response.modifiedQuantity);
+  	document.getElementById('itemQuantityReduceModal').innerHTML = response.modifiedQuantity;
+  	_reduceItemOldQuantity = response.modifiedQuantity;
   	clearReduceModalFields()
+  	return
   }
   
+  // in advanced view
   if (response.modifiedByOtherMember && _reduceOnAdvancedView){
-  	showErrorMessageOnIncreaseModal('Item Updated by Another member');
+  	showErrorMessageOnReduceModal('Item Updated by Another member');
+  	updateItemQuantity(_reduceItemID, response.modifiedQuantity);
   	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
+  	document.getElementById('itemQuantityReduceModal').innerHTML = response.modifiedQuantity;
+  	_reduceItemOldQuantity = response.modifiedQuantity;
   	rebuildAdvancedViewButtons(response.modifiedQuantity)
   	clearReduceModalFields()
+  	return
   }
   
+  // On Search Page
   if(!response.modifiedByOtherMember && !response.deleted && !_reduceOnAdvancedView) {
 	  updateItemQuantity(_reduceRowId, _reduceItemNewQuantity);
 	  showSuccessMessage('Reduced Item Quantity');
 	  clearReduceModalFields()
 	  $('#reduceModal').modal('hide');
+	  return
   }
   
+  // in advanced view
   if(!response.modifiedByOtherMember && !response.deleted && _reduceOnAdvancedView) {
 	  updateItemQuantity(_reduceItemID, _reduceItemNewQuantity);
 	  document.getElementById('advancedItemQuantityInput').value = _reduceItemNewQuantity;
@@ -86,6 +102,7 @@ const handleReduceQuantityUpdateResponse = (response) => {
 	  showSuccessMessage('Successfully Reduced Item Quantity');
 	  clearReduceModalFields()
 	  $('#reduceModal').modal('hide');
+	  return
   }
 };
 
