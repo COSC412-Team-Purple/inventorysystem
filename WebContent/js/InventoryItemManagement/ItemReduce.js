@@ -66,19 +66,21 @@ const handleReduceQuantityUpdateResponse = (response) => {
   if (response.modifiedByOtherMember && _reduceOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
   	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
+  	rebuildAdvancedViewButtons(response.modifiedQuantity)
   	clearReduceModalFields()
   }
   
   if(!response.modifiedByOtherMember && !response.deleted && !_reduceOnAdvancedView) {
-	  updateItemQuantity(_reduceRowId, -1 * _reduceItemNewQuantity);
+	  updateItemQuantity(_reduceRowId, _reduceItemNewQuantity);
 	  showSuccessMessage('Reduced Item Quantity');
 	  clearReduceModalFields()
 	  $('#reduceModal').modal('hide');
   }
   
   if(!response.modifiedByOtherMember && !response.deleted && _reduceOnAdvancedView) {
-	  updateItemQuantity(_reduceRowId, -1 * _reduceItemNewQuantity);
-	  document.getElementById('advancedItemQuantityInput').value = _reduceItemOldQuantity + _reduceItemNewQuantity;
+	  updateItemQuantity(_reduceItemID, _reduceItemNewQuantity);
+	  document.getElementById('advancedItemQuantityInput').value = _reduceItemNewQuantity;
+	  rebuildAdvancedViewButtons(_reduceItemNewQuantity)
 	  showSuccessMessage('Successfully Reduced Item Quantity');
 	  clearReduceModalFields()
 	  $('#reduceModal').modal('hide');
@@ -125,6 +127,8 @@ reduceForm.addEventListener('submit', (e) => {
   _reduceComment = document.getElementById('reasonReduceModal').value;
   
   _reduceItemNewQuantity = _reduceItemOldQuantity - _reduceItemNewQuantity
+  console.log(_reduceItemNewQuantity)
+  
   if (validReduceQuanity()) {
     reduceItemInDB();
   } 

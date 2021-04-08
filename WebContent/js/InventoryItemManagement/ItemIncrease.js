@@ -25,13 +25,13 @@ const validIncreaseQuanity = () => {
   	valid = false;
   	showErrorMessageOnIncreaseModal('Please Enter a Positive Number')
   }
-
   return valid;
 };
 
 
 
 const handleIncreaseQuantityUpdateResponse = (response) => {
+console.log(response)
   if (response.deleted && !_increaseOnAdvancedView) {
 	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
 	  deleteItem(_increaseRowId, _increaseItemName);
@@ -60,10 +60,13 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
   if (response.modifiedByOtherMember && _increaseOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
   	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
+  	rebuildAdvancedViewButtons(response.modifiedQuantity)
   	clearIncreaseModalFields()
   }
 
   if(!response.modifiedByOtherMember && !response.deleted && !_increaseOnAdvancedView) {
+  	  console.log("old", _increaseItemOldQuantity)
+  	  console.log("new", _increaseItemNewQuantity)
 	  updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
 	  showSuccessMessage('Increased Item Quantity');
 	  clearIncreaseModalFields()
@@ -72,8 +75,10 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
   }
 
   if(!response.modifiedByOtherMember && !response.deleted && _increaseOnAdvancedView) {
+  	  console.log("in advanced view")
 	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
-	  document.getElementById('advancedItemQuantityInput').value = _increaseItemOldQuantity + _increaseItemNewQuantity;
+	  rebuildAdvancedViewButtons(_increaseItemNewQuantity)
+	  document.getElementById('advancedItemQuantityInput').value = _increaseItemNewQuantity;
 	  showSuccessMessage('Successfully Increased Item Quantity');
 	  clearIncreaseModalFields()
 	  $('#increaseModal').modal('hide');
@@ -139,7 +144,8 @@ $('#increaseModal').on('show.bs.modal', function (e) {
   _increaseItemPrice = $(e.relatedTarget).data('price');
   _increaseCategory = $(e.relatedTarget).data('category');
   _increaseOnAdvancedView = $(e.relatedTarget).data('advanced');
-  console.log(_increaseOnAdvancedView)
+  
+  console.log(_increaseItemOldQuantity)
 
   document.getElementById('itemIdIncreaseModal').innerText = _increaseItemID;
   document.getElementById(

@@ -103,6 +103,90 @@ const populateButtons = () => {
 	advancedButtonsContainer.insertAdjacentHTML('beforeend', html);
 }
 
+const rebuildAdvancedViewButtons = (quantity) => {
+	const advancedButtonsContainer = document.getElementById('advancedButtonsContainer');
+	advancedButtonsContainer.innerHTML = '';
+	const html = `
+		<button
+			class="btn bg-success text-light" 
+			id="advancedIncreaseBtn" 
+			data-toggle="modal" 
+			data-target="#increaseModal"
+			data-id="${_advancedViewItemId}"
+            data-name="${_advancedViewItemName}"
+            data-model="${_advancedViewItemModel}"
+            data-quantity="${quantity}"
+            data-price="${_advancedViewItemPrice}"
+            data-department="${_advancedViewItemDepartment}"
+            data-location="${_advancedViewItemLocation}"
+            data-category="${_advancedViewItemCategory}"
+            data-purchasedate="${_advancedViewItemPurchaseDate}"
+            data-brand="${_advancedViewItemBrand}"
+            data-comment="${_advancedViewItemMemo}"
+            data-advanced="${_onAdvancedView}"
+            ${_advancedViewItemDeleted && 'disabled'}
+			>Increase</button>
+        <button 
+        	class="btn btn-secondary" 
+        	id="advancedReduceBtn" 
+        	data-toggle="modal" 
+        	data-target="#reduceModal"
+        	data-id="${_advancedViewItemId}"
+            data-name="${_advancedViewItemName}"
+            data-model="${_advancedViewItemModel}"
+            data-quantity="${quantity}"
+            data-price="${_advancedViewItemPrice}"
+            data-department="${_advancedViewItemDepartment}"
+            data-location="${_advancedViewItemLocation}"
+            data-category="${_advancedViewItemCategory}"
+            data-purchasedate="${_advancedViewItemPurchaseDate}"
+            data-brand="${_advancedViewItemBrand}"
+            data-comment="${_advancedViewItemMemo}"
+            data-advanced="${_onAdvancedView}"
+            ${_advancedViewItemDeleted && 'disabled'}
+        	>Reduce</button>
+        <button 
+        	class="btn bg-warning" 
+        	id="advancedDisposeBtn" 
+        	data-toggle="modal" 
+        	data-target="#disposeModal"
+        	data-id="${_advancedViewItemId}"
+            data-name="${_advancedViewItemName}"
+            data-model="${_advancedViewItemModel}"
+            data-quantity="${quantity}"
+            data-price="${_advancedViewItemPrice}"
+            data-department="${_advancedViewItemDepartment}"
+            data-location="${_advancedViewItemLocation}"
+            data-category="${_advancedViewItemCategory}"
+            data-purchasedate="${_advancedViewItemPurchaseDate}"
+            data-brand="${_advancedViewItemBrand}"
+            data-comment="${_advancedViewItemMemo}"
+            data-advanced="${_onAdvancedView}"
+            ${_advancedViewItemDeleted && 'disabled'}
+        	>Dispose</button>
+        <button 
+        	class="btn bg-danger text-light" 
+        	id="advancedReportMissingBtn" 
+        	data-toggle="modal" 
+        	data-target="#reportMissingModal"
+        	data-id="${_advancedViewItemId}"
+            data-name="${_advancedViewItemName}"
+            data-model="${_advancedViewItemModel}"
+            data-quantity="${quantity}"
+            data-price="${_advancedViewItemPrice}"
+            data-department="${_advancedViewItemDepartment}"
+            data-location="${_advancedViewItemLocation}"
+            data-category="${_advancedViewItemCategory}"
+            data-purchasedate="${_advancedViewItemPurchaseDate}"
+            data-brand="${_advancedViewItemBrand}"
+            data-comment="${_advancedViewItemMemo}"
+            data-advanced="${_onAdvancedView}"
+            ${_advancedViewItemDeleted && 'disabled'}
+        	>Report Missing</button>
+	`;
+	advancedButtonsContainer.insertAdjacentHTML('beforeend', html);
+}
+
 
 // function to populate the page with data
 const populateAdvancedViewPage = () => {

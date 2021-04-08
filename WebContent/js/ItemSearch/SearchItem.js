@@ -86,6 +86,98 @@ const pageButtons = (pages) => {
 
 // Functions
 
+const rebuildButtons = (itemRow, item) => {
+	const container = itemRow.querySelector('#modalButtonsContainer')
+	container.innerHTML = '';
+	const html = `
+		<button
+            class="btn bg-success text-light"
+            id="increaseBtn1"
+            data-toggle="modal"
+            data-target="#increaseModal"
+            data-id="${item.item_id}"
+            data-name="${item.item_name}"
+            data-model="${item.item_model}"
+            data-quantity="${item.item_quant}"
+            data-price="${item.price}"
+            data-department="${item.dept_name}"
+            data-location="${item.item_loc}"
+            data-category="${item.category}"
+            data-brand="${item.item_brand}"
+	        data-purchasedate="${item.purchase_date}"
+	        data-comment="${item.item_memo}"
+            data-advanced="${false}"
+            ${item.deleted && 'disabled'}
+          >
+            Increase
+          </button>
+          <button
+            class="btn btn-secondary"
+            id="reduceBtn1"
+            data-toggle="modal"
+            data-target="#reduceModal"
+            data-id="${item.item_id}"
+            data-name="${item.item_name}"
+            data-model="${item.item_model}"
+            data-quantity="${item.item_quant}"
+            data-price="${item.price}"
+            data-department="${item.dept_name}"
+            data-location="${item.item_loc}"
+            data-category="${item.category}"
+            data-advanced="${false}"
+            data-brand="${item.item_brand}"
+	        data-purchasedate="${item.purchase_date}"
+	        data-comment="${item.item_memo}"
+            ${item.deleted && 'disabled'}
+          >
+            Reduce
+          </button>
+          <button
+            class="btn bg-warning"
+            id="disposeBtn1"
+            data-toggle="modal"
+            data-target="#disposeModal"
+            data-id="${item.item_id}"
+            data-name="${item.item_name}"
+            data-model="${item.item_model}"
+            data-quantity="${item.item_quant}"
+            data-price="${item.price}"
+            data-department="${item.dept_name}"
+            data-location="${item.item_loc}"
+            data-category="${item.category}"
+ 			data-brand="${item.item_brand}"
+	        data-purchasedate="${item.purchase_date}"
+	        data-comment="${item.item_memo}"        
+            data-advanced="${false}"
+            ${item.deleted && 'disabled'}
+          >
+            Dispose
+          </button>
+          <button
+            class="btn bg-danger text-light"
+            id="reportMissingBtn1"
+            data-toggle="modal"
+            data-target="#reportMissingModal"
+            data-id="${item.item_id}"
+            data-name="${item.item_name}"
+            data-model="${item.item_model}"
+            data-quantity="${item.item_quant}"
+            data-price="${item.price}"
+            data-department="${item.dept_name}"
+            data-location="${item.item_loc}"
+            data-category="${item.category}"
+            data-brand="${item.item_brand}"
+	        data-purchasedate="${item.purchase_date}"
+	        data-comment="${item.item_memo}"
+            data-advanced="${false}"
+            ${item.deleted && 'disabled'}
+          >
+            Report Missing
+          </button>
+	`;
+	container.insertAdjacentHTML('beforeend', html);
+}
+
 // clear search table 
 const clearSearchTable = () => {
 	const tableBody = document.getElementById('tableBody');
@@ -163,7 +255,7 @@ const buildTable = () => {
         <td id="itemQ">${item.item_quant}</td>
         <td>$${item.price.toFixed(2)}</td>
         <!-- for the id of the buttons it will be <id>-<btn name> -->
-        <td>
+        <td id="modalButtonsContainer">
           <button
             class="btn bg-success text-light"
             id="increaseBtn1"
@@ -322,14 +414,19 @@ _searchItemform.addEventListener('submit', (e) => {
   //handleSearchItemResponse(data);
 });
 
-// Function to increase or decrease the quantity
+// Function to increase or decrease the quantity on search item page
 const updateItemQuantity = (id, quantity) => {
   const items = Array.from(document.querySelectorAll('.itemRow'));
   const item = items.find((i) => +i.attributes[1].value === id);
-  const newQ = +item.querySelector('#itemQ').innerHTML + +quantity;
-  item.querySelector('#itemQ').innerHTML = newQ;
-  const itemFromSearch = _searchItems.find((i) => i.id === id);
-  itemFromSearch.quantity = newQ;
+  console.log(item)
+  item.querySelector('#itemQ').innerHTML = quantity;
+  const itemFromSearch = _searchItems.find((i) => i.item_id === id);
+  console.log(itemFromSearch)
+  itemFromSearch.item_quant = quantity;
+ 
+  item.querySelector('#itemLinkToAdvancedView').dataset.quantity = quantity
+  
+  rebuildButtons(item, itemFromSearch)
 };
 
 // Function for deleting an item
