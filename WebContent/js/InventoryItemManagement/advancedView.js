@@ -10,6 +10,7 @@ let _advancedViewItemQuantity = 0
 let _advancedViewItemPrice = 0
 let _advancedViewItemPurchaseDate = ''
 let _advancedViewItemComment = ''
+let _advancedViewItemMemo = ''
 let _onAdvancedView = true;
 let _advancedViewItemDeleted = false;
 
@@ -35,6 +36,9 @@ const populateButtons = () => {
             data-department="${_advancedViewItemDepartment}"
             data-location="${_advancedViewItemLocation}"
             data-category="${_advancedViewItemCategory}"
+            data-purchasedate="${_advancedViewItemPurchaseDate}"
+            data-brand="${_advancedViewItemBrand}"
+            data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
             ${_advancedViewItemDeleted && 'disabled'}
 			>Increase</button>
@@ -51,6 +55,9 @@ const populateButtons = () => {
             data-department="${_advancedViewItemDepartment}"
             data-location="${_advancedViewItemLocation}"
             data-category="${_advancedViewItemCategory}"
+            data-purchasedate="${_advancedViewItemPurchaseDate}"
+            data-brand="${_advancedViewItemBrand}"
+            data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
             ${_advancedViewItemDeleted && 'disabled'}
         	>Reduce</button>
@@ -67,6 +74,9 @@ const populateButtons = () => {
             data-department="${_advancedViewItemDepartment}"
             data-location="${_advancedViewItemLocation}"
             data-category="${_advancedViewItemCategory}"
+            data-purchasedate="${_advancedViewItemPurchaseDate}"
+            data-brand="${_advancedViewItemBrand}"
+            data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
             ${_advancedViewItemDeleted && 'disabled'}
         	>Dispose</button>
@@ -83,6 +93,9 @@ const populateButtons = () => {
             data-department="${_advancedViewItemDepartment}"
             data-location="${_advancedViewItemLocation}"
             data-category="${_advancedViewItemCategory}"
+            data-purchasedate="${_advancedViewItemPurchaseDate}"
+            data-brand="${_advancedViewItemBrand}"
+            data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
             ${_advancedViewItemDeleted && 'disabled'}
         	>Report Missing</button>
@@ -120,6 +133,7 @@ const giveDataToAdvanceView = (link) => {
 	_advancedViewItemPrice = link.dataset.price
 	_advancedViewItemPurchaseDate = link.dataset.purchasedate
 	_advancedViewItemComment = link.dataset.comment === 'null' || 'link.dataset.comment' === undefined ? 'No Comment' : link.dataset.comment
+	_advancedViewItemMemo = link.dataset.comment
 	
 	
 	populateAdvancedViewPage()

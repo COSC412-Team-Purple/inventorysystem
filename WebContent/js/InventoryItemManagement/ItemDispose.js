@@ -68,6 +68,7 @@ const disposeItemInDB = () => {
     "member-id": LOGGED_ON_MEMBER_ID,
     "update_type": "dispose"
   };
+  console.log(servletParameters)
   $.ajax({
     url: 'ItemDispose',
     dataType: 'text',
