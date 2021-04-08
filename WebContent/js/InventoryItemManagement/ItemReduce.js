@@ -24,11 +24,13 @@ const clearReduceModalFields = () => {
 // check if new quantity is valid
 const validReduceQuanity = () => {
   let valid = true;
-  if(_reduceItemNewQuantity <= 0) {
+  if(_reduceItemNewQuantity === 0) {
+    console.log('input equals 0')
   	valid = false; 
   	showErrorMessageOnReduceModal('Please Enter a Positive Number')
   }
-  if(_reduceItemNewQuantity > _reduceItemOldQuantity) {
+  if(_reduceItemNewQuantity < 0) {
+  console.log('reduce larger than current')
   	valid = false;
   	showErrorMessageOnReduceModal('Reduce Quantity larger than Current Quantity')
   }
@@ -59,7 +61,7 @@ const handleReduceQuantityUpdateResponse = (response) => {
   
   if (response.modifiedByOtherMember && !_reduceOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
-  	document.getElementById('itemQuantityIncreaseModal').innerText = response.modifiedQuantity;
+  	document.getElementById('itemQuantityIncreaseModal').value = response.modifiedQuantity;
   	clearReduceModalFields()
   }
   

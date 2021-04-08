@@ -4,6 +4,9 @@ let _searchItemManagingDepartment = '';
 let _searchItemPriceCheck = false;
 let _searchItemMinPrice = 0;
 let _searchItemMaxPrice = 0;
+let _searchItemPermissionIncreaseAndDecrease = false;
+let _searchItemPermissionDispose = false;
+let _searchItemPermissionReportMissing = false;
 
 let _searchItems = [];
 
@@ -23,6 +26,12 @@ const data = [
     category: 'Video',
   },
 ];
+
+const checkPermissions = () => {
+	_searchItemPermissionIncreaseAndDecrease = setPermissions('increase_and_reduce_quantity')
+	_searchItemPermissionDispose = setPermissions('dispose_item')
+	_searchItemPermissionReportMissing = setPermissions('report_missing_item')
+}
 
 
 
@@ -178,13 +187,7 @@ const rebuildButtons = (itemRow, item) => {
 	container.insertAdjacentHTML('beforeend', html);
 }
 
-// clear search table 
-const clearSearchTable = () => {
-	const tableBody = document.getElementById('tableBody');
-	tableBody.innerHTML = '';
-	const pageButton = document.getElementById('pageButtons');
-	pageButton.innerHTML = '';
-}
+
 
 // pagination function
 const pagination = () => {
@@ -247,7 +250,9 @@ const buildTable = () => {
 	            data-brand="${item.item_brand}"
 	            data-purchasedate="${item.purchase_date}"
 	            data-comment="${item.item_memo}"
+	            data-permissions="${_searchItemPermissionIncreaseAndDecrease}"
 	            data-deleted="${false}"
+	            
             	>${item.item_name}</a>`
             : `${item.item_name}`
         }</td>
@@ -273,7 +278,7 @@ const buildTable = () => {
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"
             data-advanced="${false}"
-            ${item.deleted && 'disabled'}
+            ${(_searchItemPermissionIncreaseAndDecrease && _searchItemPermissionDispose && _searchItemPermissionReportMissing && item.deleted) && 'disabled'}
           >
             Increase
           </button>
@@ -294,7 +299,7 @@ const buildTable = () => {
             data-brand="${item.item_brand}"
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"
-            ${item.deleted && 'disabled'}
+            ${(_searchItemPermissionIncreaseAndDecrease && _searchItemPermissionDispose && _searchItemPermissionReportMissing && item.deleted) && 'disabled'}
           >
             Reduce
           </button>
@@ -315,7 +320,7 @@ const buildTable = () => {
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"        
             data-advanced="${false}"
-            ${item.deleted && 'disabled'}
+            ${(_searchItemPermissionIncreaseAndDecrease && _searchItemPermissionDispose && _searchItemPermissionReportMissing && item.deleted) && 'disabled'}
           >
             Dispose
           </button>
@@ -336,7 +341,7 @@ const buildTable = () => {
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"
             data-advanced="${false}"
-            ${item.deleted && 'disabled'}
+            ${(_searchItemPermissionIncreaseAndDecrease && _searchItemPermissionDispose && _searchItemPermissionReportMissing && item.deleted) && 'disabled'}
           >
             Report Missing
           </button>
@@ -388,6 +393,7 @@ const getSearchItemInDB = () => {
     success: function (data) {
       let response = JSON.parse(data);
       console.log('Response');
+      console.log(response)
     
       handleSearchItemResponse(response);
     },
@@ -418,10 +424,8 @@ _searchItemform.addEventListener('submit', (e) => {
 const updateItemQuantity = (id, quantity) => {
   const items = Array.from(document.querySelectorAll('.itemRow'));
   const item = items.find((i) => +i.attributes[1].value === id);
-  console.log(item)
   item.querySelector('#itemQ').innerHTML = quantity;
   const itemFromSearch = _searchItems.find((i) => i.item_id === id);
-  console.log(itemFromSearch)
   itemFromSearch.item_quant = quantity;
  
   item.querySelector('#itemLinkToAdvancedView').dataset.quantity = quantity

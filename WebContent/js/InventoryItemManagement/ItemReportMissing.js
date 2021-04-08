@@ -5,6 +5,7 @@ let _reportMissingItemCurrentQuantity = '';
 let _reportMissingItemMissingQuantity = 0;
 let _reportMissingItemCategory = '';
 let _reportMissingItemComment = '';
+let _reportMissingItemPrice =  '';
 let _reportMissingOnAdvancedView = false;
 
 // form
@@ -19,13 +20,13 @@ const clearReportMissingModalFields = () => {
 const validMissingQuanity = () => {
 
   let valid = true;
-  if(_reportMissingItemMissingQuantity <= 0) {
-  console.log('input equals a 0')
+  if (_reportMissingItemMissingQuantity === 0) {
+    console.log('input equals a 0')
   	valid = false;
   	showErrorMessageOnReportMissingModal('Please Enter a Positive Number')
   }
-  if(_reportMissingItemMissingQuantity > _reportMissingItemCurrentQuantity) {
-  console.log('missing bigger than current')
+  if(_reportMissingItemMissingQuantity < 0) {
+    console.log('missing bigger than current')
   	valid = false;
   	showErrorMessageOnReportMissingModal('Missing Quantity is Larger than Current Quantity')
   }
@@ -58,7 +59,7 @@ const handleReportMissingResponse = (response) => {
 
   if (response.modifiedByOtherMember && !_reportMissingOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
-  	document.getElementById('itemQuantityMissingModal').innerText = response.modifiedQuantity;
+  	document.getElementById('itemQuantityMissingModal').value = response.modifiedQuantity;
   	clearReportMissingModalFields()
   }
 
@@ -91,10 +92,11 @@ const reportMissingItemInDB = () => {
     "item-name": _reportMissingItemName,
     "item-old-quantity": _reportMissingItemCurrentQuantity,
     "item-new-quantity": _reportMissingItemMissingQuantity,
-    "member-id": LOGGED_ON_MEMBER_ID,
+    "item-price": _reportMissingItemPrice, 
     "item-category": _reportMissingItemCategory,
-    "update_type": "reportmissing",
     "comment": _reportMissingItemComment,
+    "update_type": "reportmissing",
+    "member-id": LOGGED_ON_MEMBER_ID,
   };
   $.ajax({
     url: 'ItemQuantity',
@@ -137,6 +139,7 @@ $('#reportMissingModal').on('show.bs.modal', function (e) {
   const itemModel = $(e.relatedTarget).data('model');
   _reportMissingItemCurrentQuantity = $(e.relatedTarget).data('quantity');
   _reportMissingItemCategory = $(e.relatedTarget).data('category');
+  _reportMissingItemPrice = $(e.relatedTarget).data('price');
 
   document.getElementById('itemIdMissingModal').innerText = _reportMissingItemID;
   document.getElementById('itemNameMissingModal').innerText = _reportMissingItemName;
