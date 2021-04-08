@@ -7,6 +7,9 @@ let _disposeItemDepartment = '';
 let _disposeItemCategory = '';
 let _disposeItemModel = '';
 let _disposeItemLocation = '';
+let _disposeItemPurchaseDate = '';
+let _disposeItemBrand = '';
+let _disposeItemMemo = '';
 let _disposeOnAdvancedView = false;
 
 let _disposeRowId = 0;
@@ -59,6 +62,9 @@ const disposeItemInDB = () => {
     "item-category": _disposeItemCategory,
     "item-model": _disposeItemModel,
     "item-location": _disposeItemLocation,
+    "item-purchaseDate": _disposeItemPurchaseDate,
+    "item-brand": _disposeItemBrand,
+    "item-memo": _disposeItemMemo,
     "member-id": LOGGED_ON_MEMBER_ID,
     "update_type": "dispose"
   };
@@ -101,6 +107,9 @@ $('#disposeModal').on('show.bs.modal', function (e) {
   _disposeRowId = $(e.relatedTarget.parentElement.parentElement).data(
     'rowNumber'
   );
+  _disposeItemPurchaseDate = $(e.relatedTarget).data('purchasedate');
+  _disposeItemBrand = $(e.relatedTarget).data('brand');
+  _disposeItemMemo = $(e.relatedTarget).data('comment');
   _disposeOnAdvancedView = $(e.relatedTarget).data('advanced');
 
   document.getElementById('itemIdDisposeModal').innerText = _disposeItemID;

@@ -177,6 +177,9 @@ const buildTable = () => {
             data-department="${item.dept_name}"
             data-location="${item.item_loc}"
             data-category="${item.category}"
+            data-brand="${item.item_brand}"
+	        data-purchasedate="${item.purchase_date}"
+	        data-comment="${item.item_memo}"
             data-advanced="${false}"
             ${item.deleted && 'disabled'}
           >
@@ -196,6 +199,9 @@ const buildTable = () => {
             data-location="${item.item_loc}"
             data-category="${item.category}"
             data-advanced="${false}"
+            data-brand="${item.item_brand}"
+	        data-purchasedate="${item.purchase_date}"
+	        data-comment="${item.item_memo}"
             ${item.deleted && 'disabled'}
           >
             Reduce
@@ -213,6 +219,9 @@ const buildTable = () => {
             data-department="${item.dept_name}"
             data-location="${item.item_loc}"
             data-category="${item.category}"
+ 			data-brand="${item.item_brand}"
+	        data-purchasedate="${item.purchase_date}"
+	        data-comment="${item.item_memo}"        
             data-advanced="${false}"
             ${item.deleted && 'disabled'}
           >
@@ -231,6 +240,9 @@ const buildTable = () => {
             data-department="${item.dept_name}"
             data-location="${item.item_loc}"
             data-category="${item.category}"
+            data-brand="${item.item_brand}"
+	        data-purchasedate="${item.purchase_date}"
+	        data-comment="${item.item_memo}"
             data-advanced="${false}"
             ${item.deleted && 'disabled'}
           >
