@@ -2,11 +2,11 @@ package com.java.inventorysystem.InventoryItemManagement;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.java.inventorysystem.Utilities.*;
@@ -54,10 +55,10 @@ public class ItemDispose extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String itemID         = request.getParameter("item-id");
+		int    itemID         = Integer.parseInt(request.getParameter("item-id"));
 		String itemName       = request.getParameter("item-name");
-		String itemQuantity   = request.getParameter("item-quantity");
-		String itemPrice      = request.getParameter("item-price");
+		int    itemQuantity   = Integer.parseInt(request.getParameter("item-quantity"));
+		float  itemPrice      = Float.parseFloat(request.getParameter("item-price"));
 		String itemDepartment = request.getParameter("item-department");
 		String itemCategory   = request.getParameter("item-category");
 		String itemModel      = request.getParameter("item-model");
@@ -65,21 +66,21 @@ public class ItemDispose extends HttpServlet {
 		String purchaseDate   = request.getParameter("item-purchaseDate");
 		String itemBrand      = request.getParameter("item-brand");
 		String itemMemo       = request.getParameter("item-memo");
-		String memberID       = request.getParameter("member-id");
+		int    memberID       = Integer.parseInt(request.getParameter("member-id"));
 		String update_type    = request.getParameter("update_type");
 			
 		try {
 			conn = DBConnectionUtility.getDatabaseConnection();
 			boolean success = false;
-			
+					
 			if(itemExists(itemID))
 			{
-				int update_id = updateItemQuantity(memberID, itemID, itemName, itemQuantity, update_type);
+				int update_id = InventoryManagementUtility.addRecordToItemQuantityUpdatesTable(memberID, itemID, itemName, itemQuantity, 0, "Disposing of item", update_type, conn);
 				
 				if(update_id > -1) {
-					success = updateTotal(Integer.parseInt(itemQuantity), Float.parseFloat(itemPrice));
+					success = updateTotal(itemQuantity, itemPrice);
 				if(success) {
-					success = updateItemsByCategory(update_id, Integer.parseInt(itemQuantity), itemCategory);
+					success = updateItemsByCategory(update_id, itemQuantity, itemCategory);
 				if(success) {
 					success = updateItemDispose(itemID, itemName, itemPrice, itemQuantity, itemModel, itemLocation, itemDepartment, itemCategory, purchaseDate, itemBrand, itemMemo, update_id);
 				if(success) {
@@ -89,6 +90,17 @@ public class ItemDispose extends HttpServlet {
 			
 			if(!success) { //Should probably make error codes instead so we know where the failure occurred
 				response.sendError(400, "Failed to delete item");
+			}
+			else
+			{
+				System.out.println("Successfully disposed of " + itemQuantity + " " + itemName);
+				JSONObject returnJson = new JSONObject();
+				
+				returnJson.put("item-id", itemID);
+				returnJson.put("delete-success", success);
+				
+				ClientResponseUtility.writeToClient(response, returnJson);
+				response.setStatus(200);
 			}
 			
 			conn.close();
@@ -102,7 +114,7 @@ public class ItemDispose extends HttpServlet {
 		doPost(request, response);
 	}
 	
-	private boolean itemExists(String itemID) throws SQLException {
+	private boolean itemExists(int itemID) throws SQLException {
 		String query = "SELECT * FROM items WHERE item_id = " + itemID;
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
@@ -111,11 +123,12 @@ public class ItemDispose extends HttpServlet {
 	}
 	
 	//2. insert record into item_quantity_updates (member_id, item_id, item_name, itemQuantity, 0 <-(updated_quant), todays date, "disposing of item", "dispose") -> returning update_id
-	private int updateItemQuantity(String memberID, String itemID, String itemName, String itemQuantity, String update_type) throws SQLException {
+	private int updateItemQuantity(String memberID, int itemID, String itemName, int itemQuantity, String update_type) throws SQLException {
 		
+        Date date = new Date(System.currentTimeMillis());  //SQL date object
 		String query = "INSERT INTO item_quantity_updates (updating_member_id, item_id, "
 				+ "item_name, old_quant, updated_quant, update_date, comment, update_type) "
-				+ "VALUES ('" + memberID + "','" + itemID + "','" + itemName + "','" + itemQuantity + "','0','" + new Date() + "','disposing of item','" + update_type + "');";
+				+ "VALUES ('" + memberID + "','" + itemID + "','" + itemName + "','" + itemQuantity + "','0','" + date + "','disposing of item','" + update_type + "');";
 
 		PreparedStatement stmt = conn.prepareStatement(query);
 		int rows = stmt.executeUpdate();
@@ -125,9 +138,8 @@ public class ItemDispose extends HttpServlet {
 		{
 			query = "SELECT MAX(update_id) as newest_update_id FROM item_quantity_updates";
 			ResultSet rs = stmt.executeQuery();
-			update_id = rs.getInt("update_id");
+			update_id = rs.getInt("newest_update_id");
 		}
-		
 		return update_id;
 	}
 	
@@ -154,7 +166,8 @@ public class ItemDispose extends HttpServlet {
 	
 	//4. update items_by_category set items = (items - quantity), last_update_id = update_id where category = category -> returning items
 	private boolean updateItemsByCategory(int update_id, int itemQuantity, String itemCategory) throws SQLException {
-		String query = "SELECT items FROM items_by_category WERE category = '" + itemCategory + "'";
+		String query = "SELECT items FROM items_by_category WHERE category = '" + itemCategory + "'";
+		System.out.println(query);
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
 		boolean success = false;
@@ -162,7 +175,8 @@ public class ItemDispose extends HttpServlet {
 		if(rs.next())
 		{
 			int items = rs.getInt("items");
-			query = "UPDATE items_by_category SET items = " + (items - itemQuantity) + ", last_update_id = " + update_id + " WHERE category = " + itemCategory;
+			query = "UPDATE items_by_category SET items = " + (items - itemQuantity) + ", last_update_id = " + update_id + " WHERE category = '" + itemCategory + "'";
+			System.out.println(query);
 			stmt = conn.prepareStatement(query);
 			int row = stmt.executeUpdate();
 			
@@ -173,7 +187,7 @@ public class ItemDispose extends HttpServlet {
 	}
 	
 	//5. insert into item_dispose (item_id, item_name, price, quantity, model, location, department, category, purchasedate, brand, memo, update_id)
-	private boolean updateItemDispose(String itemID, String itemName, String itemPrice, String itemQuantity, String itemModel, String itemLocation, String itemDept, String itemCategory, String purchaseDate, String itemBrand, String itemMemo, int update_id) throws SQLException {
+	private boolean updateItemDispose(int itemID, String itemName, float itemPrice, int itemQuantity, String itemModel, String itemLocation, String itemDept, String itemCategory, String purchaseDate, String itemBrand, String itemMemo, int update_id) throws SQLException {
 		
 		//missing purchasedate, brand, memo as inputs to the servlet
 		String query = "INSERT INTO item_dispose (item_id, item_name, price, item_quant, item_model, item_loc, dept_name, "
@@ -189,7 +203,7 @@ public class ItemDispose extends HttpServlet {
 	}
 	
 	//6 delete item from items table
-	private boolean disposeItem(String itemID) throws SQLException {
+	private boolean disposeItem(int itemID) throws SQLException {
 		
 		String query = "DELETE FROM items WHERE item_id = " + itemID;
 		PreparedStatement stmt = conn.prepareStatement(query);
