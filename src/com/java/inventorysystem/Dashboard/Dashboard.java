@@ -70,7 +70,7 @@ public class Dashboard extends HttpServlet {
 	//1. select total_value from inventory_total where total_id = 1
 	private ResultSet getInventoryTotal() throws SQLException {
 		
-		String query = "SELECT total_value FROM inventory_total WHERE total_id = 1";
+		String query = "SELECT total_value FROM inventory_total WHERE total_id = 1;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet results = stmt.executeQuery();
 			
@@ -79,7 +79,7 @@ public class Dashboard extends HttpServlet {
 	
 	//2. select category, items from items_by_category
 	private ResultSet getItems() throws SQLException {
-		String query = "SELECT category, items FROM items_by_category";
+		String query = "SELECT category, items FROM items_by_category ORDER BY category ASC";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet results = stmt.executeQuery();
 			
