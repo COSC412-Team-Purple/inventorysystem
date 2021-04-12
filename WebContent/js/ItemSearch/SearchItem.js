@@ -14,9 +14,9 @@ let _searchItems = [];
 const _searchItemform = document.getElementById('searchItemForm');
 
 const checkPermissions = () => {
-	_searchItemPermissionIncreaseAndDecrease = setPermissions('increase_and_reduce_quantity')
-	_searchItemPermissionDispose = setPermissions('dispose_item')
-	_searchItemPermissionReportMissing = setPermissions('report_missing_item')
+	_searchItemPermissionIncreaseAndDecrease = hasPermission('increase_and_reduce_quantity')
+	_searchItemPermissionDispose = hasPermission('dispose_item')
+	_searchItemPermissionReportMissing = hasPermission('report_missing_item')
 }
 
 
@@ -263,7 +263,7 @@ const buildTable = () => {
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"
             data-advanced="${false}"
-            ${(_searchItemPermissionIncreaseAndDecrease && _searchItemPermissionDispose && _searchItemPermissionReportMissing && item.deleted) && 'disabled'}
+            ${(!_searchItemPermissionIncreaseAndDecrease || !_searchItemPermissionDispose || !_searchItemPermissionReportMissing || item.deleted) && 'disabled'}
           >
             Increase
           </button>
@@ -284,8 +284,8 @@ const buildTable = () => {
             data-brand="${item.item_brand}"
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"
-            ${(_searchItemPermissionIncreaseAndDecrease && _searchItemPermissionDispose && _searchItemPermissionReportMissing && item.deleted) && 'disabled'}
-          >
+			${(!_searchItemPermissionIncreaseAndDecrease || !_searchItemPermissionDispose || !_searchItemPermissionReportMissing || item.deleted) && 'disabled'}        
+		  >
             Reduce
           </button>
           <button
@@ -305,7 +305,7 @@ const buildTable = () => {
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"        
             data-advanced="${false}"
-            ${(_searchItemPermissionIncreaseAndDecrease && _searchItemPermissionDispose && _searchItemPermissionReportMissing && item.deleted) && 'disabled'}
+            ${(!_searchItemPermissionIncreaseAndDecrease || !_searchItemPermissionDispose || !_searchItemPermissionReportMissing || item.deleted) && 'disabled'}
           >
             Dispose
           </button>
@@ -326,7 +326,7 @@ const buildTable = () => {
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"
             data-advanced="${false}"
-            ${(_searchItemPermissionIncreaseAndDecrease && _searchItemPermissionDispose && _searchItemPermissionReportMissing && item.deleted) && 'disabled'}
+            ${(!_searchItemPermissionIncreaseAndDecrease || !_searchItemPermissionDispose || !_searchItemPermissionReportMissing || item.deleted) && 'disabled'}
           >
             Report Missing
           </button>
@@ -420,6 +420,7 @@ const updateItemQuantity = (id, quantity) => {
 
 // Function for deleting an item
 const deleteItem = (id, name) => {
+
   const items = Array.from(document.querySelectorAll('.itemRow'));
   const item = items.find((i) => +i.attributes[1].value === id);
   item.querySelector('#name').innerHTML = name;
@@ -427,7 +428,6 @@ const deleteItem = (id, name) => {
   item.querySelector('#reduceBtn1').disabled = true;
   item.querySelector('#disposeBtn1').disabled = true;
   item.querySelector('#reportMissingBtn1').disabled = true;
-
-  const itemFromSearch = _searchItems.find((i) => i.id === id);
+  const itemFromSearch = _searchItems.find((i) => i.item_id === id);
   itemFromSearch.deleted = true;
 };

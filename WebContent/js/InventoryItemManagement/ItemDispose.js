@@ -23,7 +23,7 @@ const handleDisposeResponse = (response) => {
   // On Search Page and the item was deleted by another member
   if (response.deleted && !_disposeOnAdvancedView) {
 	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
-	  deleteItem(_disposeRowId, _disposeItemName);
+	  deleteItem(_disposeItemID, _disposeItemName);
 	  setTimeout(() => {
 	  	$('#disposeModal').modal('hide');
 	  }, 3000)
@@ -41,14 +41,14 @@ const handleDisposeResponse = (response) => {
   
   // On search page and the item was successfully disposed
   if(!response.modifiedByOtherMember && !response.deleted && !_disposeOnAdvancedView) {
-	  deleteItem(_disposeRowId, _disposeItemName);
+	  deleteItem(_disposeItemID, _disposeItemName);
 	  showSuccessMessage('Successfully Disposed Item');
 	  $('#disposeModal').modal('hide');
   }
   
   // On advanced view and the item was successfully disposed
   if(!response.modifiedByOtherMember && !response.deleted && _disposeOnAdvancedView) {
-	  deleteItem(_disposeRowId, _disposeItemName);
+	  deleteItem(_disposeItemID, _disposeItemName);
 	  deleteItemOnAdvancedView()
 	  showSuccessMessage('Successfully Disposed Item');
 	  $('#disposeModal').modal('hide');

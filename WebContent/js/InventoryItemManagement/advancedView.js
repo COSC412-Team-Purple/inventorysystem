@@ -41,7 +41,7 @@ const populateButtons = () => {
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
-            ${(_advancedPermissions && _advancedViewItemDeleted) && 'disabled'}
+            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
 			>Increase</button>
         <button 
         	class="btn btn-secondary" 
@@ -60,7 +60,7 @@ const populateButtons = () => {
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
-            ${(_advancedPermissions && _advancedViewItemDeleted) && 'disabled'}
+            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
         	>Reduce</button>
         <button 
         	class="btn bg-warning" 
@@ -79,7 +79,7 @@ const populateButtons = () => {
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
-            ${(_advancedPermissions && _advancedViewItemDeleted) && 'disabled'}
+            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
         	>Dispose</button>
         <button 
         	class="btn bg-danger text-light" 
@@ -98,7 +98,7 @@ const populateButtons = () => {
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
-            ${(_advancedPermissions && _advancedViewItemDeleted) && 'disabled'}
+            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
         	>Report Missing</button>
 	`;
 	advancedButtonsContainer.insertAdjacentHTML('beforeend', html);
@@ -125,7 +125,7 @@ const rebuildAdvancedViewButtons = (quantity) => {
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
-            ${(_advancedPermissions && _advancedViewItemDeleted) && 'disabled'}
+            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
 			>Increase</button>
         <button 
         	class="btn btn-secondary" 
@@ -144,7 +144,7 @@ const rebuildAdvancedViewButtons = (quantity) => {
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
-            ${(_advancedPermissions && _advancedViewItemDeleted) && 'disabled'}
+            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
         	>Reduce</button>
         <button 
         	class="btn bg-warning" 
@@ -163,7 +163,7 @@ const rebuildAdvancedViewButtons = (quantity) => {
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
-            ${(_advancedPermissions && _advancedViewItemDeleted) && 'disabled'}
+            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
         	>Dispose</button>
         <button 
         	class="btn bg-danger text-light" 
@@ -182,7 +182,7 @@ const rebuildAdvancedViewButtons = (quantity) => {
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
             data-advanced="${_onAdvancedView}"
-            ${(_advancedPermissions && _advancedViewItemDeleted) && 'disabled'}
+            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
         	>Report Missing</button>
 	`;
 	advancedButtonsContainer.insertAdjacentHTML('beforeend', html);
@@ -219,8 +219,7 @@ const giveDataToAdvanceView = (link) => {
 	_advancedViewItemPurchaseDate = link.dataset.purchasedate
 	_advancedViewItemComment = link.dataset.comment === 'null' || 'link.dataset.comment' === undefined ? 'No Comment' : link.dataset.comment
 	_advancedViewItemMemo = link.dataset.comment
-	_advancedPermissions = link.dataset.permissions
-	
-	
+	_advancedPermissions = link.dataset.permissions === "true" ? true : false
+
 	populateAdvancedViewPage()
 };
