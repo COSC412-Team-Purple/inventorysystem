@@ -41,7 +41,7 @@ const validReduceQuanity = (input) => {
 // function to handle the response data
 const handleReduceQuantityUpdateResponse = (response) => {
 
-  // On Search Page
+  // On Search Page and item is deleted by another member
   if (response.deleted && !_reduceOnAdvancedView) {
 	  showErrorMessageOnReduceModal('Item Deleted by Another Member')
 	  deleteItem(_reduceRowId, _reduceItemName);
@@ -52,7 +52,7 @@ const handleReduceQuantityUpdateResponse = (response) => {
 	  return
   }
   
-  // in advanced view
+  // On advanced view and item is deleted by another member
   if (response.deleted && _reduceOnAdvancedView) {
 	  showErrorMessageOnReduceModal('Item Deleted by Another Member');
 	  deleteItem(_reduceItemID, _reduceItemName);
@@ -64,7 +64,7 @@ const handleReduceQuantityUpdateResponse = (response) => {
 	  return
   }
   
-  // On Search Page
+  // On Search Page and the item was updated by another member
   if (response.modifiedByOtherMember && !_reduceOnAdvancedView){
   	showErrorMessageOnReduceModal('Item Updated by Another member');
   	updateItemQuantity(_reduceRowId, response.modifiedQuantity);
@@ -73,8 +73,8 @@ const handleReduceQuantityUpdateResponse = (response) => {
   	clearReduceModalFields()
   	return
   }
-  
-  // in advanced view
+   
+  // in advanced view and the item was updated by another member
   if (response.modifiedByOtherMember && _reduceOnAdvancedView){
   	showErrorMessageOnReduceModal('Item Updated by Another member');
   	updateItemQuantity(_reduceItemID, response.modifiedQuantity);
@@ -86,7 +86,7 @@ const handleReduceQuantityUpdateResponse = (response) => {
   	return
   }
   
-  // On Search Page
+  // On Search Page and the item was successfully reduced
   if(!response.modifiedByOtherMember && !response.deleted && !_reduceOnAdvancedView) {
 	  updateItemQuantity(_reduceRowId, _reduceItemNewQuantity);
 	  showSuccessMessage('Reduced Item Quantity');
@@ -95,7 +95,7 @@ const handleReduceQuantityUpdateResponse = (response) => {
 	  return
   }
   
-  // in advanced view
+  // in advanced view and the item was successfully reduced
   if(!response.modifiedByOtherMember && !response.deleted && _reduceOnAdvancedView) {
 	  updateItemQuantity(_reduceItemID, _reduceItemNewQuantity);
 	  document.getElementById('advancedItemQuantityInput').value = _reduceItemNewQuantity;

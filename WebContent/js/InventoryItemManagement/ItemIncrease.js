@@ -3,21 +3,23 @@ let _increaseItemID = 0;
 let _increaseItemOldQuantity = 0;
 let _increaseItemNewQuantity = 0;
 let _increaseItemPrice = 0;
-let _increaseComment = '';
+let _increaseReason = '';
 let _increaseCategory = '';
 let _increaseOnAdvancedView = false;
 
 let _increaseRowId = 0;
 
+// form
+const increaseForm = document.getElementById('increaseForm');
+
+
+// function to clear the inputs fields of the increase modal
 const clearIncreaseModalFields = () => {
 	document.getElementById('reasonIncreaseModal').value = '';
 	document.getElementById('inputIncreaseModal').value = '';
 }
 
-// form
-const increaseForm = document.getElementById('increaseForm');
-
-// functions
+// function to check if the input value is valid
 const validIncreaseQuanity = (input) => {
   console.log(input.toFixed(0))
   let valid = true;
@@ -30,10 +32,10 @@ const validIncreaseQuanity = (input) => {
 };
 
 
-
+// function to handle the servlet response
 const handleIncreaseQuantityUpdateResponse = (response) => {
 
-  // On Search Page
+  // On Search Page and the item was deleted by another member
   if (response.deleted && !_increaseOnAdvancedView) {
 	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
 	  deleteItem(_increaseRowId, _increaseItemName);
@@ -44,7 +46,7 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
 	  return
   }
   
-  // in advanced view
+  // in advanced view and the item was deleted by another member
   if (response.deleted && _increaseOnAdvancedView) {
 	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member');
 	  deleteItem(_increaseItemID, _increaseItemName);
@@ -56,7 +58,7 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
 	  return
   }
 
-  // On Search Page 
+  // On Search Page and the item was updated by another member
   if (response.modifiedByOtherMember && !_increaseOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
   	updateItemQuantity(_increaseRowId, response.modifiedQuantity);
@@ -66,7 +68,7 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
   	return
   }
   
-  // in advanced view
+  // in advanced view and the item was updated by another member
   if (response.modifiedByOtherMember && _increaseOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
   	updateItemQuantity(_increaseItemID, response.modifiedQuantity);
@@ -78,7 +80,7 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
   	return
   }
   
-  // On Search Page
+  // On Search Page and the item was successfully increased
   if(!response.modifiedByOtherMember && !response.deleted && !_increaseOnAdvancedView) {
 	  updateItemQuantity(_increaseRowId, _increaseItemNewQuantity);
 	  showSuccessMessage('Increased Item Quantity');
@@ -87,7 +89,7 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
 	  return
   }
 
-  // in advanced view
+  // in advanced view and the item was successfully increased
   if(!response.modifiedByOtherMember && !response.deleted && _increaseOnAdvancedView) {
 	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
 	  rebuildAdvancedViewButtons(_increaseItemNewQuantity)
@@ -99,7 +101,7 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
   }
 };
 
-// handler for search item
+// handler for sending the increase item data to the back end
 const increaseItemInDB = () => {
   const servletParameters = {
     "item-id": _increaseItemID,
@@ -108,7 +110,7 @@ const increaseItemInDB = () => {
     "item-old-quantity": _increaseItemOldQuantity,
     "item-new-quantity": _increaseItemNewQuantity,
     "item-price": _increaseItemPrice,
-    "comment": _increaseComment,
+    "comment": _increaseReason,
     "item-category": _increaseCategory,
     "update_type": "increase",
   };
@@ -138,7 +140,7 @@ increaseForm.addEventListener('submit', (e) => {
   _increaseItemNewQuantity = +document.getElementById('inputIncreaseModal').value;
   const input = _increaseItemNewQuantity
   console.log(input)
-  _increaseComment = document.getElementById('reasonIncreaseModal').value;
+  _increaseReason = document.getElementById('reasonIncreaseModal').value;
   _increaseItemNewQuantity = _increaseItemNewQuantity + _increaseItemOldQuantity
 
   if (validIncreaseQuanity(input)) {

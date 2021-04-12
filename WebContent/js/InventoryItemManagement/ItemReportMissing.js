@@ -37,7 +37,7 @@ const validMissingQuanity = (input) => {
 // function to handle the response data
 const handleReportMissingResponse = (response) => {
 
-  // On Search Page
+  // On Search Page and item is deleted by another member
   if (response.deleted && !_reportMissingOnAdvancedView) {
 	  showErrorMessageOnReportMissingModal('Item Deleted by Another Member')
 	  deleteItem(_reportMissingItemID, _reportMissingItemName);
@@ -48,7 +48,7 @@ const handleReportMissingResponse = (response) => {
 	  return
   }
   
-  // in advanced view
+  // in advanced view and item is deleted by another member
   if (response.deleted && _reportMissingOnAdvancedView) {
 	  showErrorMessageOnReportMissingModal('Item Deleted by Another Member');
 	  deleteItem(_reportMissingItemID, _reportMissingItemName);
@@ -59,7 +59,7 @@ const handleReportMissingResponse = (response) => {
 	  }, 3000)
 	  return
   }
-  // On Search Page
+  // On Search Page and the item was updated by another member
   if (response.modifiedByOtherMember && !_reportMissingOnAdvancedView){
   	showErrorMessageOnReportMissingModal('Item Updated by Another member');
   	updateItemQuantity(_reportMissingItemID, response.modifiedQuantity);
@@ -69,7 +69,7 @@ const handleReportMissingResponse = (response) => {
   	return
   }
 	
-  // in advanced view
+  // in advanced view and the item was updated by another member
   if (response.modifiedByOtherMember && _reportMissingOnAdvancedView){
   	showErrorMessageOnReportMissingModal('Item Updated by Another member');
   	updateItemQuantity(_reportMissingItemID, response.modifiedQuantity);
@@ -81,7 +81,7 @@ const handleReportMissingResponse = (response) => {
   	return
   }
 
-  // On Search Page
+  // On Search Page and the item was successfully reported missing
   if(!response.modifiedByOtherMember && !response.deleted && !_reportMissingOnAdvancedView) {
 	  updateItemQuantity(_reportMissingItemID, _reportMissingItemMissingQuantity);
 	  showSuccessMessage('Item Successfully Reported Missing');
@@ -90,7 +90,7 @@ const handleReportMissingResponse = (response) => {
 	  return
   }
 
-	// in advanced view
+	// in advanced view and the item was successfully reported missing
   if(!response.modifiedByOtherMember && !response.deleted && _reportMissingOnAdvancedView) {
 	  updateItemQuantity(_reportMissingItemID, _reportMissingItemMissingQuantity);
 	  console.log(_reportMissingItemMissingQuantity)

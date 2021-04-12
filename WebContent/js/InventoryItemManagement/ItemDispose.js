@@ -19,6 +19,8 @@ const disposeForm = document.getElementById('disposeForm');
 
 // function to handle the response data
 const handleDisposeResponse = (response) => {
+
+  // On Search Page and the item was deleted by another member
   if (response.deleted && !_disposeOnAdvancedView) {
 	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member')
 	  deleteItem(_disposeRowId, _disposeItemName);
@@ -27,6 +29,7 @@ const handleDisposeResponse = (response) => {
 	  }, 3000)
   }
   
+  // On advanced view and the item was deleted by another member
   if (response.deleted && _disposeOnAdvancedView) {
 	  showErrorMessageOnIncreaseModal('Item Deleted by Another Member');
 	  deleteItem(_disposeItemID, _disposeItemName);
@@ -36,12 +39,14 @@ const handleDisposeResponse = (response) => {
 	  }, 3000)
   }
   
+  // On search page and the item was successfully disposed
   if(!response.modifiedByOtherMember && !response.deleted && !_disposeOnAdvancedView) {
 	  deleteItem(_disposeRowId, _disposeItemName);
 	  showSuccessMessage('Successfully Disposed Item');
 	  $('#disposeModal').modal('hide');
   }
   
+  // On advanced view and the item was successfully disposed
   if(!response.modifiedByOtherMember && !response.deleted && _disposeOnAdvancedView) {
 	  deleteItem(_disposeRowId, _disposeItemName);
 	  deleteItemOnAdvancedView()
@@ -51,7 +56,7 @@ const handleDisposeResponse = (response) => {
 	
 };
 
-// handler for sending and recieving data from backend
+// handler for sending the disposed item data to the backend
 const disposeItemInDB = () => {
   const servletParameters = {
     "item-id": _disposeItemID,

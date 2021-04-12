@@ -8,9 +8,9 @@ let _registerItemCategory = '';
 let _registerItemDate = '';
 let _registerItemBrand = '';
 let _registerItemDescription = '';
-
 const registerItemform = document.getElementById('registerItemForm');
 
+// function to check if all fields are filled out
 const allFieldsFilledCheck = () => {
   let valid = true;
 
@@ -27,12 +27,15 @@ const allFieldsFilledCheck = () => {
     !_registerItemDescription
   ) {
     valid = false;
-    console.log('field is not filled out');
+    showErrorMessage('All Fields Must Be Filled');
+    console.log('a field is not filled out');
   }
   return valid;
 };
 
-const checkLocCatDeptExist = () => {
+
+// function used to check to see if the new items location, category, and department already exists
+const checkLocationCategoryDepartmentExist = () => {
 
 	if(!DEPARTMENTS.includes(_registerItemDepartment)) {
 		DEPARTMENTS.push(_registerItemDepartment)
@@ -47,6 +50,7 @@ const checkLocCatDeptExist = () => {
 	}
 }
 
+// function used to clear all the fields in the register item form
 const clearFields = () => {
 	document.getElementById('registerItemNameInput').value = '';
     document.getElementById('registerItemPriceInput').value = '';
@@ -64,24 +68,23 @@ const clearFields = () => {
 const handleRegisterItemResponse = (response) => {
   console.log('new item registered');
   showSuccessMessage('New Item Successfully Registered')
-  checkLocCatDeptExist();
-  console.log(response);
+  checkLocationCategoryDepartmentExist();
   clearFields();
 };
 
-// handler for search item
+// handler to send the registered items data back to the back end
 const registerItemInDB = () => {
   const servletParameters = {
     'item_name': _registerItemName,
     'item_price': _registerItemPrice,
-    'item_quantity': _registerItemQuantity,
+    'item_quant': _registerItemQuantity,
     'item_spec': _registerItemSpec,
-    'item_location': _registerItemLocation,
-    'item_department': _registerItemDepartment,
-    'item_category': _registerItemCategory,
-    'item_date': _registerItemDate,
+    'item_loc': _registerItemLocation,
+    'dept_name': _registerItemDepartment,
+    'category': _registerItemCategory,
+    'purchase_date': _registerItemDate,
     'item_brand': _registerItemBrand,
-    'item_description': _registerItemDescription,
+    'item_memo': _registerItemDescription,
   };
   console.log(servletParameters);
   $.ajax({
@@ -102,6 +105,7 @@ const registerItemInDB = () => {
   });
 };
 
+// register item form submit listener
 registerItemform.addEventListener('submit', (e) => {
   e.preventDefault();
   _registerItemName = document.getElementById('registerItemNameInput').value;
@@ -122,11 +126,7 @@ registerItemform.addEventListener('submit', (e) => {
     .value;
 
   if (allFieldsFilledCheck()) {
-  	
     registerItemInDB();
-    //handleRegisterItemResponse("");
-  } else {
-    showErrorMessage('Unsuccessful Item Registration');
   }
 });
 
