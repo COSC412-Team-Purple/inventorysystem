@@ -21,7 +21,6 @@ const clearIncreaseModalFields = () => {
 
 // function to check if the input value is valid
 const validIncreaseQuanity = (input) => {
-  console.log(input.toFixed(0))
   let valid = true;
   if (input <= 0) {
   	console.log('failed')
@@ -75,7 +74,7 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
   	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
   	document.getElementById('itemQuantityIncreaseModal').innerHTML = response.modifiedQuantity;
 	_increaseItemOldQuantity = response.modifiedQuantity;
-  	rebuildAdvancedViewButtons(response.modifiedQuantity)
+  	buildAdvancedButtons(response.modifiedQuantity)
   	clearIncreaseModalFields()
   	return
   }
@@ -92,7 +91,7 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
   // in advanced view and the item was successfully increased
   if(!response.modifiedByOtherMember && !response.deleted && _increaseOnAdvancedView) {
 	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
-	  rebuildAdvancedViewButtons(_increaseItemNewQuantity)
+	  buildAdvancedButtons(_increaseItemNewQuantity)
 	  document.getElementById('advancedItemQuantityInput').value = _increaseItemNewQuantity;
 	  showSuccessMessage('Successfully Increased Item Quantity');
 	  clearIncreaseModalFields()

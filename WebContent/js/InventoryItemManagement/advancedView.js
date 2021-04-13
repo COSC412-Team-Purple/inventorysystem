@@ -9,18 +9,20 @@ let _advancedViewItemLocation = ''
 let _advancedViewItemQuantity = 0
 let _advancedViewItemPrice = 0
 let _advancedViewItemPurchaseDate = ''
-let _advancedViewItemComment = ''
 let _advancedViewItemMemo = ''
-let _onAdvancedView = true;
 let _advancedViewItemDeleted = false;
 let _advancedPermissions = false;
 
+// function to tell the that the item was deleted
 const deleteItemOnAdvancedView = () => {
 	_advancedViewItemDeleted = true;
-	populateButtons();
+	buildAdvancedButtons();
 }
 
-const populateButtons = () => {
+// function to build the buttons
+const buildAdvancedButtons = (input = 0) => {
+
+	_advancedViewItemQuantity = input === 0 ? _advancedViewItemQuantity : input;
 	const advancedButtonsContainer = document.getElementById('advancedButtonsContainer');
 	advancedButtonsContainer.innerHTML = '';
 	const html = `
@@ -40,7 +42,7 @@ const populateButtons = () => {
             data-purchasedate="${_advancedViewItemPurchaseDate}"
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
-            data-advanced="${_onAdvancedView}"
+            data-advanced="${true}"
             ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
 			>Increase</button>
         <button 
@@ -59,7 +61,7 @@ const populateButtons = () => {
             data-purchasedate="${_advancedViewItemPurchaseDate}"
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
-            data-advanced="${_onAdvancedView}"
+            data-advanced="${true}"
             ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
         	>Reduce</button>
         <button 
@@ -78,7 +80,7 @@ const populateButtons = () => {
             data-purchasedate="${_advancedViewItemPurchaseDate}"
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
-            data-advanced="${_onAdvancedView}"
+            data-advanced="${true}"
             ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
         	>Dispose</button>
         <button 
@@ -97,91 +99,7 @@ const populateButtons = () => {
             data-purchasedate="${_advancedViewItemPurchaseDate}"
             data-brand="${_advancedViewItemBrand}"
             data-comment="${_advancedViewItemMemo}"
-            data-advanced="${_onAdvancedView}"
-            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
-        	>Report Missing</button>
-	`;
-	advancedButtonsContainer.insertAdjacentHTML('beforeend', html);
-}
-
-const rebuildAdvancedViewButtons = (quantity) => {
-	const advancedButtonsContainer = document.getElementById('advancedButtonsContainer');
-	advancedButtonsContainer.innerHTML = '';
-	const html = `
-		<button
-			class="btn bg-success text-light" 
-			id="advancedIncreaseBtn" 
-			data-toggle="modal" 
-			data-target="#increaseModal"
-			data-id="${_advancedViewItemId}"
-            data-name="${_advancedViewItemName}"
-            data-model="${_advancedViewItemModel}"
-            data-quantity="${quantity}"
-            data-price="${_advancedViewItemPrice}"
-            data-department="${_advancedViewItemDepartment}"
-            data-location="${_advancedViewItemLocation}"
-            data-category="${_advancedViewItemCategory}"
-            data-purchasedate="${_advancedViewItemPurchaseDate}"
-            data-brand="${_advancedViewItemBrand}"
-            data-comment="${_advancedViewItemMemo}"
-            data-advanced="${_onAdvancedView}"
-            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
-			>Increase</button>
-        <button 
-        	class="btn btn-secondary" 
-        	id="advancedReduceBtn" 
-        	data-toggle="modal" 
-        	data-target="#reduceModal"
-        	data-id="${_advancedViewItemId}"
-            data-name="${_advancedViewItemName}"
-            data-model="${_advancedViewItemModel}"
-            data-quantity="${quantity}"
-            data-price="${_advancedViewItemPrice}"
-            data-department="${_advancedViewItemDepartment}"
-            data-location="${_advancedViewItemLocation}"
-            data-category="${_advancedViewItemCategory}"
-            data-purchasedate="${_advancedViewItemPurchaseDate}"
-            data-brand="${_advancedViewItemBrand}"
-            data-comment="${_advancedViewItemMemo}"
-            data-advanced="${_onAdvancedView}"
-            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
-        	>Reduce</button>
-        <button 
-        	class="btn bg-warning" 
-        	id="advancedDisposeBtn" 
-        	data-toggle="modal" 
-        	data-target="#disposeModal"
-        	data-id="${_advancedViewItemId}"
-            data-name="${_advancedViewItemName}"
-            data-model="${_advancedViewItemModel}"
-            data-quantity="${quantity}"
-            data-price="${_advancedViewItemPrice}"
-            data-department="${_advancedViewItemDepartment}"
-            data-location="${_advancedViewItemLocation}"
-            data-category="${_advancedViewItemCategory}"
-            data-purchasedate="${_advancedViewItemPurchaseDate}"
-            data-brand="${_advancedViewItemBrand}"
-            data-comment="${_advancedViewItemMemo}"
-            data-advanced="${_onAdvancedView}"
-            ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
-        	>Dispose</button>
-        <button 
-        	class="btn bg-danger text-light" 
-        	id="advancedReportMissingBtn" 
-        	data-toggle="modal" 
-        	data-target="#reportMissingModal"
-        	data-id="${_advancedViewItemId}"
-            data-name="${_advancedViewItemName}"
-            data-model="${_advancedViewItemModel}"
-            data-quantity="${quantity}"
-            data-price="${_advancedViewItemPrice}"
-            data-department="${_advancedViewItemDepartment}"
-            data-location="${_advancedViewItemLocation}"
-            data-category="${_advancedViewItemCategory}"
-            data-purchasedate="${_advancedViewItemPurchaseDate}"
-            data-brand="${_advancedViewItemBrand}"
-            data-comment="${_advancedViewItemMemo}"
-            data-advanced="${_onAdvancedView}"
+            data-advanced="${true}"
             ${(!_advancedPermissions || _advancedViewItemDeleted) && 'disabled'}
         	>Report Missing</button>
 	`;
@@ -191,7 +109,7 @@ const rebuildAdvancedViewButtons = (quantity) => {
 
 // function to populate the page with data
 const populateAdvancedViewPage = () => {
-	populateButtons()
+	buildAdvancedButtons()
 
 	document.getElementById('advancedItemName').innerText = _advancedViewItemName
 	document.getElementById('advancedItemModelInput').value = _advancedViewItemModel
@@ -202,7 +120,7 @@ const populateAdvancedViewPage = () => {
 	document.getElementById('advancedItemQuantityInput').value = _advancedViewItemQuantity
 	document.getElementById('advancedItemPriceInput').value = _advancedViewItemPrice
 	document.getElementById('advancedItemPurchaseDateInput').value = _advancedViewItemPurchaseDate
-	document.getElementById('advancedItemMemoInput').value = _advancedViewItemComment
+	document.getElementById('advancedItemMemoInput').value = _advancedViewItemMemo
 }
 
 // function to retrieve the data from the search item page
@@ -217,8 +135,7 @@ const giveDataToAdvanceView = (link) => {
 	_advancedViewItemQuantity = link.dataset.quantity
 	_advancedViewItemPrice = link.dataset.price
 	_advancedViewItemPurchaseDate = link.dataset.purchasedate
-	_advancedViewItemComment = link.dataset.comment === 'null' || 'link.dataset.comment' === undefined ? 'No Comment' : link.dataset.comment
-	_advancedViewItemMemo = link.dataset.comment
+	_advancedViewItemMemo = link.dataset.comment === 'null' || 'link.dataset.comment' === undefined ? 'No Comment' : link.dataset.comment
 	_advancedPermissions = link.dataset.permissions === "true" ? true : false
 
 	populateAdvancedViewPage()

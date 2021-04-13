@@ -14,8 +14,8 @@ let _reduceRowId = 0;
 // form
 const reduceForm = document.getElementById('reduceForm');
 
-// functions
 
+// function to clear the fields of the reduce modal
 const clearReduceModalFields = () => {
 	document.getElementById('reasonReduceModal').value = '';
 	document.getElementById('inputReduceModal').value = '';
@@ -81,7 +81,7 @@ const handleReduceQuantityUpdateResponse = (response) => {
   	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
   	document.getElementById('itemQuantityReduceModal').innerHTML = response.modifiedQuantity;
   	_reduceItemOldQuantity = response.modifiedQuantity;
-  	rebuildAdvancedViewButtons(response.modifiedQuantity)
+  	buildAdvancedButtons(response.modifiedQuantity)
   	clearReduceModalFields()
   	return
   }
@@ -99,7 +99,7 @@ const handleReduceQuantityUpdateResponse = (response) => {
   if(!response.modifiedByOtherMember && !response.deleted && _reduceOnAdvancedView) {
 	  updateItemQuantity(_reduceItemID, _reduceItemNewQuantity);
 	  document.getElementById('advancedItemQuantityInput').value = _reduceItemNewQuantity;
-	  rebuildAdvancedViewButtons(_reduceItemNewQuantity)
+	  buildAdvancedButtons(_reduceItemNewQuantity)
 	  showSuccessMessage('Successfully Reduced Item Quantity');
 	  clearReduceModalFields()
 	  $('#reduceModal').modal('hide');
@@ -107,7 +107,7 @@ const handleReduceQuantityUpdateResponse = (response) => {
   }
 };
 
-// handler for sending and recieving data from backend
+// function that sends the items data to the backend
 const reduceItemInDB = () => {
   const servletParameters = {
     "item-id": _reduceItemID,

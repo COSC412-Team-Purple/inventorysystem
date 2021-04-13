@@ -1,3 +1,4 @@
+// variable
 let _searchItemName = '';
 let _searchItemCategory = '';
 let _searchItemManagingDepartment = '';
@@ -10,23 +11,24 @@ let _searchItemPermissionReportMissing = false;
 
 let _searchItems = [];
 
-// Form
+// search item form
 const _searchItemform = document.getElementById('searchItemForm');
 
-const checkPermissions = () => {
-	_searchItemPermissionIncreaseAndDecrease = hasPermission('increase_and_reduce_quantity')
-	_searchItemPermissionDispose = hasPermission('dispose_item')
-	_searchItemPermissionReportMissing = hasPermission('report_missing_item')
-}
-
-
-
+// state of the pagination
 const paginationState = {
   itemsPerPage: 10,
   currentPage: 1,
   numberPageButtons: 5,
 };
 
+// function to check the current members permissions
+const checkPermissions = () => {
+	_searchItemPermissionIncreaseAndDecrease = hasPermission('increase_and_reduce_quantity')
+	_searchItemPermissionDispose = hasPermission('dispose_item')
+	_searchItemPermissionReportMissing = hasPermission('report_missing_item')
+}
+
+// function to build the pagination buttons
 const pageButtons = (pages) => {
   const pageButtonWrap = document.getElementById('pageButtons');
   pageButtonWrap.innerHTML = '';
@@ -78,8 +80,7 @@ const pageButtons = (pages) => {
 };
 
 
-// Functions
-
+// function to rebuild the buttons when the item data changes
 const rebuildButtons = (itemRow, item) => {
 	const container = itemRow.querySelector('#modalButtonsContainer')
 	container.innerHTML = '';
@@ -173,7 +174,6 @@ const rebuildButtons = (itemRow, item) => {
 }
 
 
-
 // pagination function
 const pagination = () => {
   const { itemsPerPage, currentPage } = paginationState;
@@ -199,16 +199,6 @@ const priceBoxChecked = () => {
     return;
   }
 };
-
-// validate the search
-const isValidSearch = () => {
-  let valid = true;
-  if (_searchItemName === '') {
-    valid = false;
-  }
-  return valid;
-};
-
 
 // function to build table with data
 const buildTable = () => {
@@ -402,7 +392,6 @@ _searchItemform.addEventListener('submit', (e) => {
 
   priceBoxChecked();
   getSearchItemInDB();
-  //handleSearchItemResponse(data);
 });
 
 // Function to increase or decrease the quantity on search item page

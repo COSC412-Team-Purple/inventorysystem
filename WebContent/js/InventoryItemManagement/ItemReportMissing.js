@@ -4,7 +4,7 @@ let _reportMissingItemName = '';
 let _reportMissingItemCurrentQuantity = '';
 let _reportMissingItemMissingQuantity = 0;
 let _reportMissingItemCategory = '';
-let _reportMissingItemComment = '';
+let _reportMissingItemReason = '';
 let _reportMissingItemPrice =  '';
 let _reportMissingOnAdvancedView = false;
 
@@ -76,7 +76,7 @@ const handleReportMissingResponse = (response) => {
   	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
   	document.getElementById('itemQuantityMissingModal').innerHTML = response.modifiedQuantity;
   	_reportMissingItemCurrentQuantity = response.modifiedQuantity;
-  	rebuildAdvancedViewButtons(response.modifiedQuantity)
+  	buildAdvancedButtons(response.modifiedQuantity)
   	clearReportMissingModalFields()
   	return
   }
@@ -95,7 +95,7 @@ const handleReportMissingResponse = (response) => {
 	  updateItemQuantity(_reportMissingItemID, _reportMissingItemMissingQuantity);
 	  console.log(_reportMissingItemMissingQuantity)
 	  document.getElementById('advancedItemQuantityInput').value = _reportMissingItemMissingQuantity
-	  rebuildAdvancedViewButtons(_reportMissingItemMissingQuantity)
+	  buildAdvancedButtons(_reportMissingItemMissingQuantity)
 	  showSuccessMessage('Item Successfully Reported Missing');
 	  clearReportMissingModalFields()
 	  $('#reportMissingModal').modal('hide');
@@ -112,7 +112,7 @@ const reportMissingItemInDB = () => {
     "item-new-quantity": _reportMissingItemMissingQuantity,
     "item-price": _reportMissingItemPrice, 
     "item-category": _reportMissingItemCategory,
-    "comment": _reportMissingItemComment,
+    "comment": _reportMissingItemReason,
     "update_type": "reportmissing",
     "member-id": LOGGED_ON_MEMBER_ID,
   };
@@ -141,9 +141,8 @@ reportMissingForm.addEventListener('submit', (e) => {
   _reportMissingItemMissingQuantity = +document.getElementById('inputMissingModal').value;
   const input = _reportMissingItemMissingQuantity;
   
-  _reportMissingItemComment = document.getElementById('commentsModal').value
+  _reportMissingItemReason = document.getElementById('commentsModal').value
   _reportMissingItemMissingQuantity = _reportMissingItemCurrentQuantity - _reportMissingItemMissingQuantity
-  console.log(_reportMissingItemMissingQuantity)
 
   if(validMissingQuanity(input)) {
   	reportMissingItemInDB();
