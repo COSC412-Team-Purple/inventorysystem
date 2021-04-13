@@ -77,7 +77,7 @@ public class ItemQuantity extends HttpServlet {
 			
 			if( !(boolean)returnJson.get("deleted") && !(boolean)returnJson.get("modifiedByOtherMember")) {
 				InventoryManagementUtility.changeItemQuantityInItemsTable(itemId, newQuantity, conn);
-				int update_id = InventoryManagementUtility.addRecordToItemQuantityUpdatesTable(memberId, itemId, itemName, differential, memberId, comment, update_type, conn);
+				int update_id = InventoryManagementUtility.addRecordToItemQuantityUpdatesTable(memberId, itemId, itemName, startingQuantity, newQuantity, comment, update_type, conn);
 				System.out.println("update id: " + update_id);
 				boolean updateItemsByCategory = InventoryManagementUtility.updateItemsByCategory(itemCategory, differential, update_id, conn);
 				boolean totalValueUpdate = InventoryManagementUtility.updateTotalValue(differential, price, update_id, conn);
