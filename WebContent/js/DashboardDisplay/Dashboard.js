@@ -1,6 +1,5 @@
 const _colorPallete = ['#00429d', '#2854a6', '#3e67ae', '#507bb7', '#618fbf', '#73a2c6', '#85b7ce', '#9acbd5', '#b1dfdb', '#cdf1e0', '#f8eb39', '#fcd741', '#fec247', '#ffae4b', '#ff994d', '#ff824d', '#fd6a4c', '#f95048', '#f42f40', '#e9002c']
 let _inventoryTotal = 0.0;
-let _itemsCorrespondingToCategory = [];
 
 function getDashboardDataFromDB(){
     $.ajax({
@@ -22,10 +21,9 @@ function getDashboardDataFromDB(){
 function handleDashboardDataFromDB(dashboardData){
   //parallel arrays
   populateCategorySelectAndDatalists(dashboardData.categories);
-  _itemsCorrespondingToCategory = dashboardData.itemsByCategory;
 
   updateInventoryTotalValue(dashboardData.inventoryTotal);
-  drawItemsByCategoryBarChart();
+  drawItemsByCategoryBarChart(dashboardData.categories, dashboardData.itemsByCategory);
 
 }
 
@@ -47,21 +45,9 @@ function updateInventoryTotalValue(value){
   $("#totalIventoryValueDisplay").html(inventoryTotalCommaFormatted);
 }
 
-/*function updateItemsByCategory(category, itemNum){
 
-  //when there are more categories than corresponding items -> an item was registered to a new category
-  if(CATEGORIES.length !== _itemsCorrespondingToCategory.length){
-    _itemsCorrespondingToCategory.push(itemNum)
-  }else{
-    //when the category already exists
-    let index = CATEGORIES.indexOf(category);
-    _itemsCorrespondingToCategory[index] = itemNum;
-  }
 
-  drawItemsByCategoryBarChart()
-}*/
-
-function drawItemsByCategoryBarChart(){
+function drawItemsByCategoryBarChart(categories, itemsByCategory){
   var canvas = document.getElementById('itemsByCategoryBarChart').getContext('2d');
 
   let colors = getBarColors();
@@ -71,10 +57,10 @@ function drawItemsByCategoryBarChart(){
   var myChart = new Chart(canvas, {
       type: 'bar',
       data: {
-          labels: CATEGORIES,
+          labels: categories,
           datasets: [{
               label: '# of Items by Category',
-              data: _itemsCorrespondingToCategory,
+              data: itemsByCategory,
               backgroundColor: colors,
               borderWidth: 1
           }]

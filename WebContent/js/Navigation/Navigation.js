@@ -43,7 +43,7 @@ $("#backToSearchScreenButton").click(function() {
 
 $("#backToRolesScreenButton").click(function() {
   hideAllContainers();
-  $("#searchContainer").show();
+  $("#RolesContainer").show();
 });
 
 $("#toCreateRoleButton").click(function() {
@@ -58,7 +58,7 @@ document.getElementById('tableBody').addEventListener('click', (e) => {
 	hideAllContainers();
 	giveDataToAdvanceView(e.target);
   	$("#advancedItemDetailContainer").show();
-  	
+
 })
 
 function setActiveTab(tabElement){

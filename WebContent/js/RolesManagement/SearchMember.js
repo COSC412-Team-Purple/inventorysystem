@@ -16,11 +16,11 @@ function validMemberSearch(){
   let id = Number(_searchMemberIdInput.val());
 
 //ceck to see if the entered number is a integer
-  if(Math.floor(id) === id){
+  if(Math.floor(id) === id && id > 0){
     valid = true;
 
   //check to see if a value was even entered into the id
-  }else if(id === ""){
+  }else if(id <= 0){
     valid = false;
   }else{
     showErrorMessage("Id has to be an integer value");
@@ -36,7 +36,7 @@ function validMemberSearch(){
 
   //if invalid search, show error
   if(!valid){
-    showErrorMessage("Error. Either member id needs a value or both first name and last name needs a value.");
+    showErrorMessage("Error. Either member id needs a value greater than 0 or both first name and last name needs a value.");
   }
   return valid;
 }
