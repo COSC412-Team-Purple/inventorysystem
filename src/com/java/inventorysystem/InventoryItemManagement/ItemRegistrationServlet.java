@@ -56,7 +56,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 
 		int item_id = Integer.valueOf(request.getParameter("item_id"));
 		String item_name = request.getParameter("item_name");
-		String item_spec = request.getParameter("item_spec");
+		String item_model = request.getParameter("item_model");
 		double item_price = Double.valueOf(request.getParameter("item_price"));
 		int item_quant = Integer.valueOf(request.getParameter("item_quant"));
 		String item_loc = request.getParameter("item_loc");
@@ -69,31 +69,53 @@ public class ItemRegistrationServlet extends HttpServlet {
 		System.out.println("ItemRegistration Servelt connecting to DB");
 
 		JSONObject returnJson = new JSONObject();
-		returnJson.put("item_name": item_id, "item_spec": item_spec, "item_price": item_price, "item_quant": item_quant, "item_loc": item_loc, "dept_name": dept_name, "category": item_category, "purchase_date": purchase_date, "item_brand": item_brand);
-
-		
-		try{
-			JSONObject itemSearch = this.searchItem(item_name, item_spec, item_price, item_quant, item_loc, dept_name, item_category, purchase_date, item_brand);
-
-			}
+		returnJson.put("item_name": item_name, "item_model": item_model, "item_price": item_price, "item_quant": item_quant, "item_loc": item_loc, "dept_name": dept_name, "category": item_category, "purchase_date": purchase_date, "item_brand": item_brand, "item_memo": item_memo);
 		}
 
 		try{
+			if(!(boolean)isItemPresensent(item_name, item_model, item_price, item_quant, dept_name, item_category, item_date, item_brand)){
+				if(!(boolean)isCategoryPresent(category)){
+					Statement stmt = conn.createStatement();
+					String addCategory = "INSERT INTO items_by_category (category, quantity, updating_id)" + "VALUES(?, ?, ?) RETURNING updating_id";
+					PreparedStatement stmt = conn.prepareStatement(addCategory);
+					stmt.setString(1, item_category);
+					stmt.setInt(2, item_quant);
+					stmt.setInt(3, updating_id);
+
+					stmt.executeQuery(addCategory);
+				}
+
+				if(!(boolean)isDeptPresent(dept_name)){
+					Statement stmt = conn.createStatement();
+					String addDept = "INSERT INTO department (sub_dept_id, dept_name)" + "VALUES(?, ?)";
+					PreparedStatement stmt = conn.prepareStatement(addDept);
+					stmt.setInt(1, sub_dept_id);
+					stmt.setString(2, dept_name);
+
+					stmt.executeQuery(addDept);
+				}
+
 			Statement stmt = conn.createStatement();
 			Sting item = request.getParameter("?,?,?,?,?,?,?,?");
-			String query = "INSERT INTO items (item_name, item_spec, item_price, item_quant, dept_name, category, purchase_date, item_brand, item_memo)" + "VALUES (?,?,?,?,?,?,?,?) RETURNING item_id";
+			String query = "INSERT INTO items (item_name, item_model, item_price, item_quant, dept_name, category, purchase_date, item_brand, item_memo)" + "VALUES (?,?,?,?,?,?,?,?) RETURNING item_id";
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setln(1, itemName);
-			stmt.setln(2, itemSpec);
-			stmt.setln(3, itemPrice);
-			stmt.setln(4, itemQuant);
-			stmt.setln(5, deptName);
-			stmt.setln(6, itemCategory);
-			stmt.setln(7, item_Date);
-			stmt.setln(8, item_Brand);
-			stmt.setln(9, item_memo);
+			stmt.setString(1, item_name);
+			stmt.setString(2, item_model);
+			stmt.setDouble(3, item_price);
+			stmt.setInt(4, item_quant);
+			stmt.setString(5, dept_name);
+			stmt.setString(6, item_category);
+			stmt.setDate(7, item_date);
+			stmt.setString(8, item_brand);
+			stmt.setString(9, item_memo);
+
+			stmt.executeQuery(query);
+
+			updateItemsByCategory(update_id, item_quantity, item_category);
+			updateTotal(item_quantity, item_price);
 
 			conn.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -102,10 +124,28 @@ public class ItemRegistrationServlet extends HttpServlet {
 
 		doGet(request, response);
 	}
-	private boolean isCategoryPresent(String category) throws SQLException {
+	private boolean isItemPresent(String item_name, String item_model, Double item_price, Integer item_quant, String dept_name, String item_category, Date item_date, String item_brand) throws SQLException{
+		String itemQuery = "SELECT * FROM items WHERE item_name = ? AND item_model = ? AND item_price = ? AND item_quant = ? AND category = ? AND item_date = ? AND item_brand = ?;";
+		PreparedStatement stmt = conn.prepareStatement(itemQuery);
+		stmt.setString(1, item_name);
+		stmt.setString(2, item_model);
+		stmt.setDouble(3, item_price);
+		stmt.setInt(4, item_quant);
+		stmt.setString(5, dept_name);
+		stmt.setString(6, item_category);
+		stmt.setDate(7, item_date);
+		stmt.setString(8, item_brand);
+		ResultSet itemSelect = stmt.executeQuery();
+		boolean itemPresent = false;
+		while(itemSelect.next()){
+			itemPresent = true;
+		}
+		return itemPresent;
+	}
+	private boolean isCategoryPresent(String item_category) throws SQLException {
 		String categoryQuery = "SELECT * FROM items_by_category WHERE category = ?;";
 		PreparedStatement stmt = conn.prepareStatement(categoryQuery);
-		stmt.setString(1, category);
+		stmt.setString(1, item_category);
 		ResultSet categorySelect = stmt.executeQuery();
 		boolean categoryPresent = false;
 		while(categorySelect.next()) {
@@ -126,8 +166,8 @@ public class ItemRegistrationServlet extends HttpServlet {
 		return deptPresent;
 	}
 	
-	private boolean updateItemsByCategory(int update_id, int itemQuantity, String itemCategory) throws SQLException {
-		String query = "SELECT items FROM items_by_category WHERE category = '" + itemCategory + "'";
+	private boolean updateItemsByCategory(int update_id, int item_quantity, String item_category) throws SQLException {
+		String query = "SELECT items FROM items_by_category WHERE category = '" + item_category + "'";
 		System.out.println(query);
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
@@ -136,7 +176,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 		if(rs.next())
 		{
 			int items = rs.getInt("items");
-			query = "UPDATE items_by_category SET items = " + (items + itemQuantity) + ", last_update_id = " + update_id + " WHERE category = '" + itemCategory + "'";
+			query = "UPDATE items_by_category SET items = " + (items + item_quantity) + ", last_update_id = " + update_id + " WHERE category = '" + item_category + "'";
 			System.out.println(query);
 			stmt = conn.prepareStatement(query);
 			int row = stmt.executeUpdate();
@@ -147,7 +187,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 		return success;
 	}
 
-	private boolean updateTotal(int itemQuantity, double item_price) throws SQLException {
+	private boolean updateTotal(int item_quantity, double item_price) throws SQLException {
 		
 		String query = "SELECT total_value FROM inventory_total";
 		PreparedStatement stmt = conn.prepareStatement(query);
@@ -157,7 +197,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 		if(rs.next())
 		{
 			float total = rs.getDouble("total_value");
-			total = total + (itemQuantity * item_price);
+			total = total + (item_quantity * item_price);
 			query = "UPDATE inventory_total SET total_value = " + total + " WHERE total_id = 1";
 			stmt = conn.prepareStatement(query);
 			int row = stmt.executeUpdate();
