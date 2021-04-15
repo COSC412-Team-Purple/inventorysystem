@@ -76,8 +76,16 @@ public class ItemRegistrationServlet extends HttpServlet {
 		JSONObject returnJson = new JSONObject();
 		
 		//add item name to response json
-		//returnJson.put("item_name": item_name, "item_model": item_model, "item_price": item_price, "item_quant": item_quant, "item_loc": item_loc, "dept_name": dept_name, "category": item_category, "purchase_date": purchase_date, "item_brand": item_brand, "item_memo": item_memo);
-		//}
+		returnJson.put("item_name": item_name);
+		returnJson.put("item_model": item_model);
+		returnJson.put("item_price": item_price);
+		returnJson.put("item_quant": item_quant);
+		returnJson.put("item_loc": item_loc);
+		returnJson.put("dept_name": dept_name);
+		returnJson.put("cagtegory": item_category);
+		returnJson.put("purchase_date": purchase_date);
+		returnJson.put("item_brand": item_brand);
+		returnJson.put("item_memo": item_memo);
 
 		try{
 			boolean itemPresent = isItemPresent(item_name, item_model, item_price, item_quant, dept_name, item_category, purchase_date, item_brand);
@@ -98,7 +106,12 @@ public class ItemRegistrationServlet extends HttpServlet {
 
 				if(!isDepartmentPresent(dept_name)){
 					//function create dept passing the dept name
-					this.insertNewDepartment(dept_name);
+					ResultSet newDept = this.insertNewDepartment(dept_name);
+					int dept_id = 0;
+					while(newDept.next()){
+						dept_id = newDept.getInt("dept_id");
+					}
+					}
 				}				
 			}
 			
@@ -156,7 +169,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 
 	
 	//Build SQL statement for registering a new item to the DB
-	private ResultSet registerNewItem(String name, double price, int quantity, String spec, String location, String dept, String category,  Date date, String brand, String note) throws SQLException {
+	private ResultSet registerNewItem(String item_name, double item_price, int item_quant, String item_model, String item_loc, String dept_name, String item_category,  Date item_date, String item_brand, String item_memo) throws SQLException {
 
 		String query = "INSERT INTO items (item_name, item_model, item_price, item_quant, dept_name, category, purchase_date, item_brand, item_memo) " 
 						+ "VALUES (?,?,?,?,?,?,?,?) RETURNING item_id";
