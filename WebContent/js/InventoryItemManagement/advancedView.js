@@ -19,6 +19,12 @@ const deleteItemOnAdvancedView = () => {
 	buildAdvancedButtons();
 }
 
+// function to update the quantity
+const advancedUpdateQuantity = (quantity) => {
+	document.getElementById('advancedItemQuantityInput').value = quantity;
+}
+
+
 // function to build the buttons
 const buildAdvancedButtons = (input = 0) => {
 

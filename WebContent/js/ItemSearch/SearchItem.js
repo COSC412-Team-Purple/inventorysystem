@@ -5,9 +5,7 @@ let _searchItemManagingDepartment = '';
 let _searchItemPriceCheck = false;
 let _searchItemMinPrice = 0;
 let _searchItemMaxPrice = 0;
-let _searchItemPermissionIncreaseAndDecrease = false;
-let _searchItemPermissionDispose = false;
-let _searchItemPermissionReportMissing = false;
+let _searchItemUpdatePermission = false;
 
 let _searchItems = [];
 
@@ -22,10 +20,8 @@ const paginationState = {
 };
 
 // function to check the current members permissions
-const checkPermissions = () => {
-	_searchItemPermissionIncreaseAndDecrease = hasPermission('increase_and_reduce_quantity')
-	_searchItemPermissionDispose = hasPermission('dispose_item')
-	_searchItemPermissionReportMissing = hasPermission('report_missing_item')
+const checkUpdatePermissions = () => {
+	_searchItemUpdatePermission = hasPermission('increase_and_reduce_quantity')
 }
 
 // function to build the pagination buttons
@@ -225,7 +221,7 @@ const buildTable = () => {
 	            data-brand="${item.item_brand}"
 	            data-purchasedate="${item.purchase_date}"
 	            data-comment="${item.item_memo}"
-	            data-permissions="${_searchItemPermissionIncreaseAndDecrease}"
+	            data-permissions="${_searchItemUpdatePermission}"
 	            data-deleted="${false}"
 	            
             	>${item.item_name}</a>`
@@ -253,7 +249,7 @@ const buildTable = () => {
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"
             data-advanced="${false}"
-            ${(!_searchItemPermissionIncreaseAndDecrease || !_searchItemPermissionDispose || !_searchItemPermissionReportMissing || item.deleted) && 'disabled'}
+            ${(!_searchItemUpdatePermission || item.deleted) && 'disabled'}
           >
             Increase
           </button>
@@ -274,7 +270,7 @@ const buildTable = () => {
             data-brand="${item.item_brand}"
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"
-			${(!_searchItemPermissionIncreaseAndDecrease || !_searchItemPermissionDispose || !_searchItemPermissionReportMissing || item.deleted) && 'disabled'}        
+			${(!_searchItemUpdatePermission || item.deleted) && 'disabled'}       
 		  >
             Reduce
           </button>
@@ -295,7 +291,7 @@ const buildTable = () => {
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"        
             data-advanced="${false}"
-            ${(!_searchItemPermissionIncreaseAndDecrease || !_searchItemPermissionDispose || !_searchItemPermissionReportMissing || item.deleted) && 'disabled'}
+            ${(!_searchItemUpdatePermission || item.deleted) && 'disabled'}
           >
             Dispose
           </button>
@@ -316,7 +312,7 @@ const buildTable = () => {
 	        data-purchasedate="${item.purchase_date}"
 	        data-comment="${item.item_memo}"
             data-advanced="${false}"
-            ${(!_searchItemPermissionIncreaseAndDecrease || !_searchItemPermissionDispose || !_searchItemPermissionReportMissing || item.deleted) && 'disabled'}
+            ${(!_searchItemUpdatePermission || item.deleted) && 'disabled'}
           >
             Report Missing
           </button>
@@ -332,6 +328,7 @@ const buildTable = () => {
 
 // handler to add the response data to screen
 const handleSearchItemResponse = (response) => {
+  checkUpdatePermissions()
   _searchItems = [];
   response.forEach((item) => {
     _searchItems.push({ ...item, hasPermission: true });
@@ -341,6 +338,7 @@ const handleSearchItemResponse = (response) => {
   tableBody.innerHTML = '';
   if (_searchItems.length > 0) {
     buildTable();
+    showSuccessMessage('Items Found')
   } else {
     const html = `
     <tr>

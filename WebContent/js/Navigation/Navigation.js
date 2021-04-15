@@ -19,7 +19,6 @@ $("#dashboardNav").click(function() {
 $("#searchNav").click(function() {
   hideAllContainers();
   console.log(ROLES)
-  checkPermissions();
   $("#searchContainer").show();
 
   setActiveTab(this)

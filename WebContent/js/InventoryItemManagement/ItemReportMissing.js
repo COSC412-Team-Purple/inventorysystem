@@ -73,7 +73,8 @@ const handleReportMissingResponse = (response) => {
   if (response.modifiedByOtherMember && _reportMissingOnAdvancedView){
   	showErrorMessageOnReportMissingModal('Item Updated by Another member');
   	updateItemQuantity(_reportMissingItemID, response.modifiedQuantity);
-  	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
+  	advancedUpdateQuantity(response.modifiedQuantity)
+  	//document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
   	document.getElementById('itemQuantityMissingModal').innerHTML = response.modifiedQuantity;
   	_reportMissingItemCurrentQuantity = response.modifiedQuantity;
   	buildAdvancedButtons(response.modifiedQuantity)
@@ -94,7 +95,8 @@ const handleReportMissingResponse = (response) => {
   if(!response.modifiedByOtherMember && !response.deleted && _reportMissingOnAdvancedView) {
 	  updateItemQuantity(_reportMissingItemID, _reportMissingItemMissingQuantity);
 	  console.log(_reportMissingItemMissingQuantity)
-	  document.getElementById('advancedItemQuantityInput').value = _reportMissingItemMissingQuantity
+	  advancedUpdateQuantity(_reportMissingItemMissingQuantity)
+	  //document.getElementById('advancedItemQuantityInput').value = _reportMissingItemMissingQuantity
 	  buildAdvancedButtons(_reportMissingItemMissingQuantity)
 	  showSuccessMessage('Item Successfully Reported Missing');
 	  clearReportMissingModalFields()

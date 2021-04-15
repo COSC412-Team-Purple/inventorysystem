@@ -71,7 +71,8 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
   if (response.modifiedByOtherMember && _increaseOnAdvancedView){
   	showErrorMessageOnIncreaseModal('Item Updated by Another member');
   	updateItemQuantity(_increaseItemID, response.modifiedQuantity);
-  	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
+  	advancedUpdateQuantity(response.modifiedQuantity)
+  	//document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
   	document.getElementById('itemQuantityIncreaseModal').innerHTML = response.modifiedQuantity;
 	_increaseItemOldQuantity = response.modifiedQuantity;
   	buildAdvancedButtons(response.modifiedQuantity)
@@ -92,7 +93,8 @@ const handleIncreaseQuantityUpdateResponse = (response) => {
   if(!response.modifiedByOtherMember && !response.deleted && _increaseOnAdvancedView) {
 	  updateItemQuantity(_increaseItemID, _increaseItemNewQuantity);
 	  buildAdvancedButtons(_increaseItemNewQuantity)
-	  document.getElementById('advancedItemQuantityInput').value = _increaseItemNewQuantity;
+	  advancedUpdateQuantity(_increaseItemNewQuantity)
+	  //document.getElementById('advancedItemQuantityInput').value = _increaseItemNewQuantity;
 	  showSuccessMessage('Successfully Increased Item Quantity');
 	  clearIncreaseModalFields()
 	  $('#increaseModal').modal('hide');

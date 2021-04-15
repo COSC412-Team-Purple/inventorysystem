@@ -10,6 +10,7 @@ let _registerItemBrand = '';
 let _registerItemDescription = '';
 const registerItemform = document.getElementById('registerItemForm');
 
+
 // function to check if all fields are filled out
 const allFieldsFilledCheck = () => {
   let valid = true;
@@ -32,6 +33,11 @@ const allFieldsFilledCheck = () => {
   }
   return valid;
 };
+
+const checkRegisterPermission = () => {
+	const permission = hasPermission('register_item');
+	return permission
+}
 
 
 // function used to check to see if the new items location, category, and department already exists
@@ -108,6 +114,12 @@ const registerItemInDB = () => {
 // register item form submit listener
 registerItemform.addEventListener('submit', (e) => {
   e.preventDefault();
+  
+  if(!checkRegisterPermission()) {
+  	showErrorMessage('You Do Not Have Permission!')
+  	return
+  }
+  
   _registerItemName = document.getElementById('registerItemNameInput').value;
   _registerItemPrice = document.getElementById('registerItemPriceInput').value;
   _registerItemQuantity = document.getElementById('registerItemQuantityInput')

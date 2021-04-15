@@ -78,7 +78,8 @@ const handleReduceQuantityUpdateResponse = (response) => {
   if (response.modifiedByOtherMember && _reduceOnAdvancedView){
   	showErrorMessageOnReduceModal('Item Updated by Another member');
   	updateItemQuantity(_reduceItemID, response.modifiedQuantity);
-  	document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
+  	advancedUpdateQuantity(response.modifiedQuantity)
+  	//document.getElementById('advancedItemQuantityInput').value = response.modifiedQuantity;
   	document.getElementById('itemQuantityReduceModal').innerHTML = response.modifiedQuantity;
   	_reduceItemOldQuantity = response.modifiedQuantity;
   	buildAdvancedButtons(response.modifiedQuantity)
@@ -98,7 +99,8 @@ const handleReduceQuantityUpdateResponse = (response) => {
   // in advanced view and the item was successfully reduced
   if(!response.modifiedByOtherMember && !response.deleted && _reduceOnAdvancedView) {
 	  updateItemQuantity(_reduceItemID, _reduceItemNewQuantity);
-	  document.getElementById('advancedItemQuantityInput').value = _reduceItemNewQuantity;
+	  advancedUpdateQuantity(_reduceItemNewQuantity)
+	  //document.getElementById('advancedItemQuantityInput').value = _reduceItemNewQuantity;
 	  buildAdvancedButtons(_reduceItemNewQuantity)
 	  showSuccessMessage('Successfully Reduced Item Quantity');
 	  clearReduceModalFields()

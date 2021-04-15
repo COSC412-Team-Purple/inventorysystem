@@ -130,7 +130,7 @@ $('#disposeModal').on('show.bs.modal', function (e) {
     'itemCategoryDisposeModal'
   ).innerText = _disposeItemCategory;
   document.getElementById(
-    'itemModelIncreaseModal'
+    'itemModelDisposeModal'
   ).innerText = _disposeItemModel;
   document.getElementById(
     'itemLocationDisposeModal'
