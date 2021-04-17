@@ -56,20 +56,28 @@ public class InventoryManagementUtility {
 	public static boolean updateItemsByCategory(String category, int itemDifferential, int last_update_id, Connection conn) throws SQLException {
 
 		String updateQuery = "";
+		PreparedStatement stmt = null;
+		int updatedRows = 0;
 		if(isCategoryPresent(category, conn)) {
 			updateQuery += "UPDATE items_by_category "
 							+ "SET items = (SELECT items FROM items_by_category WHERE category = ?) + ?"
 							+ ", last_update_id = ? WHERE category = ?;";
+			stmt= conn.prepareStatement(updateQuery);
+			stmt.setString(1, category);
+			stmt.setInt(2, itemDifferential);
+			stmt.setInt(3, last_update_id);
+			stmt.setString(4, category);
+			updatedRows = stmt.executeUpdate();
 		}else {
-			updateQuery += "INSERT into items_by_category (items, last_update_id, category) VALUES(?,?,?);";
+			updateQuery += "INSERT into items_by_category (category, items, last_update_id) VALUES(?,?,?);";
+			stmt = conn.prepareStatement(updateQuery);
+			stmt.setString(1, category);
+			stmt.setInt(2, itemDifferential);
+			stmt.setInt(3, last_update_id);
+			updatedRows = stmt.executeUpdate();
 		}
 		
-		PreparedStatement stmt = conn.prepareStatement(updateQuery);
-		stmt.setString(1, category);
-		stmt.setInt(2, itemDifferential);
-		stmt.setInt(3, last_update_id);
-		stmt.setString(4, category);
-		int updatedRows = stmt.executeUpdate();
+
 		
 		if(updatedRows > 0) {
 			return true;

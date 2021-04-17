@@ -32,7 +32,7 @@ import com.java.inventorysystem.Utilities.DBConnectionUtility;
  	else -> update items_by_category set items = (items + quantity), last_update_id = update_id where category = registeredCategory -> returning items
  5. if dept not in db -> insert into department (1 (sub_dept_id ?), departmentName)
  */
-@WebServlet("/ItemRegistration")
+@WebServlet("/ItemRegistrationServlet")
 public class ItemRegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection conn;
@@ -58,7 +58,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		conn = DBConnectionUtility.getDatabaseConnection();
-		int member_id = Integer.valueOf(request.getParameter("member_id"));
+		int member_id = Integer.valueOf(request.getParameter("member-id"));
 		
 		String item_name = request.getParameter("item_name");
 		String item_model = request.getParameter("item_model");
@@ -83,7 +83,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 		returnJson.put("item_loc", item_loc);
 		returnJson.put("dept_name", dept_name);
 		returnJson.put("cagtegory", item_category);
-		returnJson.put("purchase_date", purchase_date);
+		returnJson.put("purchase_date", purchase_date.toString());
 		returnJson.put("item_brand", item_brand);
 		returnJson.put("item_memo", item_memo);
 
@@ -106,12 +106,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 
 				if(!isDepartmentPresent(dept_name)){
 					//function create dept passing the dept name
-					ResultSet newDept = this.insertNewDepartment(dept_name);
-					int dept_id = 0;
-					while(newDept.next()){
-						dept_id = newDept.getInt("dept_id");
-					}
-					}
+					this.insertNewDepartment(dept_name);
 				}				
 			}
 			
@@ -125,7 +120,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 	}
 
 	private boolean isItemPresent(String item_name, String item_model, Double item_price, Integer item_quant, String dept_name, String item_category, Date item_date, String item_brand) throws SQLException{
-		String itemQuery = "SELECT * FROM items WHERE item_name = ? AND item_model = ? AND item_price = ? AND item_quant = ? AND category = ? AND item_date = ? AND item_brand = ?;";
+		String itemQuery = "SELECT * FROM items WHERE item_name = ? AND item_model = ? AND price = ? AND item_quant = ? AND dept_name = ? AND category = ? AND purchase_date = ? AND item_brand = ?;";
 		PreparedStatement stmt = conn.prepareStatement(itemQuery);
 		stmt.setString(1, item_name);
 		stmt.setString(2, item_model);
@@ -169,10 +164,10 @@ public class ItemRegistrationServlet extends HttpServlet {
 
 	
 	//Build SQL statement for registering a new item to the DB
-	private ResultSet registerNewItem(String item_name, double item_price, int item_quant, String item_model, String item_loc, String dept_name, String item_category,  Date item_date, String item_brand, String item_memo) throws SQLException {
+	private ResultSet registerNewItem(String item_name, double item_price, int item_quant, String item_model, String item_loc, String dept_name, String item_category, Date item_date, String item_brand, String item_memo) throws SQLException {
 
-		String query = "INSERT INTO items (item_name, item_model, item_price, item_quant, dept_name, category, purchase_date, item_brand, item_memo) " 
-						+ "VALUES (?,?,?,?,?,?,?,?) RETURNING item_id";
+		String query = "INSERT INTO items (item_name, item_model, price, item_quant, dept_name, category, item_loc, purchase_date, item_brand, item_memo) " 
+						+ "VALUES (?,?,?,?,?,?,?,?,?,?) RETURNING item_id";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setString(1, item_name);
 		stmt.setString(2, item_model);
@@ -180,11 +175,13 @@ public class ItemRegistrationServlet extends HttpServlet {
 		stmt.setInt(4, item_quant);
 		stmt.setString(5, dept_name);
 		stmt.setString(6, item_category);
-		stmt.setDate(7, item_date);
-		stmt.setString(8, item_brand);
-		stmt.setString(9, item_memo);
+		stmt.setString(7, item_loc);
+		stmt.setDate(8, item_date);
+		stmt.setString(9, item_brand);
+		stmt.setString(10, item_memo);
 
-		stmt.executeUpdate();
+		ResultSet rs = stmt.executeQuery();
+		return rs;
 	}
 
 }

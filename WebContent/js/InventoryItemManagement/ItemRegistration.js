@@ -46,11 +46,11 @@ const checkLocationCategoryDepartmentExist = () => {
 	if(!DEPARTMENTS.includes(_registerItemDepartment)) {
 		DEPARTMENTS.push(_registerItemDepartment)
 	}
-	
+
 	if (!CATEGORIES.includes(_registerItemCategory)) {
 		CATEGORIES.push(_registerItemCategory)
 	}
-	
+
 	if (!LOCATIONS.includes(_registerItemLocation)) {
 		LOCATIONS.push(_registerItemLocation)
 	}
@@ -73,18 +73,23 @@ const clearFields = () => {
 // handler to handle the response from backend
 const handleRegisterItemResponse = (response) => {
   console.log('new item registered');
-  showSuccessMessage('New Item Successfully Registered')
-  checkLocationCategoryDepartmentExist();
-  clearFields();
+  if(!response.itemPresent){
+    showSuccessMessage('New Item Successfully Registered')
+    checkLocationCategoryDepartmentExist();
+    clearFields();
+  }else{
+    showErrorMessage('This item already exists');
+  }
 };
 
 // handler to send the registered items data back to the back end
 const registerItemInDB = () => {
   const servletParameters = {
+    "member-id": LOGGED_ON_MEMBER_ID,
     'item_name': _registerItemName,
     'item_price': _registerItemPrice,
     'item_quant': _registerItemQuantity,
-    'item_spec': _registerItemSpec,
+    'item_model': _registerItemSpec,
     'item_loc': _registerItemLocation,
     'dept_name': _registerItemDepartment,
     'category': _registerItemCategory,
@@ -114,12 +119,12 @@ const registerItemInDB = () => {
 // register item form submit listener
 registerItemform.addEventListener('submit', (e) => {
   e.preventDefault();
-  
+
   if(!checkRegisterPermission()) {
   	showErrorMessage('You Do Not Have Permission!')
   	return
   }
-  
+
   _registerItemName = document.getElementById('registerItemNameInput').value;
   _registerItemPrice = document.getElementById('registerItemPriceInput').value;
   _registerItemQuantity = document.getElementById('registerItemQuantityInput')
@@ -141,4 +146,3 @@ registerItemform.addEventListener('submit', (e) => {
     registerItemInDB();
   }
 });
-
