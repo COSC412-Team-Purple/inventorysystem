@@ -76,16 +76,16 @@ public class ItemRegistrationServlet extends HttpServlet {
 		JSONObject returnJson = new JSONObject();
 		
 		//add item name to response json
-		returnJson.put("item_name": item_name);
-		returnJson.put("item_model": item_model);
-		returnJson.put("item_price": item_price);
-		returnJson.put("item_quant": item_quant);
-		returnJson.put("item_loc": item_loc);
-		returnJson.put("dept_name": dept_name);
-		returnJson.put("cagtegory": item_category);
-		returnJson.put("purchase_date": purchase_date);
-		returnJson.put("item_brand": item_brand);
-		returnJson.put("item_memo": item_memo);
+		returnJson.put("item_name", item_name);
+		returnJson.put("item_model", item_model);
+		returnJson.put("item_price", item_price);
+		returnJson.put("item_quant", item_quant);
+		returnJson.put("item_loc", item_loc);
+		returnJson.put("dept_name", dept_name);
+		returnJson.put("cagtegory", item_category);
+		returnJson.put("purchase_date", purchase_date);
+		returnJson.put("item_brand", item_brand);
+		returnJson.put("item_memo", item_memo);
 
 		try{
 			boolean itemPresent = isItemPresent(item_name, item_model, item_price, item_quant, dept_name, item_category, purchase_date, item_brand);
@@ -163,7 +163,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 		stmt.setInt(1, 1);
 		stmt.setString(2, dept_name);
 
-		stmt.executeQuery(addDept);
+		stmt.executeUpdate();
 	}
 
 
@@ -174,7 +174,6 @@ public class ItemRegistrationServlet extends HttpServlet {
 		String query = "INSERT INTO items (item_name, item_model, item_price, item_quant, dept_name, category, purchase_date, item_brand, item_memo) " 
 						+ "VALUES (?,?,?,?,?,?,?,?) RETURNING item_id";
 		PreparedStatement stmt = conn.prepareStatement(query);
-		ResultSet rs = stmt.executeQuery();
 		stmt.setString(1, item_name);
 		stmt.setString(2, item_model);
 		stmt.setDouble(3, item_price);
@@ -185,8 +184,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 		stmt.setString(8, item_brand);
 		stmt.setString(9, item_memo);
 
-		stmt.executeQuery(query);
-		return rs;
+		stmt.executeUpdate();
 	}
 
 }
