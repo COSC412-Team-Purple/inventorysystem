@@ -6,13 +6,21 @@ public class DBConnectionUtility {
 
 	public static Connection getDatabaseConnection() {
 		Connection conn = null;
+		String host, port, user, password, db = null;
+		if(System.getenv("VERSION").equals("production")) {
+			host = System.getenv("DB_HOST");
+			user = System.getenv("DB_USER");
+			password = System.getenv("DB_PASS");
+			db = System.getenv("DB_DB");			
+		}else {
+			host = System.getenv("DEV_HOST");
+			user = System.getenv("DEV_USER");
+			password = System.getenv("DEV_PASS");
+			db = System.getenv("DEV_DB");
+		}
 		
-		String host = System.getenv("DEV_HOST");
-		String port = System.getenv("DB_PORT");
-		String user = System.getenv("DEV_USER");
-		String password = System.getenv("DEV_PASS");
-		String db = System.getenv("DEV_DB");
-				
+		port = System.getenv("DB_PORT");		
+		
 		String url = "jdbc:postgresql://" + host + ":" + port + "/" + db;
 		
 		try {

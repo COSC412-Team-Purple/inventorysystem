@@ -1,6 +1,6 @@
 const _colorPallete = ['#00429d', '#2854a6', '#3e67ae', '#507bb7', '#618fbf', '#73a2c6', '#85b7ce', '#9acbd5', '#b1dfdb', '#cdf1e0', '#f8eb39', '#fcd741', '#fec247', '#ffae4b', '#ff994d', '#ff824d', '#fd6a4c', '#f95048', '#f42f40', '#e9002c']
 let _inventoryTotal = 0.0;
-
+let currentChart = null;
 function getDashboardDataFromDB(){
     $.ajax({
         url: 'Dashboard',
@@ -54,7 +54,10 @@ function drawItemsByCategoryBarChart(categories, itemsByCategory){
   console.log(colors);
   console.log(CATEGORIES.length);
   console.log(colors.length);
-  var myChart = new Chart(canvas, {
+  if(currentChart !== null){
+    currentChart.destroy();
+  }
+  currentChart = new Chart(canvas, {
       type: 'bar',
       data: {
           labels: categories,
