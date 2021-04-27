@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.inventorysystem.Utilities.*;
 /**
  * Servlet implementation class AuthenticateMember

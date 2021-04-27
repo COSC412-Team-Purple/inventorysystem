@@ -3,6 +3,9 @@ let DEPARTMENTS = [];
 let CATEGORIES = [];
 let LOCATIONS = [];
 let ROLES = [];
+//production
+//let LOGIN_URL = "http://18.222.104.153:8080/purple/";
+//local development
 let LOGIN_URL = "http://localhost:8080/inventorysystem/";
 
 $( document ).ready(function() {
