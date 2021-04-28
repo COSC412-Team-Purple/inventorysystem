@@ -58,7 +58,7 @@ public class AssignRole extends HttpServlet {
 			JSONObject returnJson = new JSONObject();
 			ResultSet rs = this.setMemberRole(member_id, role_id);
 			while(rs.next()) {
-				returnJson.put("member_role", rs.getString("name_pos"));
+				returnJson.put("member_role", rs.getString("name"));
 			}
 			
 			ClientResponseUtility.writeToClient(response, returnJson);
@@ -72,8 +72,8 @@ public class AssignRole extends HttpServlet {
 	//Build SQL statement for setting a member's role
 	private ResultSet setMemberRole(int member_id, int role_id) throws SQLException {
 		
-		String query = "UPDATE dept_member SET position_id = ? WHERE member_id = ? "
-				+ "RETURNING (SELECT name_pos FROM member_pos WHERE position_id = ?);"; //TODO: SQL for setting the member to new role
+		String query = "UPDATE role SET position_id = ? WHERE member_id = ? "
+				+ "RETURNING (SELECT name FROM position WHERE position_id = ?);"; //TODO: SQL for setting the member to new role
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, role_id);
 		stmt.setInt(2, member_id);

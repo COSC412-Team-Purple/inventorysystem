@@ -72,7 +72,7 @@ public class GetCurrentRoles extends HttpServlet {
 
 	private ResultSet getRoles() throws SQLException {
 		
-		String query = "SELECT * FROM member_pos ORDER BY position_id ASC";
+		String query = "SELECT * FROM position ORDER BY position_id ASC";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet results = stmt.executeQuery();
 			
@@ -86,7 +86,7 @@ public class GetCurrentRoles extends HttpServlet {
 		while(rolesResults.next()) {
 			JSONObject role = new JSONObject();
 			role.put("roleId", rolesResults.getInt("position_id"));
-			role.put("roleName", rolesResults.getString("name_pos"));
+			role.put("roleName", rolesResults.getString("name"));
 			String[] perms = rolesResults.getString("perms").split(",");
 			role.put("perms", Arrays.toString(perms));
 			

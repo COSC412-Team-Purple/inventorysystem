@@ -84,7 +84,6 @@ public class SearchMember extends HttpServlet {
 				int position_id = 0;
 				while(deptMemberResults.next()) {
 					dept_id = deptMemberResults.getInt("dept_id");
-					position_id = deptMemberResults.getInt("position_id");
 					returnJson.put("member_start_date", deptMemberResults.getDate("start_date").toString());
 					
 					Date end = deptMemberResults.getDate("end_date");
@@ -95,6 +94,12 @@ public class SearchMember extends HttpServlet {
 					}
 				}
 				
+				ResultSet roleResults = this.getMemberRole(member_id);
+				while(roleResults.next()) {
+					position_id = roleResults.getInt("position_id");
+				}
+				
+				
 				if(dept_id != 0) {
 					ResultSet deptResults = this.getDeptInfo(dept_id);
 					ResultSet positionResults = this.getPositionName(position_id);
@@ -104,7 +109,7 @@ public class SearchMember extends HttpServlet {
 					}
 					
 					while(positionResults.next()) {
-						returnJson.put("member_role", positionResults.getString("name_pos"));
+						returnJson.put("member_role", positionResults.getString("name"));
 					}
 				}else {
 					returnJson.put("member_start_date", "");
@@ -142,7 +147,7 @@ public class SearchMember extends HttpServlet {
 	
 	private ResultSet getMemberDeptMemberInfo(int member_id) throws SQLException {
 		
-		String query = "SELECT dept_id, position_id, start_date, end_date FROM dept_member WHERE member_id = ?;";
+		String query = "SELECT dept_id, start_date, end_date FROM dept_member WHERE member_id = ?;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, member_id);
 		ResultSet rs = stmt.executeQuery();
@@ -162,9 +167,19 @@ public class SearchMember extends HttpServlet {
 	
 	private ResultSet getPositionName(int position_id) throws SQLException {
 		
-		String query = "SELECT name_pos FROM member_pos WHERE position_id = ?;";
+		String query = "SELECT name FROM position WHERE position_id = ?;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, position_id);
+		ResultSet rs = stmt.executeQuery();
+			
+		return rs;
+	}
+	
+	private ResultSet getMemberRole(int member_id) throws SQLException {
+		
+		String query = "SELECT position_id FROM role WHERE member_id = ?;";
+		PreparedStatement stmt = conn.prepareStatement(query);
+		stmt.setInt(1, member_id);
 		ResultSet rs = stmt.executeQuery();
 			
 		return rs;

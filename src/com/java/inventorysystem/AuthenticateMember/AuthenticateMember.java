@@ -120,10 +120,10 @@ public class AuthenticateMember extends HttpServlet {
 		
 		//querying for permissions
 		String query = "SELECT perms "
-					 + "FROM member_pos "
+					 + "FROM position "
 					 + "WHERE position_id = "
 						+ "(SELECT position_id "
-						+ "FROM dept_member "
+						+ "FROM role "
 						+ "WHERE member_id = ?)";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, memberId);
