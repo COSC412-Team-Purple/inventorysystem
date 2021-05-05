@@ -115,7 +115,7 @@ public class ItemDispose extends HttpServlet {
 	}
 	
 	private boolean itemExists(int itemID) throws SQLException {
-		String query = "SELECT * FROM items WHERE item_id = " + itemID;
+		String query = "SELECT * FROM sitems WHERE item_id = " + itemID;
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
 		boolean success = rs.next();
@@ -126,7 +126,7 @@ public class ItemDispose extends HttpServlet {
 	private int updateItemQuantity(String memberID, int itemID, String itemName, int itemQuantity, String update_type) throws SQLException {
 		
         Date date = new Date(System.currentTimeMillis());  //SQL date object
-		String query = "INSERT INTO item_quantity_updates (updating_member_id, item_id, "
+		String query = "INSERT INTO sitem_quantity_updates (updating_member_id, item_id, "
 				+ "item_name, old_quant, updated_quant, update_date, comment, update_type) "
 				+ "VALUES ('" + memberID + "','" + itemID + "','" + itemName + "','" + itemQuantity + "','0','" + date + "','disposing of item','" + update_type + "');";
 
@@ -136,7 +136,7 @@ public class ItemDispose extends HttpServlet {
 		
 		if(rows == 1)
 		{
-			query = "SELECT MAX(update_id) as newest_update_id FROM item_quantity_updates";
+			query = "SELECT MAX(update_id) as newest_update_id FROM sitem_quantity_updates";
 			ResultSet rs = stmt.executeQuery();
 			update_id = rs.getInt("newest_update_id");
 		}
@@ -146,7 +146,7 @@ public class ItemDispose extends HttpServlet {
 	//3. update inventory total set total_value = (total_value - (itemQuantity * price)) where total_id = 1
 	private boolean updateTotal(int itemQuantity, float price) throws SQLException {
 		
-		String query = "SELECT total_value FROM inventory_total";
+		String query = "SELECT total_value FROM sinventory_total";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
 		boolean success = false;
@@ -155,7 +155,7 @@ public class ItemDispose extends HttpServlet {
 		{
 			float total = rs.getFloat("total_value");
 			total = total - (itemQuantity * price);
-			query = "UPDATE inventory_total SET total_value = " + total + " WHERE total_id = 1";
+			query = "UPDATE sinventory_total SET total_value = " + total + " WHERE total_id = 1";
 			stmt = conn.prepareStatement(query);
 			int row = stmt.executeUpdate();
 			success = (row == 1);
@@ -166,7 +166,7 @@ public class ItemDispose extends HttpServlet {
 	
 	//4. update items_by_category set items = (items - quantity), last_update_id = update_id where category = category -> returning items
 	private boolean updateItemsByCategory(int update_id, int itemQuantity, String itemCategory) throws SQLException {
-		String query = "SELECT items FROM items_by_category WHERE category = '" + itemCategory + "'";
+		String query = "SELECT items FROM sitems_by_category WHERE category = '" + itemCategory + "'";
 		System.out.println(query);
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
@@ -175,7 +175,7 @@ public class ItemDispose extends HttpServlet {
 		if(rs.next())
 		{
 			int items = rs.getInt("items");
-			query = "UPDATE items_by_category SET items = " + (items - itemQuantity) + ", last_update_id = " + update_id + " WHERE category = '" + itemCategory + "'";
+			query = "UPDATE sitems_by_category SET items = " + (items - itemQuantity) + ", last_update_id = " + update_id + " WHERE category = '" + itemCategory + "'";
 			System.out.println(query);
 			stmt = conn.prepareStatement(query);
 			int row = stmt.executeUpdate();
@@ -190,7 +190,7 @@ public class ItemDispose extends HttpServlet {
 	private boolean updateItemDispose(int itemID, String itemName, float itemPrice, int itemQuantity, String itemModel, String itemLocation, String itemDept, String itemCategory, String purchaseDate, String itemBrand, String itemMemo, int update_id) throws SQLException {
 		
 		//missing purchasedate, brand, memo as inputs to the servlet
-		String query = "INSERT INTO item_dispose (item_id, item_name, price, item_quant, item_model, item_loc, dept_name, "
+		String query = "INSERT INTO sitem_dispose (item_id, item_name, price, item_quant, item_model, item_loc, dept_name, "
 				+ " category, purchase_date, item_brand, item_memo, update_id) "
 				+ "VALUES ('" + itemID + "','" + itemName + "','" + itemPrice + "','" + itemQuantity + "','" + itemModel
 				+ "','" + itemLocation + "','" + itemDept + "','" + itemCategory + "','" + purchaseDate + "','" + itemBrand
@@ -205,7 +205,7 @@ public class ItemDispose extends HttpServlet {
 	//6 delete item from items table
 	private boolean disposeItem(int itemID) throws SQLException {
 		
-		String query = "DELETE FROM items WHERE item_id = " + itemID;
+		String query = "DELETE FROM sitems WHERE item_id = " + itemID;
 		PreparedStatement stmt = conn.prepareStatement(query);
 		int row = stmt.executeUpdate();
 			

@@ -101,7 +101,7 @@ function handleAssignRoleToMemberResponse(response){
   //update the current role display part on the screen
   $("#memberResultCurrentRole").val(response.member_role);
 
-  showSuccessMessage("Successfully assignen member to the "+ response.member_role + " role");
+  showSuccessMessage("Successfully assigned member to the "+ response.member_role + " role");
 }
 
 function getRoleId(roleName){

@@ -139,7 +139,7 @@ public class ResetPassword extends HttpServlet {
 	private boolean setNewPassword(int member_id, String password) throws SQLException {
 		System.out.println("member id: " + member_id);
 		System.out.println("new password: " + password);
-		String query = "UPDATE member SET passw = ? WHERE member_id = ?;";
+		String query = "UPDATE smember SET passw = ? WHERE member_id = ?;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setString(1, password);
 		stmt.setInt(2, member_id);

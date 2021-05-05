@@ -120,7 +120,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 	}
 
 	private boolean isItemPresent(String item_name, String item_model, Double item_price, Integer item_quant, String dept_name, String item_category, Date item_date, String item_brand) throws SQLException{
-		String itemQuery = "SELECT * FROM items WHERE item_name = ? AND item_model = ? AND price = ? AND item_quant = ? AND dept_name = ? AND category = ? AND purchase_date = ? AND item_brand = ?;";
+		String itemQuery = "SELECT * FROM sitems WHERE item_name = ? AND item_model = ? AND price = ? AND item_quant = ? AND dept_name = ? AND category = ? AND purchase_date = ? AND item_brand = ?;";
 		PreparedStatement stmt = conn.prepareStatement(itemQuery);
 		stmt.setString(1, item_name);
 		stmt.setString(2, item_model);
@@ -140,7 +140,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 
 
 	private boolean isDepartmentPresent(String dept_name) throws SQLException{
-		String deptQuery = "SELECT * FROM items WHERE dept_name = ?";
+		String deptQuery = "SELECT * FROM sitems WHERE dept_name = ?";
 		PreparedStatement stmt = conn.prepareStatement(deptQuery);
 		stmt.setString(1, dept_name);
 		ResultSet deptSelect = stmt.executeQuery();
@@ -153,7 +153,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 	
 
 	private void insertNewDepartment(String dept_name) throws SQLException{
-		String addDept = "INSERT INTO department (sub_dept_id, dept_name)" + "VALUES(?, ?)";
+		String addDept = "INSERT INTO sdepartment (sub_dept_id, dept_name)" + "VALUES(?, ?)";
 		PreparedStatement stmt = conn.prepareStatement(addDept);
 		stmt.setInt(1, 1);
 		stmt.setString(2, dept_name);
@@ -166,7 +166,7 @@ public class ItemRegistrationServlet extends HttpServlet {
 	//Build SQL statement for registering a new item to the DB
 	private ResultSet registerNewItem(String item_name, double item_price, int item_quant, String item_model, String item_loc, String dept_name, String item_category, Date item_date, String item_brand, String item_memo) throws SQLException {
 
-		String query = "INSERT INTO items (item_name, item_model, price, item_quant, dept_name, category, item_loc, purchase_date, item_brand, item_memo) " 
+		String query = "INSERT INTO sitems (item_name, item_model, price, item_quant, dept_name, category, item_loc, purchase_date, item_brand, item_memo) " 
 						+ "VALUES (?,?,?,?,?,?,?,?,?,?) RETURNING item_id";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setString(1, item_name);

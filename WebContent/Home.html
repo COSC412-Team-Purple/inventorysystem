@@ -160,11 +160,6 @@
           </div>
         </form>
 
-        <p>
-          Search results for <b>Item name = 'Camera'</b>,
-          <b>department = 'Any'</b>, <b>category = 'Any'</b>
-        </p>
-
         <table class="table mt-5" id="table">
           <thead class="thead-light">
             <tr>
@@ -252,6 +247,7 @@
                   name="reason"
                   id="reasonIncreaseModal"
                   rows="4"
+                  required
                 ></textarea>
               </div>
               <button type="submit" class="form-control btn btn-primary mt-3">
@@ -330,6 +326,7 @@
                   name="reason"
                   id="reasonReduceModal"
                   rows="4"
+                  required
                 ></textarea>
               </div>
               <button type="submit" class="form-control btn btn-primary mt-3">
@@ -467,6 +464,7 @@
                   name="reason"
                   id="commentsModal"
                   rows="4"
+                  required
                 ></textarea>
               </div>
               <button type="submit" class="form-control btn btn-primary mt-3">
@@ -881,7 +879,6 @@
 
     <!-- ItemSearch module   -->
     <script type="text/javascript" src="js/ItemSearch/SearchItem.js"></script>
-    <script type="text/javascript" src="js/searchBy.js"></script>
 
      <!--InventoryItemManagement module   -->
     <script type="text/javascript" src="js/InventoryItemManagement/ItemDispose.js"></script>

@@ -94,7 +94,7 @@ public class ItemQuantity extends HttpServlet {
 	private JSONObject searchItem(int itemId, int startingQuantity) throws SQLException {
 		JSONObject item = new JSONObject();
 		
-		String query = "SELECT item_quant FROM items WHERE item_id = ?;"; //TODO: SQL for setting the new amount
+		String query = "SELECT item_quant FROM sitems WHERE item_id = ?;"; //TODO: SQL for setting the new amount
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, itemId);
 		ResultSet rs = stmt.executeQuery();

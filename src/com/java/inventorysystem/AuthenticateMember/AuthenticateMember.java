@@ -108,7 +108,7 @@ public class AuthenticateMember extends HttpServlet {
 		
 		//TODO: convert password to hash and include in SQL statement?
 		
-		String query = "SELECT member_id FROM member WHERE username = ? AND passw = ?";		
+		String query = "SELECT member_id FROM smember WHERE username = ? AND passw = ?";		
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setString(1, username);
 		stmt.setString(2, password);
@@ -120,10 +120,10 @@ public class AuthenticateMember extends HttpServlet {
 		
 		//querying for permissions
 		String query = "SELECT perms "
-					 + "FROM position "
+					 + "FROM sposition "
 					 + "WHERE position_id = "
 						+ "(SELECT position_id "
-						+ "FROM role "
+						+ "FROM srole "
 						+ "WHERE member_id = ?)";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, memberId);

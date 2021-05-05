@@ -11,7 +11,7 @@ public class InventoryManagementUtility {
 	//Build SQL statement for modifying the item quantity
 	public static void changeItemQuantityInItemsTable(int itemId, int newQuantity, Connection conn) throws SQLException {
 		System.out.println("new quantity: " + newQuantity);
-		String query = "UPDATE items SET item_quant = ? WHERE item_id = ?;";
+		String query = "UPDATE sitems SET item_quant = ? WHERE item_id = ?;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, newQuantity);
 		stmt.setInt(2, itemId);
@@ -21,7 +21,7 @@ public class InventoryManagementUtility {
 	
 	//Build SQL statement for modifying the item quantity
 	public static int addRecordToItemQuantityUpdatesTable(int memberId, int itemId, String itemName, int old_quant, int updated_quant, String comment, String update_type, Connection conn) throws SQLException {
-		String query = "INSERT INTO item_quantity_updates (updating_member_id, item_id, item_name, old_quant, updated_quant, update_date, comment, update_type) "
+		String query = "INSERT INTO sitem_quantity_updates (updating_member_id, item_id, item_name, old_quant, updated_quant, update_date, comment, update_type) "
 						+ "VALUES (?,?,?,?,?,?,?,?) RETURNING update_id";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, memberId);
@@ -42,7 +42,7 @@ public class InventoryManagementUtility {
 	}
 	
 	public static boolean isCategoryPresent(String category, Connection conn) throws SQLException {
-		String categoryQuery = "SELECT * FROM items_by_category WHERE category = ?;";
+		String categoryQuery = "SELECT * FROM sitems_by_category WHERE category = ?;";
 		PreparedStatement stmt = conn.prepareStatement(categoryQuery);
 		stmt.setString(1, category);
 		ResultSet categorySelect = stmt.executeQuery();
@@ -59,8 +59,8 @@ public class InventoryManagementUtility {
 		PreparedStatement stmt = null;
 		int updatedRows = 0;
 		if(isCategoryPresent(category, conn)) {
-			updateQuery += "UPDATE items_by_category "
-							+ "SET items = (SELECT items FROM items_by_category WHERE category = ?) + ?"
+			updateQuery += "UPDATE sitems_by_category "
+							+ "SET items = (SELECT items FROM sitems_by_category WHERE category = ?) + ?"
 							+ ", last_update_id = ? WHERE category = ?;";
 			stmt= conn.prepareStatement(updateQuery);
 			stmt.setString(1, category);
@@ -69,7 +69,7 @@ public class InventoryManagementUtility {
 			stmt.setString(4, category);
 			updatedRows = stmt.executeUpdate();
 		}else {
-			updateQuery += "INSERT into items_by_category (category, items, last_update_id) VALUES(?,?,?);";
+			updateQuery += "INSERT into sitems_by_category (category, items, last_update_id) VALUES(?,?,?);";
 			stmt = conn.prepareStatement(updateQuery);
 			stmt.setString(1, category);
 			stmt.setInt(2, itemDifferential);
@@ -87,7 +87,7 @@ public class InventoryManagementUtility {
 	}
 	
 	public static boolean updateTotalValue(int itemDifferential, double price, int update_id, Connection conn) throws SQLException {
-		String query = "UPDATE inventory_total SET total_value = (SELECT total_value FROM inventory_total WHERE total_id = 1) + ?, last_update_id = ? WHERE total_id = 1;";
+		String query = "UPDATE sinventory_total SET total_value = (SELECT total_value FROM sinventory_total WHERE total_id = 1) + ?, last_update_id = ? WHERE total_id = 1;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		double balanceDifferential = itemDifferential * price;
 		stmt.setDouble(1, balanceDifferential);

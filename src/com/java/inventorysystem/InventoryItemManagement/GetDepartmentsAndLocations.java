@@ -71,7 +71,7 @@ public class GetDepartmentsAndLocations extends HttpServlet {
 	//Build SQL statement retrieving all the item data
 	private ResultSet getDepartments() throws SQLException {
 		
-		String query = "SELECT name_dept FROM department";
+		String query = "SELECT name_dept FROM sdepartment";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet results = stmt.executeQuery();
 			
@@ -80,7 +80,7 @@ public class GetDepartmentsAndLocations extends HttpServlet {
 	
 	//Compute the total value of all items to be displayed on the dashboard
 	private ResultSet getLocations() throws SQLException {
-		String query = "SELECT DISTINCT item_loc FROM items";
+		String query = "SELECT DISTINCT item_loc FROM sitems";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet results = stmt.executeQuery();
 			

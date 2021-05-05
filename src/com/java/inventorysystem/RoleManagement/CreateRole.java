@@ -80,7 +80,7 @@ public class CreateRole extends HttpServlet {
 	}
 	
 	private ResultSet createRoleInDB(String roleName, String permissions) throws SQLException {		
-		String updateSql = "INSERT INTO position (name, perms)"
+		String updateSql = "INSERT INTO sposition (name, perms)"
 							+ "VALUES (?,?) "
 							+ "RETURNING position_id";
 		PreparedStatement stmt = conn.prepareStatement(updateSql);

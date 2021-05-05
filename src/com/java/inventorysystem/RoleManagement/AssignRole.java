@@ -72,8 +72,8 @@ public class AssignRole extends HttpServlet {
 	//Build SQL statement for setting a member's role
 	private ResultSet setMemberRole(int member_id, int role_id) throws SQLException {
 		
-		String query = "UPDATE role SET position_id = ? WHERE member_id = ? "
-				+ "RETURNING (SELECT name FROM position WHERE position_id = ?);"; //TODO: SQL for setting the member to new role
+		String query = "UPDATE srole SET position_id = ? WHERE member_id = ? "
+				+ "RETURNING (SELECT name FROM sposition WHERE position_id = ?);"; //TODO: SQL for setting the member to new role
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, role_id);
 		stmt.setInt(2, member_id);

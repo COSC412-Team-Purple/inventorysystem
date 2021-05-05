@@ -117,7 +117,7 @@ public class ItemSearch extends HttpServlet {
 	//Build SQL statement for searching for an item in the DB
 	private ResultSet searchItem(String name, String category, String dept, float priceMin, float priceMax) throws SQLException {
 		
-		String query = "SELECT * FROM items";
+		String query = "SELECT * FROM sitems";
 		String suffix = ""; 
 		boolean AND = false;
 		

@@ -135,7 +135,7 @@ public class SearchMember extends HttpServlet {
 	//Build SQL statement for searching for a member
 	private ResultSet searchMember(int member_id, String member_fname, String member_lname) throws SQLException {
 		
-		String query = "SELECT member_id, fname, lname FROM member WHERE member_id = ? OR (fname = ? AND lname = ?) ;";
+		String query = "SELECT member_id, fname, lname FROM smember WHERE member_id = ? OR (fname = ? AND lname = ?) ;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, member_id);
 		stmt.setString(2, member_fname);
@@ -147,7 +147,7 @@ public class SearchMember extends HttpServlet {
 	
 	private ResultSet getMemberDeptMemberInfo(int member_id) throws SQLException {
 		
-		String query = "SELECT dept_id, start_date, end_date FROM dept_member WHERE member_id = ?;";
+		String query = "SELECT dept_id, start_date, end_date FROM sdept_member WHERE member_id = ?;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, member_id);
 		ResultSet rs = stmt.executeQuery();
@@ -157,7 +157,7 @@ public class SearchMember extends HttpServlet {
 	
 	private ResultSet getDeptInfo(int dept_id) throws SQLException {
 		
-		String query = "SELECT name_dept FROM department WHERE dept_id = ?;";
+		String query = "SELECT name_dept FROM sdepartment WHERE dept_id = ?;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, dept_id);
 		ResultSet rs = stmt.executeQuery();
@@ -167,7 +167,7 @@ public class SearchMember extends HttpServlet {
 	
 	private ResultSet getPositionName(int position_id) throws SQLException {
 		
-		String query = "SELECT name FROM position WHERE position_id = ?;";
+		String query = "SELECT name FROM sposition WHERE position_id = ?;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, position_id);
 		ResultSet rs = stmt.executeQuery();
@@ -177,7 +177,7 @@ public class SearchMember extends HttpServlet {
 	
 	private ResultSet getMemberRole(int member_id) throws SQLException {
 		
-		String query = "SELECT position_id FROM role WHERE member_id = ?;";
+		String query = "SELECT position_id FROM srole WHERE member_id = ?;";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		stmt.setInt(1, member_id);
 		ResultSet rs = stmt.executeQuery();

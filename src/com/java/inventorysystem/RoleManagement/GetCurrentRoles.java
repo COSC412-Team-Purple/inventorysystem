@@ -72,7 +72,7 @@ public class GetCurrentRoles extends HttpServlet {
 
 	private ResultSet getRoles() throws SQLException {
 		
-		String query = "SELECT * FROM position ORDER BY position_id ASC";
+		String query = "SELECT * FROM sposition ORDER BY position_id ASC";
 		PreparedStatement stmt = conn.prepareStatement(query);
 		ResultSet results = stmt.executeQuery();
 			
